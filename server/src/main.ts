@@ -28,13 +28,16 @@ async function endRoutine() {
 }
 
 // Products
-app.get('/api-v1/products/:productId',async (req: Request, res: Response)=>{
+app.get('/api-v1/product/:productId',async (req: Request, res: Response)=>{
     let id = parseInt(req.params['productId']);
     console.log(id);
     let out = await mongo.getProductByID(id)
+    if (out == null) {
+        res.send("Prod Not found");
+        return;
+    }
     res.send(out);
 })
-
 
 // Route for home page
 app.get("/", (req: Request, res: Response) => {

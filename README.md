@@ -12,6 +12,11 @@ Allows user to view and update profile
 
 Seller's are also users with special status who can create a product listing
 
+## TODO
+1) Refactor Routes in different folder
+1) Make home page
+1) Add public browse feature
+
 
 ## Development guide
 1) install npm modules
@@ -22,6 +27,8 @@ Seller's are also users with special status who can create a product listing
     ```py
     # .env file
     DB_URI=# Your URI here
+    DB_NAME=#Database Name
+    COLLECTION_NAME=#Collection Name
     PORT=#server's listening port her
     ```
 1) compile Typescript files
