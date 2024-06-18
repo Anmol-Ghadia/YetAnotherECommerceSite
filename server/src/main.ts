@@ -22,7 +22,11 @@ const port = process.env.PORT || 3000;
 async function endRoutine() {
     // Perform cleanup operations here
     console.log('Server is closing. Performing cleanup...');
-    await mongo.close();
+    if(mongo == null) {
+        console.log("Database not connected, no need to close connection");
+    } else {
+        await mongo.close();
+    }
     // Example: Close database connections, save logs, etc.
     process.exit(0); // Exit the process after cleanup
 }
@@ -30,7 +34,6 @@ async function endRoutine() {
 // Products
 app.get('/api-v1/product/:productId',async (req: Request, res: Response)=>{
     let id = parseInt(req.params['productId']);
-    console.log(id);
     let out = await mongo.getProductByID(id)
     if (out == null) {
         res.send("Prod Not found");
