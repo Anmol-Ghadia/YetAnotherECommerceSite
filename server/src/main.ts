@@ -1,30 +1,9 @@
 import express, { Express, Request, Response } from "express";
-const { MongoClient, ServerApiVersion } = require('mongodb');
+import {getProductByID,closeDBConnection} from './database.js'
 import dotenv from "dotenv";
+import { ServerApiVersion } from "mongodb";
 
 dotenv.config();
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(process.env.DB_URI, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    }
-});
-
-async function run() {
-try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-} finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-}
-}
-run().catch(console.dir);
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -32,10 +11,20 @@ const port = process.env.PORT || 3000;
 // Make static files public
 // app.use(express.static('public'))
 
+function endRoutine() {
+    // Perform cleanup operations here
+    console.log('Server is closing. Performing cleanup...');
+    closeDBConnection();
+    // Example: Close database connections, save logs, etc.
+    process.exit(0); // Exit the process after cleanup
+}
+
 // Products
-app.get('/api-v1/products/:productId',(req: Request, res: Response)=>{
-    console.log(req.params);
-    res.send(req.params['productId']);
+app.get('/api-v1/products/:productId',async (req: Request, res: Response)=>{
+    let id = parseInt(req.params['productId']);
+    console.log(id);
+    let out = await getProductByID(id)
+    res.send(out);
 })
 
 
@@ -45,6 +34,10 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // Start Process
-app.listen(port, () => {
+let server = app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
+
+
+process.on('SIGINT', endRoutine);
+server.on('close',endRoutine);

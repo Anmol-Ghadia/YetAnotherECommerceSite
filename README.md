@@ -11,3 +11,24 @@ by default
 Allows user to view and update profile
 
 Seller's are also users with special status who can create a product listing
+
+
+## Development guide
+1) install npm modules
+    ```BASH
+    npm install
+    ```
+1) Make .env file and configure the following variables
+    ```py
+    # .env file
+    DB_URI=# Your URI here
+    PORT=#server's listening port her
+    ```
+1) compile Typescript files
+    ```BASH
+    npx tsc -w
+    ```
+1) Start server
+    ```BASH
+    node ./server/dist/main.js
+    ```
