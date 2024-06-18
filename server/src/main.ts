@@ -1,9 +1,17 @@
 import express, { Express, Request, Response } from "express";
-import {getProductByID,closeDBConnection} from './database.js'
+import {connectDB, MongoWrapper} from './database.js'
 import dotenv from "dotenv";
-import { ServerApiVersion } from "mongodb";
 
 dotenv.config();
+let mongo: MongoWrapper;
+
+// Perform checks before starting the server
+if (process.env.DB_URI == null ||
+    process.env.DB_NAME == null ||
+    process.env.COLLECTION_NAME == null) {
+    console.log('Environment Variables Not set')
+    process.exit(1);
+}
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -11,10 +19,10 @@ const port = process.env.PORT || 3000;
 // Make static files public
 // app.use(express.static('public'))
 
-function endRoutine() {
+async function endRoutine() {
     // Perform cleanup operations here
     console.log('Server is closing. Performing cleanup...');
-    closeDBConnection();
+    await mongo.close();
     // Example: Close database connections, save logs, etc.
     process.exit(0); // Exit the process after cleanup
 }
@@ -23,7 +31,7 @@ function endRoutine() {
 app.get('/api-v1/products/:productId',async (req: Request, res: Response)=>{
     let id = parseInt(req.params['productId']);
     console.log(id);
-    let out = await getProductByID(id)
+    let out = await mongo.getProductByID(id)
     res.send(out);
 })
 
@@ -34,8 +42,18 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // Start Process
-let server = app.listen(port, () => {
+let server = app.listen(port, async () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
+  let temp = await connectDB(
+    process.env.DB_URI as string,
+    process.env.DB_NAME as string,
+    process.env.COLLECTION_NAME as string
+    );
+    if (temp == null) {
+        endRoutine();
+        return;
+    }
+    mongo = temp;
 });
 
 
