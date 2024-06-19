@@ -21,11 +21,15 @@ Seller's are also users with special status who can create a product listing
 ## Development guide
 1) install npm modules
     ```BASH
+    cd frontend
+    npm install
+    cd ..
+    cd backend
     npm install
     ```
 1) Make .env file and configure the following variables
     ```py
-    # .env file
+    # .env file inside backend directory
     DB_URI=# Your URI here
     DB_NAME=#Database Name
     COLLECTION_NAME=#Collection Name
@@ -33,11 +37,17 @@ Seller's are also users with special status who can create a product listing
     ```
 1) compile Typescript files
     ```BASH
+    cd backend
     npx tsc -w
     ```
 1) Start server
     ```BASH
-    node ./server/dist/main.js
+    node .backend/dist/main.js
+    ```
+    or
+    ```BASH
+    cd backend
+    npm start
     ```
 1) Start React app
     ```BASH

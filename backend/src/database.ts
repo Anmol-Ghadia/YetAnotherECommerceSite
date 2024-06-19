@@ -1,4 +1,9 @@
-export {connectDB, MongoWrapper};
+export {
+    doDBConnect,
+    getProductByID,
+    doDBClose,
+    Product
+};
 import { 
     Collection, 
     Db, 
@@ -9,65 +14,9 @@ import {
     ObjectId
 } from "mongodb";
 
-async function connectDB(uri:string,dbName:string,collectionName:string):Promise<MongoWrapper | null> {
-    let client;
-    try {
-        client = new MongoClient(uri, {
-            serverApi: {
-            version: ServerApiVersion.v1,
-            strict: true,
-            deprecationErrors: true,
-            }
-        });
-        let mongoWrapper = new MongoWrapper(client,dbName,collectionName);
-        await mongoWrapper.ping();
-        return mongoWrapper;
-    } catch (err) {
-        client?.close();
-    }
-    return null;
-}
-
-
-class MongoWrapper {
-    protected client: MongoClient;
-    protected db: Db;
-    protected collection: Collection<Product>;
-    protected dbName:string;
-    protected collectionName:string;
-
-
-    constructor(client: MongoClient,dbName:string,collectionName:string) {
-        let db = client.db(process.env.DB_NAME);
-        let collection = db.collection<Product>(collectionName);
-
-        this.client = client;
-        this.dbName=dbName;
-        this.collectionName=collectionName;
-        this.db = db;
-        this.collection = collection;
-    }
-
-    // Returns the JSON object for the given product ID
-    async getProductByID(id: number): Promise<WithId<Product> | null> {
-        let query={ "ProdId": { $eq: id } };
-        const filteredDocs = await this.collection.findOne(query);
-        console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
-        return filteredDocs;
-    }
-
-    // Safely closes the connection
-    async close() {
-        await this.client.close();
-    }
-
-    // Pings the database
-    async ping() {
-        await this.db.command({ ping: 1 });
-        console.log("Pinged your deployment. You are currently connected to MongoDB!");
-    }
-
-}
+let CLIENT:MongoClient;
+let DB:Db;
+let COLLECTION:Collection<Product>;
 
 interface Product {
     _id: ObjectId;
@@ -75,4 +24,42 @@ interface Product {
     Name: string;
     Description: string;
     price: number;
+}
+
+
+function doDBConnect(uri:string,dbName:string,collectionName:string):boolean {
+    try {
+        CLIENT = new MongoClient(uri, {
+            serverApi: {
+            version: ServerApiVersion.v1,
+            strict: true,
+            deprecationErrors: true,
+            }
+        });
+        DB = CLIENT.db(process.env.DB_NAME);
+        COLLECTION = DB.collection<Product>(collectionName);
+        pingDB();
+        return true;
+    } catch (err) {
+        doDBClose();
+        return false;
+    }
+}
+
+async function doDBClose() {
+    await CLIENT.close();
+}
+
+// gets the document with given product id
+async function getProductByID(id: number): Promise<WithId<Product> | null> {
+    let query={ "ProdId": { $eq: id } };
+    const filteredDocs = await COLLECTION.findOne(query,{ projection: { _id: 0 } });
+    console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
+    return filteredDocs;
+}
+
+// Pings the DB and prints the message
+async function pingDB() {
+    await DB.command({ ping: 1 });
+    console.log("Pinged your deployment. You are currently connected to MongoDB!");
 }
