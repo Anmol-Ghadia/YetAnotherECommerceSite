@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-start": "nodemon ./server/dist/main.js",
-    "start": "node ./server/dist/main.js"
+    "dev-start": "nodemon ./dist/main.js",
+    "start": "node ./dist/main.js"
   },
   "keywords": [],
   "author": "",
