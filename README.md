@@ -39,3 +39,8 @@ Seller's are also users with special status who can create a product listing
     ```BASH
     node ./server/dist/main.js
     ```
+1) Start React app
+    ```BASH
+    cd client
+    npm start
+    ```

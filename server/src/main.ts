@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import {connectDB, MongoWrapper} from './database.js'
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 let mongo: MongoWrapper;
@@ -14,7 +15,10 @@ if (process.env.DB_URI == null ||
 }
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
+
+// Allow cross-origin requests
+app.use(cors())
 
 // Make static files public
 // app.use(express.static('public'))
@@ -26,6 +30,7 @@ async function endRoutine() {
         console.log("Database not connected, no need to close connection");
     } else {
         await mongo.close();
+        console.log("Database connection closed");
     }
     // Example: Close database connections, save logs, etc.
     process.exit(0); // Exit the process after cleanup
