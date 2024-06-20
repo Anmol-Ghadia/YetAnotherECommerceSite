@@ -9,14 +9,18 @@ import {
 export {router};
 
 const router = express.Router();
+const productRouter = express.Router();
+const authRouter = express.Router();
 
 // Route to handle queries related to products
-router.get('/product/:productId', handleSingleProductById);
-router.get('/product/:startProductId/:endProductId', handleRangeProductById);
+productRouter.get('/:productId', handleSingleProductById);
+productRouter.get('/:startProductId/:endProductId', handleRangeProductById);
 
 // Route to handle login attempts
-router.post('/auth/login',handleUserLogin);
-
+authRouter.post('/login',handleUserLogin);
+authRouter.get('/verify',checkJWTValidity);
 // Route to register a new user
-router.post('/auth/register',handleUserRegister);
-router.get('/auth/verify',checkJWTValidity);
+authRouter.post('/register',handleUserRegister);
+
+router.use('/product',productRouter);
+router.use('/auth',authRouter);

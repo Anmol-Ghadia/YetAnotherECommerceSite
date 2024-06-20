@@ -19,7 +19,7 @@ if (process.env.DB_URI == null ||
     process.env.PRODUCT_COLLECTION_NAME == null ||
     process.env.USER_COLLECTION_NAME == null ||
     process.env.JWT_PRIVATE_KEY == null) {
-    console.log('Environment Variables Not set')
+    console.log('All Environment Variables are not set')
     process.exit(1);
 } else {
     process.env.JWT_PRIVATE_KEY += Date.now().toString();

@@ -162,8 +162,6 @@ function generateJWT(username: string):string|null {
 // Returns the username if token is valid
 // null otherwise
 function verifyToken(token:string):string|null {
-    console.log("verifying below token");
-    console.log(token);
     let key:jwt.Secret = process.env.JWT_PRIVATE_KEY as string;
     try {
         let decoded = jwt.verify(token,key) as jwt.JwtPayload;
