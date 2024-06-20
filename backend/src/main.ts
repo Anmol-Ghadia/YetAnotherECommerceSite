@@ -1,8 +1,8 @@
 import express, { Express, Request, Response } from "express";
 import { 
     doDBClose,
-    doDBConnect,
-    getProductByID } from './database.js'
+    doDBConnect
+} from './database.js'
 import dotenv from "dotenv";
 import cors from "cors";
 import { router } from "./routers.js";
@@ -17,10 +17,16 @@ let isDBConnected: boolean= false;
 if (process.env.DB_URI == null ||
     process.env.DB_NAME == null ||
     process.env.PRODUCT_COLLECTION_NAME == null ||
-    process.env.USER_COLLECTION_NAME == null) {
+    process.env.USER_COLLECTION_NAME == null ||
+    process.env.JWT_PRIVATE_KEY == null) {
     console.log('Environment Variables Not set')
     process.exit(1);
+} else {
+    process.env.JWT_PRIVATE_KEY += Date.now().toString();
+    console.log('server started at:', Date.now().toString());
 }
+
+
 
 const app: Express = express();
 const port = process.env.PORT || 5000;

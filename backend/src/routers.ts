@@ -3,9 +3,9 @@ import {
     handleRangeProductById,
     handleSingleProductById,
     handleUserLogin,
-    handleUserRegister
+    handleUserRegister,
+    checkJWTValidity
 } from './handlers';
-import bcrypt from 'bcrypt';
 export {router};
 
 const router = express.Router();
@@ -19,3 +19,4 @@ router.post('/auth/login',handleUserLogin);
 
 // Route to register a new user
 router.post('/auth/register',handleUserRegister);
+router.get('/auth/verify',checkJWTValidity);

@@ -6,12 +6,16 @@ import { getProductByID,
     getUserHash 
 } from "./database";
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export {
     handleSingleProductById,
     handleRangeProductById,
     handleUserLogin,
-    handleUserRegister
+    handleUserRegister,
+    checkJWTValidity
 };
 
 // Products handler
@@ -25,6 +29,7 @@ async function handleSingleProductById(req: Request, res:Response) {
     res.send(out);
 }
 
+// Products handler for range of ids
 async function handleRangeProductById(req:Request,res:Response) {
     let startId = parseInt(req.params['startProductId']);
     let endId = parseInt(req.params['endProductId']);
@@ -34,6 +39,39 @@ async function handleRangeProductById(req:Request,res:Response) {
         return;
     }
     res.send(out);
+}
+
+// Handles request for validating token
+async function checkJWTValidity(req:Request,res:Response) {
+    const header = req.headers['authorization'];
+
+    if(typeof header === 'undefined') {
+        console.log("no token found");
+        res.status(401);
+        res.send("no token sent");
+        return;
+    }
+
+    const token = header.split(' ')[1];
+    let username = verifyToken(token);
+    if (username == null) {
+        console.log("Token not valid");
+        res.status(401);
+        res.send("Token invalid");
+        return;
+    }
+
+    let exists = await userExists(username);
+    if (!exists) {
+        console.log("username not valid");
+        res.status(401);
+        res.send("username not valid");
+        return;
+    }
+
+    console.log("jwt valid for user:",username);
+    res.status(200);
+    res.send("Valid session");
 }
 
 // Handles user Login attmpts
@@ -58,7 +96,7 @@ async function handleUserLogin(req:Request,res:Response) {
         if (result) {
             console.log('User logged in successfully!:',username);
             res.status(200);
-            res.send("Logged in")
+            res.send(generateJWT(username));
         } else {
             console.log("Incorrect password for:",username);
             res.status(401);
@@ -99,4 +137,39 @@ function getLoginId(req:Request) {
 // Returns the parameter value for password in body
 function getPassword(req:Request) {
     return req.body['password'];
+}
+
+// Generates a JWT for the given user name
+// returns null for fatal errors
+function generateJWT(username: string):string|null {
+    console.log("PRIVATEKEY below");
+    console.log(process.env.JWT_PRIVATE_KEY);
+    let currentTime = Math.floor(Date.now() / 1000); 
+    let payload:jwt.JwtPayload = {
+        username:username,
+        iat: currentTime,
+        exp: currentTime + 100
+    };
+    let key:jwt.Secret =process.env.JWT_PRIVATE_KEY as string; 
+    try {
+        let token = jwt.sign(payload, key)
+        return token;
+    } catch (err) {
+        return null;
+    }
+}
+
+// Returns the username if token is valid
+// null otherwise
+function verifyToken(token:string):string|null {
+    console.log("verifying below token");
+    console.log(token);
+    let key:jwt.Secret = process.env.JWT_PRIVATE_KEY as string;
+    try {
+        let decoded = jwt.verify(token,key) as jwt.JwtPayload;
+        return decoded.username;
+    } catch (err) {
+        console.log("Error verifying token");
+        return null;
+    }
 }
