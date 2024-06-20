@@ -2,7 +2,8 @@ export {
     doDBConnect,
     getProductByID,
     doDBClose,
-    Product
+    Product,
+    getProductByIDRange
 };
 import { 
     Collection, 
@@ -26,7 +27,7 @@ interface Product {
     price: number;
 }
 
-
+// Returns true upon successfull connection to database
 function doDBConnect(uri:string,dbName:string,collectionName:string):boolean {
     try {
         CLIENT = new MongoClient(uri, {
@@ -46,6 +47,7 @@ function doDBConnect(uri:string,dbName:string,collectionName:string):boolean {
     }
 }
 
+// Closes database connection
 async function doDBClose() {
     await CLIENT.close();
 }
@@ -62,4 +64,12 @@ async function getProductByID(id: number): Promise<WithId<Product> | null> {
 async function pingDB() {
     await DB.command({ ping: 1 });
     console.log("Pinged your deployment. You are currently connected to MongoDB!");
+}
+
+// gets the document with given id range, inclusive of both
+async function getProductByIDRange(startId: number,endId:number): Promise<WithId<Product>[]> {
+    let query={ "ProdId": { $gte: startId, $lte:endId } };
+    const filteredDocs = await COLLECTION.find(query,{ projection: { _id: 0 } }).toArray();
+    console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
+    return filteredDocs;
 }
