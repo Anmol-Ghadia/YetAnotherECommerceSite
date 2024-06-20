@@ -7,14 +7,17 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { router } from "./routers.js";
 
+
+let connectDB = true;
 dotenv.config();
-let isDBConnected: boolean;
+let isDBConnected: boolean= false;
 // let mongo: MongoWrapper;
 
 // Perform checks before starting the server
 if (process.env.DB_URI == null ||
     process.env.DB_NAME == null ||
-    process.env.COLLECTION_NAME == null) {
+    process.env.PRODUCT_COLLECTION_NAME == null ||
+    process.env.USER_COLLECTION_NAME == null) {
     console.log('Environment Variables Not set')
     process.exit(1);
 }
@@ -39,16 +42,14 @@ async function endRoutine() {
     process.exit(0); // Exit the process after cleanup
 }
 
+app.use(express.json());
 app.use('/api-v1',router);
 
 // Start Process
 let server = app.listen(port, async () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
-  isDBConnected = doDBConnect(
-    process.env.DB_URI as string,
-    process.env.DB_NAME as string,
-    process.env.COLLECTION_NAME as string
-    );
+  if (!connectDB) return;
+  isDBConnected = doDBConnect();
     if (!isDBConnected) endRoutine;
 });
 
