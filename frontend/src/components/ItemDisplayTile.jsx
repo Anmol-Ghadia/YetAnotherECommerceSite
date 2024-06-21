@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import './ItemDisplayTile.css';
+import { UserContext } from "../App";
 
 function ItemDisplayTile({data}) {
-    let viewProduct = (id) => {
-        window.location.href = '/product/'+id;
-    }
+    const user = useContext(UserContext);
+    const [state, setState] = user;
+    
     return (
         <div
         className="tile-container"
-        onClick={viewProduct(data.ProdId)}>
+        onClick={() => {
+            setState(({
+                ...state,
+                currentPage: "ProductPage",
+                selectedProduct: data.ProdId
+            }))
+        }}>
             <h1>{data.Name}</h1>
             <p>{data.Description}</p>
         </div>

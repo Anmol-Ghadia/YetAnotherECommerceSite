@@ -1,15 +1,22 @@
 import React from 'react';
 import './TopBar.css';
-
+import { UserContext } from "../App";
 
 function TopBar() {
-
+    const user = React.useContext(UserContext);
+    const [state, setState] = user;
     const goToUserPage = () => {
-        window.location.href = '/user';
+        setState(({
+            ...state,
+            currentPage: "UserPage"
+        }))
     }
 
     const goToRoutePage = () => {
-        window.location.href = '/';
+        setState(({
+            ...state,
+            currentPage: "SearchPage"
+        }))
     }
 
     return (
