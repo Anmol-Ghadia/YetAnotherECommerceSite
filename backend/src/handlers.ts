@@ -48,7 +48,7 @@ async function checkJWTValidity(req:Request,res:Response) {
     if(typeof header === 'undefined') {
         console.log("no token found");
         res.status(401);
-        res.send("no token sent");
+        sendResponse(res,false,{message:"no token sent"});
         return;
     }
 
@@ -57,7 +57,7 @@ async function checkJWTValidity(req:Request,res:Response) {
     if (username == null) {
         console.log("Token not valid");
         res.status(401);
-        res.send("Token invalid");
+        sendResponse(res,false,{message:"Token invalid"});
         return;
     }
 
@@ -65,7 +65,7 @@ async function checkJWTValidity(req:Request,res:Response) {
     if (!exists) {
         console.log("username not valid");
         res.status(401);
-        res.send("username not valid");
+        sendResponse(res,false,{message:"username not valid"});
         return;
     }
 
@@ -80,7 +80,7 @@ async function handleUserLogin(req:Request,res:Response) {
     if (!(await userExists(username))) {
         console.log("User not registered:", username);
         res.status(401);
-        res.send('Invalid username');
+        sendResponse(res,false,{message:"Invalid username"});
         return;
     }
     let savedHash = await getUserHash(username)
@@ -90,17 +90,17 @@ async function handleUserLogin(req:Request,res:Response) {
         if (err != null) {
             console.log("Error during hash comparision for:",username);
             res.status(500);
-            res.send();
+            sendResponse(res,false,{message:"Server Error"});
             return;
         }
         if (result) {
             console.log('User logged in successfully!:',username);
             res.status(200);
-            res.send(generateJWT(username));
+            sendResponse(res,true,{token:generateJWT(username),validity:100});
         } else {
             console.log("Incorrect password for:",username);
             res.status(401);
-            res.send("Incorrect password");
+            sendResponse(res,false,{message:"Incorrect password"});
             return;
         }
     })
@@ -112,20 +112,20 @@ async function handleUserRegister(req:Request,res:Response) {
     if (userInDatabase) {
         console.log('user name already exists:',username);
         res.status(401);
-        res.send("username not available");
+        sendResponse(res,false,{message:"username not available"});
         return;
     }
     bcrypt.hash(getPassword(req), 10, (err,hash:string)=>{
         if (err != null) {
             console.log("Error generating hash for:",username);
             res.status(500);
-            res.send("internal Server error");
+            sendResponse(res,false,{message:"Server Error"});
             return;
         }
         saveUserAndHash(username,hash);
         console.log('Registered user:',username);
         res.status(200);
-        res.send("Registration success");
+        sendResponse(res,true,{message:"Registration success"});
     })
 }
 
@@ -170,4 +170,13 @@ function verifyToken(token:string):string|null {
         console.log("Error verifying token");
         return null;
     }
+}
+
+// sends a json payload
+function sendResponse(res:Response,success:boolean,body:Object) {
+    let out = {
+        success: success,
+        payload: body
+    }
+    res.send(out);
 }
