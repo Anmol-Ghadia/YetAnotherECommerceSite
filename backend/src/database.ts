@@ -25,10 +25,10 @@ dotenv.config();
 // Globals
 let CLIENT:MongoClient;
 let DB:Db;
-let PRODUCT_COLLECTION:Collection<Product>;
-let USER_COLLECTION:Collection<User>;
-let CART_COLLECTION: Collection<Cart>;
-let REVIEW_COLLECTION: Collection<Review>;
+let PRODUCT_COLLECTION: string;
+let USER_COLLECTION: string;
+let CART_COLLECTION: string;
+let REVIEW_COLLECTION: string;
 
 // Helpers
 const removeObjectID:FindOptions<Product> = {
@@ -80,10 +80,10 @@ function doDBConnect():boolean {
             }
         });
         DB = CLIENT.db(process.env.DB_NAME as string);
-        PRODUCT_COLLECTION = DB.collection<Product>(process.env.PRODUCT_COLLECTION_NAME as string);
-        USER_COLLECTION = DB.collection<User>(process.env.USER_COLLECTION_NAME as string);
-        CART_COLLECTION = DB.collection<Cart>(process.env.CART_COLLECTION_NAME as string);
-        REVIEW_COLLECTION = DB.collection<Review>(process.env.REVIEW_COLLECTION_NAME as string);
+        PRODUCT_COLLECTION = process.env.PRODUCT_COLLECTION_NAME as string;
+        USER_COLLECTION = process.env.USER_COLLECTION_NAME as string;
+        CART_COLLECTION = process.env.CART_COLLECTION_NAME as string;
+        REVIEW_COLLECTION = process.env.REVIEW_COLLECTION_NAME as string;
         pingDB();
         return true;
     } catch (err) {
@@ -103,9 +103,9 @@ async function getProductByID(id: number): Promise<WithId<Product> | null> {
         "productId": { $eq: id }
     };
     
-    const filteredDocs = await PRODUCT_COLLECTION.findOne(query,removeObjectID );
+    const filteredDocs = await DB.collection(PRODUCT_COLLECTION).findOne(query,removeObjectID );
     console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
-    return filteredDocs;
+    return filteredDocs as WithId<Product>;
 }
 
 // Pings the DB and prints the message
@@ -117,15 +117,15 @@ async function pingDB() {
 // gets the document with given id range, inclusive of both
 async function getProductByIDRange(startId: number,endId:number): Promise<WithId<Product>[]> {
     let query={ "productId": { $gte: startId, $lte:endId } };
-    const filteredDocs = await PRODUCT_COLLECTION.find(query, removeObjectID).toArray();
+    const filteredDocs = await DB.collection(PRODUCT_COLLECTION).find(query, removeObjectID).toArray();
     console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
-    return filteredDocs;
+    return filteredDocs as WithId<Product>[];
 }
 
 // Returns true if the given username exists in the database
 async function userExists(testUsername:string) :Promise<boolean> {
     let query={'username': {$eq:testUsername}};
-    let exists = await USER_COLLECTION.find(query).hasNext();
+    let exists = await DB.collection(USER_COLLECTION).find(query).hasNext();
     return exists;
 }
 
@@ -142,13 +142,13 @@ async function saveUserAndHash(username: string, hash:string) {
         email: 'PlaceHolder !!!'
 
     }
-    await USER_COLLECTION.insertOne(document);
+    await DB.collection(USER_COLLECTION).insertOne(document);
 }
 
 // Returns the has corresponding to the given username
 // REQUIRES: such a username exists in database
 async function getUserHash(username:string):Promise<string> {
     let query={'username': {$eq:username}};
-    const document = await USER_COLLECTION.findOne(query);
+    const document = await DB.collection(USER_COLLECTION).findOne(query);
     return (document != null) ? document['hash'] : '';
 }
