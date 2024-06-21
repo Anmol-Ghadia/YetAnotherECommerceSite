@@ -6,6 +6,7 @@ import {
 import dotenv from "dotenv";
 import cors from "cors";
 import { router } from "./routers.js";
+import cookieParser from 'cookie-parser';
 
 
 let connectDB = true;
@@ -34,7 +35,8 @@ const app: Express = express();
 const port = process.env.PORT || 5000;
 
 // Allow cross-origin requests
-app.use(cors())
+app.use(cors());
+app.use(cookieParser());
 
 // Make static files public
 // app.use(express.static('public'))

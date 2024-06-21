@@ -43,7 +43,8 @@ async function handleRangeProductById(req:Request,res:Response) {
 
 // Handles request for validating token
 async function checkJWTValidity(req:Request,res:Response) {
-    const header = req.headers['authorization'];
+    // const header = req.headers['authorization'];
+    const header = req.cookies.token;
 
     if(typeof header === 'undefined') {
         console.log("no token found");
@@ -71,7 +72,7 @@ async function checkJWTValidity(req:Request,res:Response) {
 
     console.log("jwt valid for user:",username);
     res.status(200);
-    res.send("Valid session");
+    sendResponse(res,true,{message:"Valid session"})
 }
 
 // Handles user Login attmpts
@@ -153,7 +154,7 @@ function generateJWT(username: string):string|null {
     let key:jwt.Secret =process.env.JWT_PRIVATE_KEY as string; 
     try {
         let token = jwt.sign(payload, key)
-        return token;
+        return 'Bearer ' + token;
     } catch (err) {
         return null;
     }

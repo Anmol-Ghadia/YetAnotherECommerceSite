@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import TopBar from "../components/TopBar";
-import LoginPanel from "../components/singleUse/LoginPanel";
 import RegisterPanel from "../components/singleUse/RegisterPanel";
+import LoginPanel from "../components/singleUse/LoginPanel";
 import { UserContext } from "../App";
 
 export default function AuthenticationPage() {
@@ -20,7 +20,7 @@ export default function AuthenticationPage() {
             break;
     
         default:
-            subPage = (<LoginPanel/>)
+            subPage = <h1>Error</h1>;
             break;
     }
 

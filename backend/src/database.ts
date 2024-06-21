@@ -104,7 +104,8 @@ async function getProductByID(id: number): Promise<WithId<Product> | null> {
     };
     
     const filteredDocs = await DB.collection(PRODUCT_COLLECTION).findOne(query,removeObjectID );
-    console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
+    console.log('DB Query at' + Date.now().toString() + " QID:1");
+    // console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
     return filteredDocs as WithId<Product>;
 }
 
@@ -118,7 +119,8 @@ async function pingDB() {
 async function getProductByIDRange(startId: number,endId:number): Promise<WithId<Product>[]> {
     let query={ "productId": { $gte: startId, $lte:endId } };
     const filteredDocs = await DB.collection(PRODUCT_COLLECTION).find(query, removeObjectID).toArray();
-    console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
+    // console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
+    console.log('DB Query at' + Date.now().toString() + " QID:2");
     return filteredDocs as WithId<Product>[];
 }
 
@@ -126,6 +128,7 @@ async function getProductByIDRange(startId: number,endId:number): Promise<WithId
 async function userExists(testUsername:string) :Promise<boolean> {
     let query={'username': {$eq:testUsername}};
     let exists = await DB.collection(USER_COLLECTION).find(query).hasNext();
+    console.log('DB Query at' + Date.now().toString() + " QID:3");
     return exists;
 }
 
@@ -142,6 +145,7 @@ async function saveUserAndHash(username: string, hash:string) {
         email: 'PlaceHolder !!!'
 
     }
+    console.log('DB Query at' + Date.now().toString() + " QID:4");
     await DB.collection(USER_COLLECTION).insertOne(document);
 }
 
@@ -150,5 +154,6 @@ async function saveUserAndHash(username: string, hash:string) {
 async function getUserHash(username:string):Promise<string> {
     let query={'username': {$eq:username}};
     const document = await DB.collection(USER_COLLECTION).findOne(query);
+    console.log('DB Query at' + Date.now().toString() + " QID:5");
     return (document != null) ? document['hash'] : '';
 }
