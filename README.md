@@ -54,3 +54,5 @@ Seller's are also users with special status who can create a product listing
     cd client
     npm start
     ```
+    ![DB Draft](https://github.com/Anmol-Ghadia/YetAnotherECommerceSite/assets/47422194/e44b70f6-8980-4840-90a6-733c34cc8120)
+
