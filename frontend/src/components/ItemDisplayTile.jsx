@@ -3,7 +3,7 @@ import './ItemDisplayTile.css';
 import { UserContext } from "../App";
 
 function ItemDisplayTile({data}) {
-    const user = useContext(UserContext);
+    const user = React.useContext(UserContext);
     const [state, setState] = user;
     
     return (
@@ -13,11 +13,11 @@ function ItemDisplayTile({data}) {
             setState(({
                 ...state,
                 currentPage: "ProductPage",
-                selectedProduct: data.ProdId
+                selectedProduct: data.productId
             }))
         }}>
-            <h1>{data.Name}</h1>
-            <p>{data.Description}</p>
+            <h1>{data.name}</h1>
+            <p>{data.description}</p>
         </div>
     );
 }
