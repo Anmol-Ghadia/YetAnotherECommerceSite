@@ -1,5 +1,5 @@
 import React from "react";
-import ItemDisplayTile from './ItemDisplayTile.jsx';
+import ItemDisplayTile from '../ItemDisplayTile.jsx';
 import './SearchBox.css'
 
 function SearchBox() {

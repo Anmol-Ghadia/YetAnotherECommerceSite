@@ -8,14 +8,16 @@ function TopBar() {
     const goToUserPage = () => {
         setState(({
             ...state,
-            currentPage: "UserPage"
+            currentPage: "UserPage",
+            currentPageState: 0
         }))
     }
 
     const goToRoutePage = () => {
         setState(({
             ...state,
-            currentPage: "SearchPage"
+            currentPage: "SearchPage",
+            currentPageState: 0
         }))
     }
 

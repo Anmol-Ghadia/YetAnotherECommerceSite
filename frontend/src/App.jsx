@@ -11,7 +11,6 @@ function App() {
 
   const [state, setState] = React.useState({
     currentPage: "SearchPage",
-    selectedProduct: 0,
     username: null,
     currentPageState: 0
   })

@@ -1,5 +1,5 @@
 import React from "react";
-import SearchBox from "../components/SearchBox"
+import SearchBox from "../components/singleUse/SearchBox"
 import TopBar from "../components/TopBar";
 
 export default function SearchPage() {

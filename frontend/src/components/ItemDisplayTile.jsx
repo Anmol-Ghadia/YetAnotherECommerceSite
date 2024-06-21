@@ -13,7 +13,7 @@ function ItemDisplayTile({data}) {
             setState(({
                 ...state,
                 currentPage: "ProductPage",
-                selectedProduct: data.productId
+                currentPageState: data.productId
             }))
         }}>
             <h1>{data.name}</h1>
