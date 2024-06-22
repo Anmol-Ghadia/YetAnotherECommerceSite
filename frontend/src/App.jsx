@@ -11,6 +11,7 @@ import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPage"
 import AuthPage from "./pages/AuthPage";
 import Footer from "./components/general/Footer";
+import Header from "./components/general/Header";
 
 const UserContext = React.createContext();
 function App() {
@@ -23,7 +24,7 @@ function App() {
   const user = [state,setState];
   const generalLayout = (
     <>
-    {/* Add Header Here */}
+      <Header />
       <Outlet />
       <Footer />
     </>

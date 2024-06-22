@@ -17,7 +17,7 @@ export default function LoginPage() {
         };
         fetch("/api-v1/auth/login",parameters)
         .then(res => res.json())
-        .then(async (data) => {
+        .then((data) => {
             if (data['success']) {
                 const token = data['payload']['token'];
                 const validFor = data['payload']['validity'];
@@ -25,6 +25,7 @@ export default function LoginPage() {
                     expires: (validFor/(1*60*60*24)),
                     secure: false, // TRUE in Production !!!
                 }
+                window.localStorage.setItem('username',inputUsername);
                 Cookies.set('token',token, cookieParameters);
                 setErrorMessage("logged In!");
                 window.location.href = '/user'
