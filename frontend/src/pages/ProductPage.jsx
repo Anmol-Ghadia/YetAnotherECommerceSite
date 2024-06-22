@@ -27,6 +27,9 @@ export default function ProductPage() {
 
     },[]);
 
+
+    const link1 = 'https://cdn.pixabay.com/photo/2023/06/05/17/19/shopping-8042865_1280.png';
+
     return (
         <>
             <hr />
@@ -35,6 +38,7 @@ export default function ProductPage() {
             {isLoaded ?
             <>
                 <h2>{prod.name}</h2>
+                <img src={link1} alt="Image" width="300"/>
                 <h1>Image Here</h1>
                 <p>{prod.description}</p>
                 <p>Price: ${prod.price}</p>

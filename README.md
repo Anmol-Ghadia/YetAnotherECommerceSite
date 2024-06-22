@@ -74,6 +74,7 @@ This is a sitemap with corresponding React Component names in round brackets and
     REVIEW_COLLECTION_NAME=
     CART_COLLECTION_NAME=
     JWT_PRIVATE_KEY=#use long and random string
+    JWT_SESSION_TIME=#time in seconds for user sessions
     ```
 1) compile Typescript files
     ```BASH

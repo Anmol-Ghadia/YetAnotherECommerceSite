@@ -21,7 +21,8 @@ if (process.env.DB_URI == null ||
     process.env.USER_COLLECTION_NAME == null ||
     process.env.REVIEW_COLLECTION_NAME == null ||
     process.env.CART_COLLECTION_NAME == null ||
-    process.env.JWT_PRIVATE_KEY == null) {
+    process.env.JWT_PRIVATE_KEY == null ||
+    process.env.JWT_SESSION_TIME == null) {
     console.log('All Environment Variables are not set')
     process.exit(1);
 } else {

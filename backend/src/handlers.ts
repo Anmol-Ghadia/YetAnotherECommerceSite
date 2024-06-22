@@ -133,7 +133,8 @@ async function handleUserLogin(req:Request,res:Response) {
         if (result) {
             console.log('User logged in successfully!:',username);
             res.status(200);
-            sendResponse(res,true,{token:generateJWT(username),validity:100});
+            let validTime = parseInt(process.env.JWT_SESSION_TIME as string);
+            sendResponse(res,true,{token:generateJWT(username,validTime),validity:validTime});
         } else {
             console.log("Incorrect password for:",username);
             res.status(401);
@@ -178,14 +179,14 @@ function getPassword(req:Request) {
 
 // Generates a JWT for the given user name
 // returns null for fatal errors
-function generateJWT(username: string):string|null {
+function generateJWT(username: string,validTime:number):string|null {
     console.log("PRIVATEKEY below");
     console.log(process.env.JWT_PRIVATE_KEY);
     let currentTime = Math.floor(Date.now() / 1000); 
     let payload:jwt.JwtPayload = {
         username:username,
         iat: currentTime,
-        exp: currentTime + 100
+        exp: currentTime + validTime
     };
     let key:jwt.Secret =process.env.JWT_PRIVATE_KEY as string; 
     try {
