@@ -82,3 +82,5 @@ This is a sitemap with corresponding React Component names in round brackets and
     ```
     ![DB Draft](https://github.com/Anmol-Ghadia/YetAnotherECommerceSite/assets/47422194/e44b70f6-8980-4840-90a6-733c34cc8120)
 
+## Build Notes:
+1) Remove React Strict tags from `index.js`

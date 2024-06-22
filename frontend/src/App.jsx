@@ -10,8 +10,6 @@ import CartPage from "./pages/CartPage"
 import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPage"
 import AuthPage from "./pages/AuthPage";
-
-
 import Footer from "./components/general/Footer";
 
 const UserContext = React.createContext();
@@ -21,6 +19,7 @@ function App() {
     username: null,
     currentPageState: 0
   })
+
   const user = [state,setState];
   const generalLayout = (
     <>
@@ -42,7 +41,9 @@ function App() {
         <Route element={generalLayout}>
           <Route index element={<LandingPage />} />
           <Route path="browse" element={<BrowsePage />} />
-          <Route path="browse/product/:id" element={<ProductPage />} />
+          <Route path="browse/product/:id"
+            
+            element={<ProductPage />} />
           <Route path="user" element={<UserPage />} />
           <Route path="user/cart" element={<CartPage />} />
         </Route>
