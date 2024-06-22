@@ -23,10 +23,10 @@ async function handleSingleProductById(req: Request, res:Response) {
     let id = parseInt(req.params['productId']);
     let out = await getProductByID(id)
     if (out == null) {
-        res.send("Prod Not foun`d");
+        sendResponse(res,false,{message:'Product does not exist'});
         return;
     }
-    res.send(out);
+    sendResponse(res,true,out);
 }
 
 // Products handler for range of ids
@@ -35,10 +35,10 @@ async function handleRangeProductById(req:Request,res:Response) {
     let endId = parseInt(req.params['endProductId']);
     let out = await getProductByIDRange(startId,endId);
     if (out.length == 0) {
-        res.send('Nothing in range');
+        sendResponse(res,false,{message:'Nothing in range'});
         return;
     }
-    res.send(out);
+    sendResponse(res,true,out);
 }
 
 // Handles request for validating token

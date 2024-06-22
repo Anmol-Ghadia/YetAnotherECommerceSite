@@ -14,8 +14,12 @@ export default function ProductPage() {
         fetch("/api-v1/product/"+productId.toString())
         .then((res) => res.json()) // Parse JSON asynchronously
         .then((obj) => {
-            setIsLoaded(true);
-            setProd(obj);
+            if (obj['success']) {
+                setIsLoaded(true);
+                setProd(obj['payload']);
+                return;
+            }
+            console.log(obj);
         })
         .catch((error) => {
             console.error('Error fetching data:', error);

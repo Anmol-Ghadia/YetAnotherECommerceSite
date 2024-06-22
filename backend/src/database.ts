@@ -13,9 +13,7 @@ import {
     Db, 
     MongoClient,
     ServerApiVersion,
-    Document,
     WithId,
-    ObjectId,
     FindOptions
 } from "mongodb";
 
