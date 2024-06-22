@@ -3,7 +3,8 @@ import { getProductByID,
     getProductByIDRange,
     userExists,
     saveUserAndHash,
-    getUserHash 
+    getUserHash ,
+    getProductQuery
 } from "./database";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -15,12 +16,17 @@ export {
     handleRangeProductById,
     handleUserLogin,
     handleUserRegister,
-    checkJWTValidity
+    checkJWTValidity,
+    handleProductQuery
 };
 
 // Products handler
 async function handleSingleProductById(req: Request, res:Response) {
     let id = parseInt(req.params['productId']);
+    if (typeof id === 'undefined' ) {
+        sendResponse(res,false,{message:"invalid numbers"});
+        return;
+    }
     let out = await getProductByID(id)
     if (out == null) {
         sendResponse(res,false,{message:'Product does not exist'});
@@ -33,9 +39,39 @@ async function handleSingleProductById(req: Request, res:Response) {
 async function handleRangeProductById(req:Request,res:Response) {
     let startId = parseInt(req.params['startProductId']);
     let endId = parseInt(req.params['endProductId']);
+    if (typeof startId === 'undefined' ||
+        typeof endId === 'undefined') {
+        sendResponse(res,false,{message:"invalid numbers"});
+        return;
+    }
     let out = await getProductByIDRange(startId,endId);
     if (out.length == 0) {
         sendResponse(res,false,{message:'Nothing in range'});
+        return;
+    }
+    sendResponse(res,true,out);
+}
+
+async function handleProductQuery(req:Request, res:Response) {
+    if (typeof req.body['quantity'] !== 'string' ||
+        typeof req.body['minPrice'] !== 'string' ||
+        typeof req.body['maxPrice'] !== 'string') {
+        sendResponse(res,false,{message:"invalid Params (type)"});
+        return;
+    }
+    const quantity = parseInt(req.body['quantity']);
+    const minPrice = parseInt(req.body['minPrice']);
+    const maxPrice = parseInt(req.body['maxPrice']);
+    if (typeof quantity === 'undefined' ||
+        typeof minPrice === 'undefined' ||
+        typeof maxPrice === 'undefined') {
+        sendResponse(res,false,{message:"invalid Params (number)"});
+        return;
+    }
+
+    let out = await getProductQuery(quantity,minPrice,maxPrice);
+    if (out.length == 0) {
+        sendResponse(res,false,{message:'Nothing found by Query'});
         return;
     }
     sendResponse(res,true,out);

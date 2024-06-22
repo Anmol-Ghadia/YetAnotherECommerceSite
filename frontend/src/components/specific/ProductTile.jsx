@@ -6,7 +6,7 @@ export default function ProductTile({item}) {
         <>
             <a 
             href={"/browse/product/"+item.productId.toString()}>
-                {item.name}
+                {item.name}, ${item.price}
             </a>
             <br />
         </>

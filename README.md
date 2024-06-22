@@ -14,7 +14,7 @@ Seller's are also users with special status who can create a product listing
 
 ## Search Logic (BrowsePage)
 1) When no keywords are supplied
-    When no preferences are set, the backend server selects a random product and the next 14 products (15 total) for retrieval. To keep things fresh, the backend then shuffles these items before sending them.
+    When no preferences are set, the backend server selects a random product and the next 14 products (15 total) for retrieval. To keep things fresh, the frontend then shuffles these items before displaying them.
 
     Quantity buttons: then number of items selected after the inital random product is controlled
 

@@ -6,7 +6,8 @@ export {
     getProductByIDRange,
     userExists,
     saveUserAndHash,
-    getUserHash
+    getUserHash,
+    getProductQuery
 };
 import { 
     Collection, 
@@ -119,6 +120,30 @@ async function getProductByIDRange(startId: number,endId:number): Promise<WithId
     const filteredDocs = await DB.collection(PRODUCT_COLLECTION).find(query, removeObjectID).toArray();
     // console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
     console.log('DB Query at' + Date.now().toString() + " QID:2");
+    return filteredDocs as WithId<Product>[];
+}
+
+// Returns products that satisfy the parameters
+//    qty: max number of items to return
+//    minPrice: minimum price of each item
+//    maxPrice: maximum price of each item
+//  Note: Omits maxPrice if 0
+async function getProductQuery(qty:number,minPrice:number,maxPrice:number): Promise<WithId<Product>[]> {
+    let query;
+    if (maxPrice==0) {
+        query = { "price": { $gte:minPrice } };
+    } else {
+        query={ "price": { $gte:minPrice, $lte:maxPrice } };
+    }
+    let options: FindOptions = {
+        limit: qty,
+        projection: {
+            _id: 0
+        }
+    };
+    const filteredDocs = await DB.collection(PRODUCT_COLLECTION).find(query,options).toArray();
+    // console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
+    console.log('DB Query at' + Date.now().toString() + " QID:6");
     return filteredDocs as WithId<Product>[];
 }
 

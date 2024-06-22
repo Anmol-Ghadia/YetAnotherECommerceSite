@@ -4,7 +4,8 @@ import {
     handleSingleProductById,
     handleUserLogin,
     handleUserRegister,
-    checkJWTValidity
+    checkJWTValidity,
+    handleProductQuery
 } from './handlers';
 export {router};
 
@@ -13,6 +14,7 @@ const productRouter = express.Router();
 const authRouter = express.Router();
 
 // Route to handle queries related to products
+productRouter.post('/query', handleProductQuery);
 productRouter.get('/:productId', handleSingleProductById);
 productRouter.get('/:startProductId/:endProductId', handleRangeProductById);
 
