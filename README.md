@@ -12,6 +12,20 @@ Allows user to view and update profile
 
 Seller's are also users with special status who can create a product listing
 
+## Search Logic (BrowsePage)
+1) When no keywords are supplied
+    When no preferences are set, the backend server selects a random product and the next 14 products (15 total) for retrieval. To keep things fresh, the backend then shuffles these items before sending them.
+
+    Quantity buttons: then number of items selected after the inital random product is controlled
+
+    Category: **under devlopment**
+
+    Price range: The next items that do not fall in acceptable range are omited by database
+1) When keywords are supplied
+    Products contain description and name from which keywords are generated and the keywords that are supplied by the user are matched against these product describing keywords. Using a scoring system, the highest scoring are displayed first
+
+    All the filters work the same way but apply only on the items returned by the search method
+
 ## Sitemap
 This is a sitemap with corresponding React Component names in round brackets and urls in square brackets
 
