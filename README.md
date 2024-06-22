@@ -21,7 +21,7 @@ This is a sitemap with corresponding React Component names in round brackets and
     1) **User Profile** (UserPage) [/user]
         1) **View Cart** (CartPage) [/user/cart]
     1) Authentication Page (AuthPage) [/auth]
-        1) Login Page (LoginPage) [/auth]
+        1) Login Page (LoginPage) [index]
         1) Registration Page (RegisterPage) [/auth/register]
 
 > **Bold** pages can only be visited with valid JWT, otherwise redirected
@@ -84,3 +84,4 @@ This is a sitemap with corresponding React Component names in round brackets and
 
 ## Build Notes:
 1) Remove React Strict tags from `index.js`
+1) Set Cookie paramaeter `secure: true` in Login.jsx
