@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import ProductBuyDisplay from "../components/specific/ProductBuyDisplay";
 
 export default function ProductPage() {
     let params = useParams();
@@ -28,7 +28,7 @@ export default function ProductPage() {
     },[]);
 
 
-    const link1 = 'https://cdn.pixabay.com/photo/2023/06/05/17/19/shopping-8042865_1280.png';
+    const link1 = 'https://picsum.photos/300/300';
 
     return (
         <>
@@ -38,10 +38,11 @@ export default function ProductPage() {
             {isLoaded ?
             <>
                 <h2>{prod.name}</h2>
-                <img src={link1} alt="Image" width="300"/>
+                <img src={link1} alt="Image"/>
                 <h1>Image Here</h1>
                 <p>{prod.description}</p>
                 <p>Price: ${prod.price}</p>
+                <ProductBuyDisplay prod={prod} />
             </> : "Loading..."
             }
             <hr />

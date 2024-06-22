@@ -4,7 +4,8 @@ import { getProductByID,
     userExists,
     saveUserAndHash,
     getUserHash ,
-    getProductQuery
+    getProductQuery,
+    getUserCartForProduct
 } from "./database";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -17,7 +18,8 @@ export {
     handleUserLogin,
     handleUserRegister,
     checkJWTValidity,
-    handleProductQuery
+    handleProductQuery,
+    handleCartQuery
 };
 
 // Products handler
@@ -167,6 +169,42 @@ async function handleUserRegister(req:Request,res:Response) {
     })
 }
 
+async function handleCartQuery(req:Request,res:Response) {
+    if (!isJWTValid(req)) {
+        res.status(401);
+        sendResponse(res,false,{message:'JWT invalid'});
+        return;
+    }
+
+    let username = req.body['username'] as string;
+    let productId = req.body['productId'] as string;
+
+    if (username == null || productId == null) {
+        res.status(400);
+        sendResponse(res,false,{message:'Invalid body'});
+        return;
+    }
+
+    let productIdInt = parseInt(productId);
+
+    if (typeof productIdInt !== 'number') {
+        res.status(400);
+        sendResponse(res,false,{message:'Type error'});
+        return;
+    }
+
+    let cartItem = await getUserCartForProduct(username,productIdInt);
+    if (cartItem == null) {
+        res.status(200);
+        sendResponse(res,true,{amount:0});
+        return;
+    }
+    res.status(200);
+    sendResponse(res,true,{amount:cartItem['quantity']});
+    return;
+
+}
+
 // Returns the parameter value for username in body
 function getLoginId(req:Request) {
     return req.body['username'];
@@ -217,4 +255,23 @@ function sendResponse(res:Response,success:boolean,body:Object) {
         payload: body
     }
     res.send(out);
+}
+
+// Handles request for validating token,
+//    Does not query DB
+function isJWTValid(req:Request) {
+    // const header = req.headers['authorization'];
+    const header = req.cookies.token;
+
+    if(typeof header === 'undefined') {
+        return false;
+    }
+    
+    const token = header.split(' ')[1];
+    let username = verifyToken(token);
+    if (username == null) {
+        return false;
+    }
+
+    return true;
 }

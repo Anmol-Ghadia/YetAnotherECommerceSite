@@ -7,7 +7,8 @@ export {
     userExists,
     saveUserAndHash,
     getUserHash,
-    getProductQuery
+    getProductQuery,
+    getUserCartForProduct
 };
 import { 
     Collection, 
@@ -44,7 +45,7 @@ interface User {
     email: string
 }
 
-interface Cart {
+interface CartItem {
     username: string,
     productId: number,
     quantity: number
@@ -142,9 +143,16 @@ async function getProductQuery(qty:number,minPrice:number,maxPrice:number): Prom
         }
     };
     const filteredDocs = await DB.collection(PRODUCT_COLLECTION).find(query,options).toArray();
-    // console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
     console.log('DB Query at' + Date.now().toString() + " QID:6");
     return filteredDocs as WithId<Product>[];
+}
+
+// Returns the specific cart item associated with the given username and product id
+async function getUserCartForProduct(username:string,productId:number) {
+    const query={ "username": { $eq:username }, "productId": { $eq:productId } };
+    const filteredDocs = await DB.collection(CART_COLLECTION).findOne(query);
+    console.log('DB Query at' + Date.now().toString() + " QID:7");
+    return filteredDocs;
 }
 
 // Returns true if the given username exists in the database
