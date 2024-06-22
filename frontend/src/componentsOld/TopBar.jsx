@@ -6,19 +6,21 @@ function TopBar() {
     const user = React.useContext(UserContext);
     const [state, setState] = user;
     const goToUserPage = () => {
-        setState(({
-            ...state,
-            currentPage: "UserPage",
-            currentPageState: 0
-        }))
+        // setState(({
+        //     ...state,
+        //     currentPage: "UserPage",
+        //     currentPageState: 0
+        // }))
+        window.location.href = "/user"
     }
 
     const goToRoutePage = () => {
-        setState(({
-            ...state,
-            currentPage: "SearchPage",
-            currentPageState: 0
-        }))
+        // setState(({
+        //     ...state,
+        //     currentPage: "SearchPage",
+        //     currentPageState: 0
+        // }))
+        window.location.href = "/";
     }
 
     return (

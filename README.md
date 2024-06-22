@@ -12,6 +12,20 @@ Allows user to view and update profile
 
 Seller's are also users with special status who can create a product listing
 
+## Sitemap
+This is a sitemap with corresponding React Component names in round brackets and urls in square brackets
+
+1) Landing Page (LandingPage) [/]
+    1) Browse Products (SearchPage) [/browse]
+        1) Single Product Page (productPage) [/browse/product/:id]
+    1) **User Profile** (UserPage) [/user]
+        1) **View Cart** (CartPage) [/user/cart]
+    1) Authentication Page (AuthPage) [/auth]
+        1) Login Page (LoginPage) [/auth]
+        1) Registration Page (RegisterPage) [/auth/register]
+
+> **Bold** pages can only be visited with valid JWT, otherwise redirected
+
 ## TODO
 1) Add frontend checks for registration data
 1) Add backend checks for registration data

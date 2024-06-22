@@ -4,9 +4,8 @@
     box-sizing: border-box;
 
     /* TEMPORARY !!! */
-    color: rgb(134, 84, 71);
 }
 
 body {
-    background-color: #333;
+    background-color: rgb(162, 128, 218);
 }
