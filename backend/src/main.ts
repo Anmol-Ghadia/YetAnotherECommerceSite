@@ -6,30 +6,21 @@ import {
 import dotenv from "dotenv";
 import cors from "cors";
 import { router } from "./routers.js";
-
+import { isEnvironmentVariableSet } from "./helpers.js";
 
 let connectDB = true;
 dotenv.config();
 let isDBConnected: boolean= false;
-// let mongo: MongoWrapper;
+
 
 // Perform checks before starting the server
-if (process.env.DB_URI == null ||
-    process.env.DB_NAME == null ||
-    process.env.PRODUCT_COLLECTION_NAME == null ||
-    process.env.USER_COLLECTION_NAME == null ||
-    process.env.REVIEW_COLLECTION_NAME == null ||
-    process.env.CART_COLLECTION_NAME == null ||
-    process.env.JWT_PRIVATE_KEY == null ||
-    process.env.JWT_SESSION_TIME == null) {
-    console.log('All Environment Variables are not set')
-    process.exit(1);
-} else {
+if (isEnvironmentVariableSet()) {
     process.env.JWT_PRIVATE_KEY += Date.now().toString();
     console.log('server started at:', Date.now().toString());
+} else {
+    console.log('All Environment Variables are not set')
+    process.exit(1);
 }
-
-
 
 const app: Express = express();
 const port = process.env.PORT || 5000;
