@@ -82,7 +82,7 @@ async function handleProductQuery(req:Request, res:Response) {
 // Handles request for validating token
 async function checkJWTValidity(req:Request,res:Response) {
     // const header = req.headers['authorization'];
-    const header = req.cookies.token;
+    const header = req.headers.authorization;
 
     if(typeof header === 'undefined') {
         console.log("no token found");
@@ -261,7 +261,7 @@ function sendResponse(res:Response,success:boolean,body:Object) {
 //    Does not query DB
 function isJWTValid(req:Request) {
     // const header = req.headers['authorization'];
-    const header = req.cookies.token;
+    const header = req.headers.authorization;
 
     if(typeof header === 'undefined') {
         return false;

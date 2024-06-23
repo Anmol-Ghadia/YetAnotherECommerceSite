@@ -45,6 +45,7 @@ This is a sitemap with corresponding React Component names in round brackets and
 1) Add middleware for authentication checks
 1) Rethink API access points
 1) Add documentation for api
+1) Migrate from cookies to authorization header for jwt token 
 1) Display all cart items in the cart page
 1) Display total in the cart page
 1) Add a order now option on the cart page
