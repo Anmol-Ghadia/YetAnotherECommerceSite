@@ -120,6 +120,62 @@ This is a sitemap with corresponding React Component names in round brackets and
 1) ~~Add Create Product Listing Page~~
 1) ~~If valid token exists then user should be redirected to user home page from login page~~
 
+## Database Schema
+Valid Characters for strings include: 
+```ts
+const validChar = /^[a-zA-Z0-9()_\-,.]*$/;
+```
+Number of characters allowed in each string are specified as follows
+1. (short) username,firstName,LastName,email => [5-25]
+1. (medium) name (product), title (review), password => [8-25]
+1. (long) address ,description (product), description (review) => [10-500]
+All the ids such as `username`, `productId`, `reviewId` are integers starting from 0 and going above
+`phoneNumber` is anywhere from 9 to 12 digits, so [0-9] only
+`rating` is number from 0 to 5 with a step value of 0.5. Example: 0, 2, 5, 0.5, 3.5 
+
+1. User
+    ```ts
+    interface User {
+        username:string,
+        hash:string,
+        firstName: string,
+        lastName: string,
+        address: string,
+        phone: number,
+        email: string,
+        profilePhoto: string
+    }
+    ```
+1. CartItem
+    ```ts
+    interface CartItem {
+        username: string,
+        productId: number,
+        quantity: number
+    }
+    ```
+1. Product
+    ```ts
+    interface Product {
+        productId: number;
+        name: string;
+        description: string;
+        price: number;
+        images: string[],
+        username: string
+    }
+    ```
+1. Review
+    ```ts
+    interface Review {
+        reviewId: number,
+        title: string,
+        description: string,
+        rating: number,
+        username: string,
+        productId: number
+    } 
+    ```
 ## REST API
 
 Every response will be in the following format:

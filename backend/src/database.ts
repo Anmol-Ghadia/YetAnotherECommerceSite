@@ -18,7 +18,9 @@ import {
     WithId,
     FindOptions
 } from "mongodb";
-
+import {
+    User,CartItem,Product,Review
+} from './schema';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -34,41 +36,6 @@ let REVIEW_COLLECTION: string;
 const removeObjectID:FindOptions<Product> = {
     projection: { _id: 0 }
 };
-
-interface User {
-    username:string,
-    hash:string,
-    firstName: string,
-    lastName: string,
-    address: string,
-    phone: number,
-    email: string,
-    profilePhoto: string
-}
-
-interface CartItem {
-    username: string,
-    productId: number,
-    quantity: number
-}
-
-interface Product {
-    productId: number;
-    name: string;
-    description: string;
-    price: number;
-    images: string[],
-    username: string
-}
-
-interface Review {
-    reviewId: number,
-    title: string,
-    description: string,
-    rating: number,
-    username: string,
-    productId: number
-}
 
 // Returns true upon successfull connection to database
 function doDBConnect():boolean {
