@@ -12,7 +12,11 @@ export default function AuthPage() {
             return;
         }
 
-        fetch('/api-v1/auth/verify')
+        const requestOptions = {
+            headers: { 'Authorization': currentToken },
+        };
+        
+        fetch('/api-v1/auth/verify',requestOptions)
         .then(res=>res.json())
         .then((data)=>{
             // Invalid token

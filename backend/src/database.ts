@@ -42,7 +42,8 @@ interface User {
     lastName: string,
     address: string,
     phone: number,
-    email: string
+    email: string,
+    profilePhoto: string
 }
 
 interface CartItem {
@@ -56,14 +57,15 @@ interface Product {
     name: string;
     description: string;
     price: number;
-    images: string[]
+    images: string[],
+    username: string
 }
 
 interface Review {
     reviewId: number,
     title: string,
     description: string,
-    rating: number
+    rating: number,
     username: string,
     productId: number
 }
@@ -173,7 +175,8 @@ async function saveUserAndHash(username: string, hash:string) {
         lastName: 'PlaceHolder !!!',
         address: 'PlaceHolder !!!',
         phone: 9876543210,
-        email: 'PlaceHolder !!!'
+        email: 'PlaceHolder !!!',
+        profilePhoto: 'URL HERE'
 
     }
     console.log('DB Query at' + Date.now().toString() + " QID:4");
