@@ -122,7 +122,7 @@ async function handleUserLogin(req:Request,res:Response) {
         sendResponse(res,false,{message:"Invalid username"});
         return;
     }
-    let savedHash = await getUserHash(username)
+    let savedHash = await getUserHash(username);
     bcrypt.compare(getPassword(req),
         savedHash,
         (err,result:boolean)=>{

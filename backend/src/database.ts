@@ -8,7 +8,8 @@ export {
     saveUserAndHash,
     getUserHash,
     getProductQuery,
-    getUserCartForProduct
+    getUserCartForProduct,
+    getUserDetails
 };
 import { 
     Collection, 
@@ -130,6 +131,14 @@ async function userExists(testUsername:string) :Promise<boolean> {
     let exists = await DB.collection(USER_COLLECTION).find(query).hasNext();
     console.log('DB Query at' + Date.now().toString() + " QID:3");
     return exists;
+}
+
+// Returns user document if the given username exists in the database
+async function getUserDetails(username:string) : Promise<WithId<User>> {
+    let query={'username': {$eq:username}};
+    let user = await DB.collection<User>(USER_COLLECTION).find(query,removeObjectID).toArray();
+    console.log('DB Query at' + Date.now().toString() + " QID:3");
+    return user[0];
 }
 
 // Saves the given username and hash in database

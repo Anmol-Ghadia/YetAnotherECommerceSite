@@ -7,421 +7,1042 @@
 	},
 	"item": [
 		{
-			"name": "/product/:productId Single Product",
+			"name": "/product",
 			"item": [
 				{
-					"name": "Bound Error",
-					"event": [
+					"name": "/:id/:id Product Range",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const outObj = {\r",
-									"    \"success\":false,\r",
-									"    \"payload\": {\r",
-									"        \"message\": \"Bound Error\"\r",
-									"    }\r",
-									"}\r",
-									"pm.test(\"Body is correct\", function () {\r",
-									"    pm.response.to.have.body(outObj);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api-v1/product/-5",
-							"protocol": "http",
-							"host": [
-								"localhost"
+							"name": "Bound Error 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"port": "5000",
-							"path": [
-								"api-v1",
-								"product",
-								"-5"
-							]
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/product/-10/-5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"product",
+										"-10",
+										"-5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/product/-10/0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"product",
+										"-10",
+										"0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error 3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/product/5/-5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"product",
+										"5",
+										"-5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Type Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/product/aab/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"product",
+										"aab",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Type Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/product/0/ab",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"product",
+										"0",
+										"ab"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Type Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/product/xy/ab",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"product",
+										"xy",
+										"ab"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correct Call 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Your test name\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/product/0/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"product",
+										"0",
+										"5"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Type Error",
-					"event": [
+					"name": "/:productId Single Product",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const outObj = {\r",
-									"    \"success\":false,\r",
-									"    \"payload\": {\r",
-									"        \"message\": \"Type Error\"\r",
-									"    }\r",
-									"}\r",
-									"pm.test(\"Body is correct\", function () {\r",
-									"    pm.response.to.have.body(outObj);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api-v1/product/aab",
-							"protocol": "http",
-							"host": [
-								"localhost"
+							"name": "Bound Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"port": "5000",
-							"path": [
-								"api-v1",
-								"product",
-								"aab"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Correct Call 1",
-					"event": [
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/product/-5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"product",
+										"-5"
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Your test name\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.success).to.eql(true);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api-v1/product/0",
-							"protocol": "http",
-							"host": [
-								"localhost"
+							"name": "Type Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Type Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"port": "5000",
-							"path": [
-								"api-v1",
-								"product",
-								"0"
-							]
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/product/aab",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"product",
+										"aab"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correct Call 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Your test name\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/product/0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"product",
+										"0"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
 		{
-			"name": "/product/:id/:id Product Range",
+			"name": "/auth",
 			"item": [
 				{
-					"name": "Bound Error 1",
-					"event": [
+					"name": "/login",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const outObj = {\r",
-									"    \"success\":false,\r",
-									"    \"payload\": {\r",
-									"        \"message\": \"Bound Error\"\r",
-									"    }\r",
-									"}\r",
-									"pm.test(\"Body is correct\", function () {\r",
-									"    pm.response.to.have.body(outObj);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api-v1/product/-10/-5",
-							"protocol": "http",
-							"host": [
-								"localhost"
+							"name": "Correct",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"request succeeded\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"token1\",pm.response.json()[\"payload\"][\"token\"]);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"port": "5000",
-							"path": [
-								"api-v1",
-								"product",
-								"-10",
-								"-5"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Bound Error 2",
-					"event": [
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"GeneralUser\",\r\n    \"password\" : \"safePass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const outObj = {\r",
-									"    \"success\":false,\r",
-									"    \"payload\": {\r",
-									"        \"message\": \"Bound Error\"\r",
-									"    }\r",
-									"}\r",
-									"pm.test(\"Body is correct\", function () {\r",
-									"    pm.response.to.have.body(outObj);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api-v1/product/-10/0",
-							"protocol": "http",
-							"host": [
-								"localhost"
+							"name": "Type Error 1",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Type Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"port": "5000",
-							"path": [
-								"api-v1",
-								"product",
-								"-10",
-								"0"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Bound Error 3",
-					"event": [
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : 12,\r\n    \"password\" : true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const outObj = {\r",
-									"    \"success\":false,\r",
-									"    \"payload\": {\r",
-									"        \"message\": \"Bound Error\"\r",
-									"    }\r",
-									"}\r",
-									"pm.test(\"Body is correct\", function () {\r",
-									"    pm.response.to.have.body(outObj);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api-v1/product/5/-5",
-							"protocol": "http",
-							"host": [
-								"localhost"
+							"name": "Type Error 2",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Type Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"port": "5000",
-							"path": [
-								"api-v1",
-								"product",
-								"5",
-								"-5"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Type Error 1",
-					"event": [
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"12wdawdw21\",\r\n    \"password\" : true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const outObj = {\r",
-									"    \"success\":false,\r",
-									"    \"payload\": {\r",
-									"        \"message\": \"Type Error\"\r",
-									"    }\r",
-									"}\r",
-									"pm.test(\"Body is correct\", function () {\r",
-									"    pm.response.to.have.body(outObj);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api-v1/product/aab/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
+							"name": "Type Error 3",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Type Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"port": "5000",
-							"path": [
-								"api-v1",
-								"product",
-								"aab",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Type Error 2",
-					"event": [
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : false,\r\n    \"password\" : \"GeneralUser\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const outObj = {\r",
-									"    \"success\":false,\r",
-									"    \"payload\": {\r",
-									"        \"message\": \"Type Error\"\r",
-									"    }\r",
-									"}\r",
-									"pm.test(\"Body is correct\", function () {\r",
-									"    pm.response.to.have.body(outObj);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api-v1/product/0/ab",
-							"protocol": "http",
-							"host": [
-								"localhost"
+							"name": "Bound Error 1 (usr shrt)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"port": "5000",
-							"path": [
-								"api-v1",
-								"product",
-								"0",
-								"ab"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Type Error 3",
-					"event": [
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"1234\",\r\n    \"password\" : \"1234567890\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const outObj = {\r",
-									"    \"success\":false,\r",
-									"    \"payload\": {\r",
-									"        \"message\": \"Type Error\"\r",
-									"    }\r",
-									"}\r",
-									"pm.test(\"Body is correct\", function () {\r",
-									"    pm.response.to.have.body(outObj);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api-v1/product/xy/ab",
-							"protocol": "http",
-							"host": [
-								"localhost"
+							"name": "Bound Error 2 (pass shrt)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"port": "5000",
-							"path": [
-								"api-v1",
-								"product",
-								"xy",
-								"ab"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Correct Call 1",
-					"event": [
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"1234567\",\r\n    \"password\" : \"1234567\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Your test name\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.success).to.eql(true);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5000/api-v1/product/0/5",
-							"protocol": "http",
-							"host": [
-								"localhost"
+							"name": "Bound Error 3 (usr long)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"port": "5000",
-							"path": [
-								"api-v1",
-								"product",
-								"0",
-								"5"
-							]
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"12345678901234567890123456\",\r\n    \"password\" : \"1234567890\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error 4 (pass long)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"1234567\",\r\n    \"password\" : \"12345678901234567890123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Gen Error 4 user wrng",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"General Error\",\r",
+											"        \"description\": \"invalid username\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"1234567\",\r\n    \"password\" : \"1234567890\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Gen Error 4 pass wrng",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"General Error\",\r",
+											"        \"description\": \"invalid password\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"GeneralUser\",\r\n    \"password\" : \"1234567890\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
+		}
+	],
+	"variable": [
+		{
+			"key": "token1",
+			"value": ""
 		}
 	]
 }

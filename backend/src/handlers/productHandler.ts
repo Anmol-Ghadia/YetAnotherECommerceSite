@@ -1,6 +1,7 @@
 import { Request,Response } from "express";
 import { checkId } from "../schema";
 import { getProductByID, getProductByIDRange } from "../database";
+import { sendBoundError,sendSuccessData,sendTypeError } from "./handlerHelpers";
 
 export {
     handleSingleProductRequest,
@@ -60,36 +61,4 @@ async function handleRangeProductRequest(req:Request,res:Response) {
     let productJson = await getProductByIDRange(startId,endId);
     sendSuccessData(res,200,productJson);
     return;
-}
-
-
-
-
-// Helpers, put in a different file
-function sendSuccessData(res: Response,code:number,data:any) {
-    res.status(code);
-    res.send({
-        "success": true,
-        "payload": data
-    });
-}
-
-
-function sendTypeError(res:Response) {
-    sendError(res,"Type Error");
-}
-
-function sendBoundError(res:Response) {
-    sendError(res,"Bound Error");
-}
-
-function sendError(res:Response,message:string) {
-    let out = {
-        success: false,
-        payload: {
-            message: message
-        }
-    }
-    res.status(400);
-    res.send(out);
 }

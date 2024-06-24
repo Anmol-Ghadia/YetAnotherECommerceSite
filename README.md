@@ -26,7 +26,7 @@ Seller's are also users with special status who can create a product listing
 
     All the filters work the same way but apply only on the items returned by the search method
 
-## Sitemap
+## Frontend structure
 This is a sitemap with corresponding React Component names in round brackets and urls in square brackets
 
 1) Landing Page (LandingPage) [/]
@@ -39,6 +39,15 @@ This is a sitemap with corresponding React Component names in round brackets and
         1) Registration Page (RegisterPage) [/auth/register]
 
 > **Bold** pages can only be visited with valid JWT, otherwise redirected
+
+## Backend Structure
+
+1. Initial checks for environment variables are done in `helpers.ts` at top level
+1. All routers are contined in routers where the api is divided in sub parts as specified by sub routers
+1. Handlers perform checks on received data before passing it to the database
+1. All database interactions are contained in `database.ts`
+
+Routes requiring authentication have to go through auth middleware
 
 ## Development guide
 1) install npm modules
@@ -89,10 +98,11 @@ This is a sitemap with corresponding React Component names in round brackets and
 
 
 ## TODO
+1) Add authentication middleware
+1) Add sample data to db
+1) Add log detials to text file
 1) Update db for cartitem when front end is updated
 1) Add middleware for authentication checks
-1) Rethink API access points
-1) Add documentation for api
 1) Display all cart items in the cart page
 1) Display total in the cart page
 1) Add a order now option on the cart page
@@ -111,6 +121,8 @@ This is a sitemap with corresponding React Component names in round brackets and
 1) Add support for displaying multiple images on product page
 1) Add support for fetching and rendering images on search page
 1) Use SASS for styling
+1) ~~Rethink API access points~~
+1) ~~Add documentation for api~~
 1) ~~Migrate from cookies to authorization header for jwt token~~
 1) ~~Add support for fetching and rendering images on product page~~
 1) ~~Add add-to-cart button on product page~~
@@ -129,8 +141,11 @@ Number of characters allowed in each string are specified as follows
 1. (short) username,firstName,LastName,email => [5-25]
 1. (medium) name (product), title (review), password => [8-25]
 1. (long) address ,description (product), description (review) => [10-500]
+
 All the ids such as `username`, `productId`, `reviewId` are integers starting from 0 and going above
+
 `phoneNumber` is anywhere from 9 to 12 digits, so [0-9] only
+
 `rating` is number from 0 to 5 with a step value of 0.5. Example: 0, 2, 5, 0.5, 3.5 
 
 1. User
@@ -201,6 +216,7 @@ Types of Error Messages and their meaning:
 1. `Permission Error`, the resource is inaccessible with current json-web-token
 1. `Session Error`, json-web-token is invalid
 1. `Authentication Error`, no token found
+1. `General Error`, api end point specific error, payload will contain `description` explaining the error
 
 When an error occurs, success will be false and message inside the payload will contain type of error.
 ```js
@@ -323,7 +339,7 @@ errorResponse.body = {
     1. `Authentication Error`
 
 ### Authentication related queries
-1) Request to generate a json-web-toke for a user,
+1) Request to generate a json-web-token for a user,
     assuming the username is unique and both details satisfy with the schema
     ```json
     {
@@ -358,6 +374,7 @@ errorResponse.body = {
     Can raise: 
     1. `Type Error` incorrect type of username or password
     1. `Bound Error`, username and password does not adhere to constraints 
+    1. `General Error`, for example username or password incorrect
 1) Request to register a new user
     ```json
     {
