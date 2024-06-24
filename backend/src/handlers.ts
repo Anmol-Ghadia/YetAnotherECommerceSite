@@ -47,7 +47,7 @@ async function handleRangeProductById(req:Request,res:Response) {
         return;
     }
     let out = await getProductByIDRange(startId,endId);
-    if (out.length == 0) {
+    if (out == null || out.length == 0) {
         sendResponse(res,false,{message:'Nothing in range'});
         return;
     }

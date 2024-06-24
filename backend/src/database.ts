@@ -66,31 +66,31 @@ async function doDBClose() {
     await CLIENT.close();
 }
 
-// gets the document with given product id
-async function getProductByID(id: number): Promise<WithId<Product> | null> {
-    let query= {
-        "productId": { $eq: id }
-    };
-    
-    const filteredDocs = await DB.collection(PRODUCT_COLLECTION).findOne(query,removeObjectID );
-    console.log('DB Query at' + Date.now().toString() + " QID:1");
-    // console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
-    return filteredDocs as WithId<Product>;
-}
-
 // Pings the DB and prints the message
 async function pingDB() {
     await DB.command({ ping: 1 });
     console.log("Pinged your deployment. You are currently connected to MongoDB!");
 }
 
+// gets the document with given product id
+async function getProductByID(id: number): Promise<WithId<Product> | null> {
+    let query= {
+        "productId": { $eq: id }
+    };
+    
+    const filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).findOne(query,removeObjectID );
+    console.log('DB Query at' + Date.now().toString() + " QID:1");
+    console.log('Found ', filteredDocs==null? '0':'1' ,' documents');
+    return filteredDocs;
+}
+
 // gets the document with given id range, inclusive of both
-async function getProductByIDRange(startId: number,endId:number): Promise<WithId<Product>[]> {
+async function getProductByIDRange(startId: number,endId:number): Promise<WithId<Product>[] | null> {
     let query={ "productId": { $gte: startId, $lte:endId } };
-    const filteredDocs = await DB.collection(PRODUCT_COLLECTION).find(query, removeObjectID).toArray();
-    // console.log('Found documents filtered by'+JSON.stringify(query) +' =>', filteredDocs);
+    const filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).find(query, removeObjectID).toArray();
+    console.log('Found ', filteredDocs.length, ' documents');
     console.log('DB Query at' + Date.now().toString() + " QID:2");
-    return filteredDocs as WithId<Product>[];
+    return filteredDocs;
 }
 
 // Returns products that satisfy the parameters

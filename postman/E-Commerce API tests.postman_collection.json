@@ -1,0 +1,427 @@
+{
+	"info": {
+		"_postman_id": "7ccae99f-2bd6-4184-a60e-61f99060e0b8",
+		"name": "E-Commerce API tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36386726"
+	},
+	"item": [
+		{
+			"name": "/product/:productId Single Product",
+			"item": [
+				{
+					"name": "Bound Error",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const outObj = {\r",
+									"    \"success\":false,\r",
+									"    \"payload\": {\r",
+									"        \"message\": \"Bound Error\"\r",
+									"    }\r",
+									"}\r",
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.have.body(outObj);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api-v1/product/-5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api-v1",
+								"product",
+								"-5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Type Error",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const outObj = {\r",
+									"    \"success\":false,\r",
+									"    \"payload\": {\r",
+									"        \"message\": \"Type Error\"\r",
+									"    }\r",
+									"}\r",
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.have.body(outObj);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api-v1/product/aab",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api-v1",
+								"product",
+								"aab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Correct Call 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api-v1/product/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api-v1",
+								"product",
+								"0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/product/:id/:id Product Range",
+			"item": [
+				{
+					"name": "Bound Error 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const outObj = {\r",
+									"    \"success\":false,\r",
+									"    \"payload\": {\r",
+									"        \"message\": \"Bound Error\"\r",
+									"    }\r",
+									"}\r",
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.have.body(outObj);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api-v1/product/-10/-5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api-v1",
+								"product",
+								"-10",
+								"-5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bound Error 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const outObj = {\r",
+									"    \"success\":false,\r",
+									"    \"payload\": {\r",
+									"        \"message\": \"Bound Error\"\r",
+									"    }\r",
+									"}\r",
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.have.body(outObj);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api-v1/product/-10/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api-v1",
+								"product",
+								"-10",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bound Error 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const outObj = {\r",
+									"    \"success\":false,\r",
+									"    \"payload\": {\r",
+									"        \"message\": \"Bound Error\"\r",
+									"    }\r",
+									"}\r",
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.have.body(outObj);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api-v1/product/5/-5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api-v1",
+								"product",
+								"5",
+								"-5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Type Error 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const outObj = {\r",
+									"    \"success\":false,\r",
+									"    \"payload\": {\r",
+									"        \"message\": \"Type Error\"\r",
+									"    }\r",
+									"}\r",
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.have.body(outObj);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api-v1/product/aab/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api-v1",
+								"product",
+								"aab",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Type Error 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const outObj = {\r",
+									"    \"success\":false,\r",
+									"    \"payload\": {\r",
+									"        \"message\": \"Type Error\"\r",
+									"    }\r",
+									"}\r",
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.have.body(outObj);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api-v1/product/0/ab",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api-v1",
+								"product",
+								"0",
+								"ab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Type Error 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const outObj = {\r",
+									"    \"success\":false,\r",
+									"    \"payload\": {\r",
+									"        \"message\": \"Type Error\"\r",
+									"    }\r",
+									"}\r",
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.have.body(outObj);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api-v1/product/xy/ab",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api-v1",
+								"product",
+								"xy",
+								"ab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Correct Call 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.success).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api-v1/product/0/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api-v1",
+								"product",
+								"0",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

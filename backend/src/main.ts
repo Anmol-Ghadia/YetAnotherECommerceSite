@@ -5,7 +5,7 @@ import {
 } from './database.js'
 import dotenv from "dotenv";
 import cors from "cors";
-import { router } from "./routers.js";
+import mainRouter from "./routers/mainRouter.js";
 import { isEnvironmentVariableSet } from "./helpers.js";
 
 let connectDB = true;
@@ -43,7 +43,7 @@ async function endRoutine() {
 }
 
 app.use(express.json());
-app.use('/api-v1',router);
+app.use('/api-v1',mainRouter);
 
 // Start Process
 let server = app.listen(port, async () => {

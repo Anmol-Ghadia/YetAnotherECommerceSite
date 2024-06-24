@@ -196,22 +196,31 @@ Some variables may be encoded in the URL path. These are represneted below as `/
 > `Note:` All the URLS are preceded by `/api-v1` route.
 
 Types of Error Messages and their meaning:
-    1. `Type Error`, the type of argument is incorrect
-    1. `Bound Error`, arguments are out of bounds
-    1. `Permission Error`, the resource is inaccessible with current json-web-token
-    1. `Session Error`, json-web-token is invalid
-    1. `Authentication Error`, no token found
+1. `Type Error`, the type of argument is incorrect
+1. `Bound Error`, arguments are out of bounds
+1. `Permission Error`, the resource is inaccessible with current json-web-token
+1. `Session Error`, json-web-token is invalid
+1. `Authentication Error`, no token found
 
+When an error occurs, success will be false and message inside the payload will contain type of error.
+```js
+errorResponse.body = {
+    "success": false,
+    "payload": {
+        "message" : "Type of error"
+    }
+}
+```
 > `Note:` All requests can send `Internal Error (CODE)`, where CODE refers to an internal error code for debugging purposes only
-
+> `Note:` any request that might return 0 documents will still contain `success=true`
 ### Product Queries
 1) Get single product by ID:
     ```json
     {
-        "URL": "/product/:id",
+        "URL": "/product/:productId",
         "METHOD": "GET",
         "TYPES": {
-            "id": "number"
+            "productId": "number"
         }
     }
     ```
@@ -222,11 +231,11 @@ Types of Error Messages and their meaning:
 1) Get Range of products by ID
     ```json
     {
-        "URL": "/product/:startId/:endID",
+        "URL": "/product/:startProductId/:endProductId",
         "METHOD" : "GET",
         "TYPES": {
-            "startId": "number",
-            "endId": "number"
+            "startProductId": "number",
+            "endProductId": "number"
         }
     }
     ```
