@@ -437,7 +437,7 @@
 											"});\r",
 											"\r",
 											"pm.test(\"Status code\", function () {\r",
-											"    pm.response.to.have.status(400);\r",
+											"    pm.response.to.have.status(200);\r",
 											"});"
 										],
 										"type": "text/javascript",
@@ -531,7 +531,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\" : \"GeneralUser\",\r\n    \"password\" : \"safePass\"\r\n}",
+									"raw": "{\r\n    \"username\" : \"SomeUserna_7\",\r\n    \"password\" : \"SuperSafePassword!\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1162,11 +1162,11 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"SomeUsername\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"raw": "{\r\n    \"username\": \"SomeUserna_8\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1217,7 +1217,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1272,7 +1272,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1327,7 +1327,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1382,7 +1382,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1437,7 +1437,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1492,7 +1492,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1547,7 +1547,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1602,7 +1602,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1657,7 +1657,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1712,7 +1712,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1767,7 +1767,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1822,7 +1822,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -1844,6 +1844,447 @@
 										"api-v1",
 										"auth",
 										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "/review",
+			"item": [
+				{
+					"name": "All Review for a product",
+					"item": [
+						{
+							"name": "Correct 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Test success\", function () {\r",
+											"    var body = pm.response.json();\r",
+											"    pm.expect(body.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Test payload\", function () {\r",
+											"    var payload = pm.response.json().payload;\r",
+											"    pm.expect(payload.length).to.be.eq(1);\r",
+											"    pm.expect(payload[0].reviewId).to.be.a('number');\r",
+											"    pm.expect(payload[0].title).to.be.a('string');\r",
+											"    pm.expect(payload[0].description).to.be.a('string');\r",
+											"    pm.expect(payload[0].rating).to.be.a('number');\r",
+											"    pm.expect(payload[0].username).to.be.a('string');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/review/product/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"review",
+										"product",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Correct 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Test success\", function () {\r",
+											"    var body = pm.response.json();\r",
+											"    pm.expect(body.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Test payload general\", function () {\r",
+											"    var payload = pm.response.json().payload;\r",
+											"    pm.expect(payload.length).to.be.eq(2);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Test payload [0]\", function () {\r",
+											"    var payload = pm.response.json().payload;\r",
+											"    pm.expect(payload[0].reviewId).to.be.a('number');\r",
+											"    pm.expect(payload[0].title).to.be.a('string');\r",
+											"    pm.expect(payload[0].description).to.be.a('string');\r",
+											"    pm.expect(payload[0].rating).to.be.a('number');\r",
+											"    pm.expect(payload[0].username).to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Test payload [1]\", function () {\r",
+											"    var payload = pm.response.json().payload;\r",
+											"    pm.expect(payload[1].reviewId).to.be.a('number');\r",
+											"    pm.expect(payload[1].title).to.be.a('string');\r",
+											"    pm.expect(payload[1].description).to.be.a('string');\r",
+											"    pm.expect(payload[1].rating).to.be.a('number');\r",
+											"    pm.expect(payload[1].username).to.be.a('string');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/review/product/0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"review",
+										"product",
+										"0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 1",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Type Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/review/product/abcd",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"review",
+										"product",
+										"abcd"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error 1",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/review/product/-5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"review",
+										"product",
+										"-5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "summary",
+					"item": [
+						{
+							"name": "Correct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Test success\", function () {\r",
+											"    var body = pm.response.json();\r",
+											"    pm.expect(body.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Test payload\", function () {\r",
+											"    var payload = pm.response.json().payload;\r",
+											"    pm.expect(payload.rating).to.a('number');\r",
+											"    pm.expect(payload.count).to.a('number');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/review/product/stats/0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"review",
+										"product",
+										"stats",
+										"0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 1",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Type Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/review/product/stats/abcd",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"review",
+										"product",
+										"stats",
+										"abcd"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error 1",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/review/product/stats/-5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"review",
+										"product",
+										"stats",
+										"-5"
 									]
 								}
 							},

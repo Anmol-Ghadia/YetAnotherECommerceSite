@@ -131,7 +131,7 @@ function checkGeneralChars(inputString: string):boolean {
 
 // Returns true if all characters are defined in schema
 function checkStrictChars(inputString: string):boolean {
-    const validChars = /^[a-zA-Z0-9()_-.!@#$%^&\*]*$/
+    const validChars = /^[a-zA-Z0-9()_\-.!@#$%^&\*]*$/
     return validChars.test(inputString);
 }
 

@@ -10,7 +10,9 @@ export {
     getProductQuery,
     getUserCartForProduct,
     getUserDetails,
-    saveUser
+    saveUser,
+    getReviewsByProduct,
+    getReviewStats
 };
 import { 
     Collection, 
@@ -72,6 +74,34 @@ async function doDBClose() {
 async function pingDB() {
     await DB.command({ ping: 1 });
     console.log("Pinged your deployment. You are currently connected to MongoDB!");
+}
+
+// get all reviews for a specific product
+async function getReviewsByProduct(productId:number) {
+    let query= {
+        "productId": { $eq: productId }
+    };
+    const filter:FindOptions<Product> = {
+        projection: { _id: 0, productId: 0 }
+    };
+    const filteredDocs = await DB.collection<Review>(REVIEW_COLLECTION).find(query,filter).toArray();
+    console.log('DB Query at' + Date.now().toString() + " QID:15");
+    console.log('Found ', filteredDocs.length ,' documents');
+    return filteredDocs;
+}
+
+// get review summary for a specific product
+async function getReviewStats(productId:number) {
+    let query= {
+        "productId": { $eq: productId }
+    };
+    const filter:FindOptions<Product> = {
+        projection: { rating: 1 }
+    };
+    const filteredDocs = await DB.collection<Review>(REVIEW_COLLECTION).find(query,filter).toArray();
+    console.log('DB Query at' + Date.now().toString() + " QID:16");
+    console.log('Found ', filteredDocs.length ,' documents');
+    return filteredDocs;
 }
 
 // gets the document with given product id
@@ -136,8 +166,11 @@ async function userExists(testUsername:string) :Promise<boolean> {
 
 // Returns user document if the given username exists in the database
 async function getUserDetails(username:string) : Promise<WithId<User>> {
-    let query={'username': {$eq:username}};
-    let user = await DB.collection<User>(USER_COLLECTION).find(query,removeObjectID).toArray();
+    const query={'username': {$eq:username}};
+    const filter:FindOptions<Product> = {
+        projection: { _id: 0, hash: 0 }
+    };
+    let user = await DB.collection<User>(USER_COLLECTION).find(query,filter).toArray();
     console.log('DB Query at' + Date.now().toString() + " QID:3");
     return user[0];
 }

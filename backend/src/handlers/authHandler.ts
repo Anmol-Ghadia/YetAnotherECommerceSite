@@ -54,7 +54,7 @@ async function handleLogin(req:Request,res:Response) {
         validity: validTime,
         user: userInfo
     }
-    sendSuccessData(res,200,data);
+    sendSuccessData(res,202,data);
     return;
 }
 
@@ -121,6 +121,6 @@ async function handleRegister(req:Request,res:Response) {
     
     await saveUser(newUser);
     console.log(`Saved new User: ${username}`);
-    sendSuccessData(res,200,{});
+    sendSuccessData(res,201,{});
     return;
 }

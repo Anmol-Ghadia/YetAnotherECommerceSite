@@ -534,13 +534,13 @@ errorResponse.body = {
     1. `Authentication Error`, no token found
 
 ### Review queries
-1) Return all queries for specific product
+1) Return all reviews for specific product
     ```json
     {
-        "URL": "/review/product/:id",
+        "URL": "/review/product/:productId",
         "METHOD" : "GET",
         "TYPES": {
-            "id": "number"
+            "productId": "number"
         }
     }
     ```
@@ -569,16 +569,17 @@ errorResponse.body = {
         }
     }
     ```
+    Returns `status code: 200` on success, otherwise `400` due to below errors
     Can raise:
     1. `Type Error`, product id is of incorrect type
     1. `Bound Error`, id parameter does not adhere to constraints
 1) Returns the summary of reviews for a product
     ```json
     {
-        "URL": "/review/stats/product/:id",
+        "URL": "/review/product/stats/:productId",
         "METHOD" : "GET",
         "TYPES": {
-            "id": "number"
+            "productId": "number"
         }
     }
     ```
@@ -592,6 +593,7 @@ errorResponse.body = {
         }
     }
     ```
+    returns `status code: 200` if success, otherwise `400` due to below errors 
     Can raise:
     1. `Type Error`, product id is of incorrect type
     1. `Bound Error`, id parameter does not adhere to constraints
