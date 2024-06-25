@@ -232,8 +232,11 @@ errorResponse.body = {
     }
 }
 ```
-> `Note:` All requests can send `Internal Error (CODE)`, where CODE refers to an internal error code for debugging purposes only
-> `Note:` any request that might return 0 documents will still contain `success=true`
+### Notes on API
+1) All requests can send `Internal Error (CODE)`, where CODE refers to an internal error code for debugging purposes only
+1) any request that might return 0 documents will still contain `success=true`
+1) any request that does not adhere to the given specification bellow results in `status code:400`, successful requests have either of the following status codes: `200`, `201`, `202`
+
 ### Product Queries
 1) Get single product by ID:
     ```json
@@ -245,7 +248,7 @@ errorResponse.body = {
         }
     }
     ```
-    returns all the product details as outlined by the schema
+    returns all the product details as outlined by the schema, with `status code: 200`
     Can raise: 
     1. `Type Error` due to incorrect id
     1. `Bound Error`, id parameter does not adhere to constraints
@@ -260,7 +263,8 @@ errorResponse.body = {
         }
     }
     ```
-    returns multiple products
+    returns multiple products, if request is valid then `status code: 200` is returned
+
     Can raise: 
     1. `Type Error` due to incorrect startId or endId
     1. `Bound Error`, parameters does not adhere to constraints
@@ -375,6 +379,8 @@ errorResponse.body = {
         }
     }
     ```
+    Returns `status code: 202` if login credentials are valid
+    
     `Note:` Bearer keyword is not present in the generated token. Make sure that authorization header conatins the Bearer keyword followed by a space and then the token
     Can raise: 
     1. `Type Error` incorrect type of username or password
@@ -384,7 +390,7 @@ errorResponse.body = {
     ```json
     {
         "URL": "/auth/register",
-        "METHOD": "PUT",
+        "METHOD": "POST",
         "BODY": {
             "username": "string",
             "password": "string",
@@ -397,6 +403,8 @@ errorResponse.body = {
         }
     }
     ```
+    Returns `status code: 201` if registration is successful
+
     Returns `success: true` if the user was registered
     Can raise: 
     1. `Type Error` incorrect type of any parameter
