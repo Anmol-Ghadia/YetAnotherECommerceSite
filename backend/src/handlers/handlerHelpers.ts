@@ -18,11 +18,11 @@ function sendSuccessData(res: Response,code:number,data:any) {
 }
 
 
-function sendServerError(res:Response) {
+function sendServerError(res:Response, message:string) {
     let out = {
         success: false,
         payload: {
-            message: "Internal Error"
+            message: `Internal Error: (${message})`
         }
     }
     res.status(500);

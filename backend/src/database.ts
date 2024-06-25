@@ -9,7 +9,8 @@ export {
     getUserHash,
     getProductQuery,
     getUserCartForProduct,
-    getUserDetails
+    getUserDetails,
+    saveUser
 };
 import { 
     Collection, 
@@ -141,6 +142,7 @@ async function getUserDetails(username:string) : Promise<WithId<User>> {
     return user[0];
 }
 
+// OLD !!!
 // Saves the given username and hash in database
 // REQUIRES: username is not already in the database
 async function saveUserAndHash(username: string, hash:string) {
@@ -157,6 +159,13 @@ async function saveUserAndHash(username: string, hash:string) {
     }
     console.log('DB Query at' + Date.now().toString() + " QID:4");
     await DB.collection(USER_COLLECTION).insertOne(document);
+}
+
+// Saves the username and hash in database
+// REQUIRES: username is not already in the database
+async function saveUser(user: User) {
+    console.log('DB Query at' + Date.now().toString() + " QID:10");
+    await DB.collection(USER_COLLECTION).insertOne(user);
 }
 
 // Returns the has corresponding to the given username

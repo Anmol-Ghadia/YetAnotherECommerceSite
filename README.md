@@ -138,9 +138,14 @@ Valid Characters for strings include:
 const validChar = /^[a-zA-Z0-9()_\-,.]*$/;
 ```
 Number of characters allowed in each string are specified as follows
-1. (short) username,firstName,LastName,email => [5-25]
+1. (tiny) firstName,LastName => [1-25]
+1. (short) username => [5-25]
 1. (medium) name (product), title (review), password => [8-25]
 1. (long) address ,description (product), description (review) => [10-500]
+
+Special Types
+1. email
+1. url 
 
 All the ids such as `username`, `productId`, `reviewId` are integers starting from 0 and going above
 
@@ -357,7 +362,7 @@ errorResponse.body = {
         "success": "boolean",
         "payload": {
             "token": "string",
-            "validity": "string",
+            "validity": "number",
             "user": {
                 "username": "string",
                 "firstName": "string",
@@ -396,6 +401,7 @@ errorResponse.body = {
     Can raise: 
     1. `Type Error` incorrect type of any parameter
     1. `Bound Error`, any parameter does not adhere to constraints
+    1. `General Error`, if the username is taken
 1) `AUTH` To verify if a token is valid, include it in the authorization header
     ```json
     {

@@ -451,9 +451,27 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"request succeeded\", function () {\r",
-											"    var jsonData = pm.response.json();\r",
-											"    pm.expect(jsonData.success).to.eql(true);\r",
+											"pm.test(\"success check\", function () {\r",
+											"    var body = pm.response.json();\r",
+											"    pm.expect(body.success).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"token and validity check\", function () {\r",
+											"    const payload = pm.response.json().payload;\r",
+											"    pm.expect(payload.token).to.be.an('string');\r",
+											"    pm.expect(payload.validity).to.be.an('number');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"user check\", function () {\r",
+											"    \r",
+											"    const user = pm.response.json().payload.user;\r",
+											"    pm.expect(user.username).to.be.an('string');\r",
+											"    pm.expect(user.firstName).to.be.an('string');\r",
+											"    pm.expect(user.lastName).to.be.an('string');\r",
+											"    pm.expect(user.address).to.be.an('string');\r",
+											"    pm.expect(user.phone).to.be.an('number');\r",
+											"    pm.expect(user.email).to.be.an('string');\r",
+											"    pm.expect(user.profilePhoto).to.be.an('string');\r",
 											"});\r",
 											"\r",
 											"pm.collectionVariables.set(\"token1\",pm.response.json()[\"payload\"][\"token\"]);\r",
@@ -1029,6 +1047,671 @@
 										"api-v1",
 										"auth",
 										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/register",
+					"item": [
+						{
+							"name": "Correct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\": true,\r",
+											"        \"payload\" : {}\r",
+											"    };\r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"SomeUsername\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\" : false,\r",
+											"        \"payload\" : {\r",
+											"            \"message\": \"Type Error\"\r",
+											"        }\r",
+											"    }\r",
+											"    \r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"SomeUsername\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": \"9876512340\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\" : false,\r",
+											"        \"payload\" : {\r",
+											"            \"message\": \"Type Error\"\r",
+											"        }\r",
+											"    }\r",
+											"    \r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"SomeUsername\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": 2.52,\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\" : false,\r",
+											"        \"payload\" : {\r",
+											"            \"message\": \"Type Error\"\r",
+											"        }\r",
+											"    }\r",
+											"    \r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"SomeUsername\",\r\n    \"password\": null,\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\" : false,\r",
+											"        \"payload\" : {\r",
+											"            \"message\": \"Type Error\"\r",
+											"        }\r",
+											"    }\r",
+											"    \r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": null,\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 5",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\" : false,\r",
+											"        \"payload\" : {\r",
+											"            \"message\": \"Type Error\"\r",
+											"        }\r",
+											"    }\r",
+											"    \r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"SomeUsername\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": false,\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 6",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\" : false,\r",
+											"        \"payload\" : {\r",
+											"            \"message\": \"Type Error\"\r",
+											"        }\r",
+											"    }\r",
+											"    \r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"SomeUsername\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 7",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\" : false,\r",
+											"        \"payload\" : {\r",
+											"            \"message\": \"Type Error\"\r",
+											"        }\r",
+											"    }\r",
+											"    \r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"SomeUsername\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": false,\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\" : false,\r",
+											"        \"payload\" : {\r",
+											"            \"message\": \"Bound Error\"\r",
+											"        }\r",
+											"    }\r",
+											"    \r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"some\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\" : false,\r",
+											"        \"payload\" : {\r",
+											"            \"message\": \"Bound Error\"\r",
+											"        }\r",
+											"    }\r",
+											"    \r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"SomeUsername1\",\r\n    \"password\": \"pass\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error 3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\" : false,\r",
+											"        \"payload\" : {\r",
+											"            \"message\": \"Bound Error\"\r",
+											"        }\r",
+											"    }\r",
+											"    \r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"some username\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error 4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\" : false,\r",
+											"        \"payload\" : {\r",
+											"            \"message\": \"Bound Error\"\r",
+											"        }\r",
+											"    }\r",
+											"    \r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"someUsername\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error 5",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\" : false,\r",
+											"        \"payload\" : {\r",
+											"            \"message\": \"Bound Error\"\r",
+											"        }\r",
+											"    }\r",
+											"    \r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"someUsername\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"ssh://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"register"
 									]
 								}
 							},
