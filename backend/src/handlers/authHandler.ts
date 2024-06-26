@@ -5,7 +5,7 @@ import { getUserHash, userExists, getUserDetails, saveUser } from "../database";
 import bcrypt from 'bcrypt';
 
 
-export {handleLogin,handleRegister};
+export {handleLogin,handleRegister,checkJWTValidity};
 
 async function handleLogin(req:Request,res:Response) {
     // Check all params
@@ -123,4 +123,8 @@ async function handleRegister(req:Request,res:Response) {
     console.log(`Saved new User: ${username}`);
     sendSuccessData(res,201,{});
     return;
+}
+
+function checkJWTValidity(req:Request,res:Response) {
+    sendSuccessData(res,200,{});
 }

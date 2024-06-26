@@ -6,7 +6,9 @@ export {
     sendBoundError,
     sendGeneralError,
     generateJWT,
-    sendServerError
+    sendServerError,
+    sendAuthError,
+    sendSessionError
 }
 
 function sendSuccessData(res: Response,code:number,data:any) {
@@ -35,6 +37,27 @@ function sendTypeError(res:Response) {
 
 function sendBoundError(res:Response) {
     sendError(res,"Bound Error");
+}
+
+function sendAuthError(res: Response) {
+    let out = {
+        success: false,
+        payload: {
+            message: "Authentication Error"
+        }
+    }
+    res.status(401);
+    res.send(out);
+}
+function sendSessionError(res: Response) {
+    let out = {
+        success: false,
+        payload: {
+            message: "Session Error"
+        }
+    }
+    res.status(401);
+    res.send(out);
 }
 
 function sendError(res:Response,message:string) {
@@ -74,7 +97,7 @@ function generateJWT(username: string,validTime:number):string|null {
     let key:jwt.Secret =process.env.JWT_PRIVATE_KEY as string; 
     try {
         let token = jwt.sign(payload, key)
-        return 'Bearer ' + token;
+        return token;
     } catch (err) {
         return null;
     }

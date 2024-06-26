@@ -98,11 +98,11 @@ Routes requiring authentication have to go through auth middleware
 
 
 ## TODO
-1) Add authentication middleware
+1) Add testing framework
+1) Add automated testing on github
 1) Add sample data to db
 1) Add log detials to text file
 1) Update db for cartitem when front end is updated
-1) Add middleware for authentication checks
 1) Display all cart items in the cart page
 1) Display total in the cart page
 1) Add a order now option on the cart page
@@ -115,12 +115,13 @@ Routes requiring authentication have to go through auth middleware
 1) Allow user to add a maximum of 10 image links for their products
 1) Allow user to edit their listing once product is already listed
 1) Add frontend checks for registration data
-1) Add backend checks for registration data
 1) Add notification system for successfull logins and registrations
 1) Add more user info on Register page
 1) Add support for displaying multiple images on product page
 1) Add support for fetching and rendering images on search page
 1) Use SASS for styling
+1) ~~Add authentication middleware~~
+1) ~~Add backend checks for registration data~~
 1) ~~Rethink API access points~~
 1) ~~Add documentation for api~~
 1) ~~Migrate from cookies to authorization header for jwt token~~
@@ -417,7 +418,7 @@ errorResponse.body = {
         "METHOD" : "GET"
     }
     ```
-    returns `success: true` if valid
+    returns `status code: 200` along with `success: true` if valid
     Can raise:
     1. `Session Error`, json-web-token is invalid
     1. `Authentication Error`, no token found

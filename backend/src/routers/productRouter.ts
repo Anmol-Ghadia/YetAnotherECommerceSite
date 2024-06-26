@@ -1,7 +1,5 @@
-import express, {Request,Response} from 'express';
+import express from 'express';
 import { 
-    handleRangeProductById,
-    handleSingleProductById,
     handleProductQuery,
 } from '../handlers';
 import { 
