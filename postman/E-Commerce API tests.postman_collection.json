@@ -518,8 +518,7 @@
 											"    pm.response.to.have.status(202);\r",
 											"});\r",
 											"\r",
-											"pm.collectionVariables.set(\"token1\",pm.response.json()[\"payload\"][\"token\"]);\r",
-											""
+											"pm.environment.set(\"token\", pm.response.json().payload.token);"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1844,6 +1843,204 @@
 										"api-v1",
 										"auth",
 										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/verify",
+					"item": [
+						{
+							"name": "Correct",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":true,\r",
+											"    \"payload\": {}\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/verify",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Auth Error",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Authentication Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/verify",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Session Error",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Session Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "Bearer {{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/auth/verify",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"auth",
+										"verify"
 									]
 								}
 							},

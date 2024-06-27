@@ -1,12 +1,11 @@
-import express, { Express, Request, Response } from "express";
 import { 
     doDBClose,
     doDBConnect
 } from './database.js'
 import dotenv from "dotenv";
-import cors from "cors";
-import mainRouter from "./routers/mainRouter.js";
 import { isEnvironmentVariableSet } from "./helpers.js";
+import makeApp from './app.js';
+import { Express } from 'express';
 
 let connectDB = true;
 dotenv.config();
@@ -22,14 +21,8 @@ if (isEnvironmentVariableSet()) {
     process.exit(1);
 }
 
-const app: Express = express();
+const app: Express = makeApp();
 const port = process.env.PORT || 5000;
-
-// Allow cross-origin requests
-app.use(cors());
-
-// Make static files public
-// app.use(express.static('public'))
 
 async function endRoutine() {
     console.log('Server is closing. Performing cleanup...');
@@ -39,11 +32,8 @@ async function endRoutine() {
     } else {
         console.log("Database not connected, no need to close connection");
     }
-    process.exit(0); // Exit the process after cleanup
+    process.exit(0);
 }
-
-app.use(express.json());
-app.use('/api-v1',mainRouter);
 
 // Start Process
 let server = app.listen(port, async () => {
