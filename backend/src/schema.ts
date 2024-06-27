@@ -5,7 +5,7 @@ export {
     checkMediumString,
     checkShortString,checkURL,
     checkEmail,checkTinyString,
-    checkUsername
+    checkUsername, checkURLArray
 }
 
 interface User {
@@ -119,6 +119,15 @@ function checkURL(url: string): boolean {
     const urlRegex = /^(http|https):\/\/[^ "]+$/;
     if (!(urlRegex.test(url))) console.log(`bound error for: ${url}`)
     return urlRegex.test(url);
+}
+
+function checkURLArray(object: string[]) {
+    for (let index = 0; index < object.length; index++) {
+        if (!checkURL(object[index])) {
+            return false;
+        }
+    }
+    return true;
 }
 
 // HELPERS BELOW THIS

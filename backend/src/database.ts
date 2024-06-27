@@ -14,7 +14,11 @@ export {
     getReviewsByProduct,
     getReviewStats,
     getUserCart,
-    updateUserCart
+    updateUserCart,
+    makeProductListing,
+    updateProductListing,
+    isOwnerOfProduct,
+    removeProduct
 };
 import { 
     Collection, 
@@ -108,6 +112,13 @@ async function getReviewStats(productId:number) {
     return filteredDocs;
 }
 
+async function isOwnerOfProduct(productId: number, username: string): Promise<boolean> {
+    let prod = await getProductByID(productId);
+    if (prod == null) return false;
+    if (prod.username == null) return false;
+    return prod.username === username;
+}
+
 // gets the document with given product id
 async function getProductByID(id: number): Promise<WithId<Product> | null> {
     let query= {
@@ -172,6 +183,18 @@ async function getUserCartForProduct(username:string,productId:number) {
     return filteredDocs;
 }
 
+// Deletes the product listing
+async function removeProduct(productId: number) {
+    const filter:Filter<Product> = { 
+        "productId": { $eq:productId }
+    };
+
+    console.log('DB Query at ' + Date.now().toString() + " QID:22");
+    console.log("DELETED product with ID: ", productId);
+    await DB.collection<Product>(PRODUCT_COLLECTION)
+                .deleteOne(filter);
+}
+
 // updates user's cart for the product with given quantity
 async function updateUserCart(username:string,productId:number,quantity:number) {
     let currentCartItem = await getUserCartForProduct(username,productId);
@@ -232,6 +255,49 @@ async function getUserDetails(username:string) : Promise<WithId<User>> {
     let user = await DB.collection<User>(USER_COLLECTION).find(query,filter).toArray();
     console.log('DB Query at ' + Date.now().toString() + " QID:3");
     return user[0];
+}
+
+// Adds a new product listing
+async function makeProductListing(username: string, name: string,
+        description:string, price: number, images: string[]) {
+
+    const maxProductIdDoc = await DB.collection<Product>(PRODUCT_COLLECTION)
+                                    .find().sort({ productId: -1 })
+                                    .limit(1).next();
+    let productId = 0;
+    if (maxProductIdDoc != null) productId = maxProductIdDoc.productId +1;
+    let document:Product = {
+        productId: productId,
+        username: username,
+        name:name,
+        description:description,
+        price:price,
+        images:images
+    }
+    console.log('DB Query at ' + Date.now().toString() + " QID:20");
+    console.log("NEW product created with ID: ", productId);
+    await DB.collection<Product>(PRODUCT_COLLECTION).insertOne(document);
+}
+
+// Adds a new product listing
+async function updateProductListing(productId: number, username: string,
+        name: string, description:string, price: number, images: string[]) {
+
+    let filter: Filter<Product> = {
+        "productId" : { $eq: productId}
+    }
+    await DB.collection<Product>(PRODUCT_COLLECTION).deleteOne(filter);
+    let document:Product = {
+        productId: productId,
+        username: username,
+        name:name,
+        description:description,
+        price:price,
+        images:images
+    }
+    console.log('DB Query at ' + Date.now().toString() + " QID:21");
+    console.log("UPDATED product with ID: ", productId);
+    await DB.collection<Product>(PRODUCT_COLLECTION).insertOne(document);
 }
 
 // OLD !!!

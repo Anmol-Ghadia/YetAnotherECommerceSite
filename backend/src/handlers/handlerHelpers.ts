@@ -8,7 +8,8 @@ export {
     generateJWT,
     sendServerError,
     sendAuthError,
-    sendSessionError
+    sendSessionError,
+    sendPermissionError
 }
 
 function sendSuccessData(res: Response,code:number,data:any) {
@@ -37,6 +38,16 @@ function sendTypeError(res:Response) {
 
 function sendBoundError(res:Response) {
     sendError(res,"Bound Error");
+}
+function sendPermissionError(res:Response) {
+    let out = {
+        success: false,
+        payload: {
+            message: "Permission Error"
+        }
+    }
+    res.status(403);
+    res.send(out);
 }
 
 function sendAuthError(res: Response) {

@@ -219,7 +219,7 @@ Some variables may be encoded in the URL path. These are represneted below as `/
 Types of Error Messages and their meaning:
 1. `Type Error`, the type of argument is incorrect
 1. `Bound Error`, arguments are out of bounds
-1. `Permission Error`, the resource is inaccessible with current json-web-token
+1. `Permission Error`, the resource is inaccessible with current json-web-token, (responds with `403`)
 1. `Session Error`, json-web-token is invalid
 1. `Authentication Error`, no token found
 1. `General Error`, api end point specific error, payload will contain `description` explaining the error
@@ -273,7 +273,7 @@ errorResponse.body = {
     ```json
     {
         "URL": "/product/create",
-        "METHOD": "PUT",
+        "METHOD": "POST",
         "BODY": {
             "name": "string",
             "description": "string",
@@ -282,8 +282,11 @@ errorResponse.body = {
         }
     }
     ```
+    returns `status code: 201` if success
+
     the user creating the listing is the owner (which cannot be changed later)
     returns success if product is listed
+
     Can raise: 
     1. `Type Error` incorrect parameter types
     1. `Bound Error` price is below 0
@@ -292,7 +295,7 @@ errorResponse.body = {
 1) `AUTH` update product listing
     ```json
     {
-        "URL": "/product/update/:id",
+        "URL": "/product/update/:productId",
         "METHOD": "POST",
         "BODY": {
             "name": "string",
@@ -301,11 +304,11 @@ errorResponse.body = {
             "images": "array of strings"
         },
         "TYPES": {
-            "id": "number"
+            "productId": "number"
         }
     }
     ```
-    returns success if product is listed
+    returns success if product is updated and `status code:200`
     Can raise: 
     1. `Type Error` incorrect parameter types
     1. `Bound Error` price is below 0
@@ -315,10 +318,10 @@ errorResponse.body = {
 1) `AUTH` remove product listing
     ```JSON
     {
-        "URL": "/product/remove/:id",
+        "URL": "/product/remove/:productId",
         "METHOD": "DELETE",
         "TYPES": {
-            "id": "number"
+            "productId": "number"
         }
     }
     ```
@@ -332,10 +335,10 @@ errorResponse.body = {
 1) `AUTH` check if the user is owner of listing
     ```JSON
     {
-        "URL": "/product/isOwner/:id",
+        "URL": "/product/owner/:productId",
         "METHOD": "GET",
         "TYPES": {
-            "id": "number"
+            "productId": "number"
         }
     }
     ```
