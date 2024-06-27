@@ -2990,15 +2990,13 @@
 											"pm.test(\"Body is correct\", function () {\r",
 											"    const expectedBody = {\r",
 											"        \"success\": true,\r",
-											"        \"payload\": {\r",
-											"            \"quantity\": 3\r",
-											"        }\r",
+											"        \"payload\": {}\r",
 											"    };\r",
 											"    pm.response.to.have.body(expectedBody);\r",
 											"});\r",
 											"\r",
 											"pm.test(\"Status code\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
+											"    pm.response.to.have.status(201);\r",
 											"});"
 										],
 										"type": "text/javascript",
@@ -3021,7 +3019,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"quantity\": 1\r\n}",
+									"raw": "{\r\n    \"quantity\": 0\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
