@@ -33,5 +33,6 @@ async function authMiddleware (req:Request, res:Response, next:NextFunction){
     }
 
     console.log(`jwt valid for user: ${username}`);
+    req.headers.username = username;
     next();
 }

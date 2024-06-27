@@ -530,7 +530,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\" : \"SomeUserna_7\",\r\n    \"password\" : \"SuperSafePassword!\"\r\n}",
+									"raw": "{\r\n    \"username\" : \"test_user\",\r\n    \"password\" : \"test_user_pass\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1165,7 +1165,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"SomeUserna_8\",\r\n    \"password\": \"SuperSafePassword!\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
+									"raw": "{\r\n    \"username\": \"test_user\",\r\n    \"password\": \"test_user_pass\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"address\": \"Area 51, USA\",\r\n    \"phone\": 9876512340,\r\n    \"email\": \"abc@gmail.com\",\r\n    \"profilePhoto\": \"https://images.pexels.com/photos/458976/pexels-photo-458976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2490,6 +2490,1082 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "/user",
+			"item": [
+				{
+					"name": "cart",
+					"item": [
+						{
+							"name": "Correct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\": true,\r",
+											"        \"payload\": [\r",
+											"            {\r",
+											"                \"productId\": 0,\r",
+											"                \"quantity\": 5\r",
+											"            },\r",
+											"            {\r",
+											"                \"productId\": 2,\r",
+											"                \"quantity\": 3\r",
+											"            }\r",
+											"        ]\r",
+											"    };\r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Session Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Session Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "Bearer {{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Auth Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Authentication Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET cart/product",
+					"item": [
+						{
+							"name": "Correct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\": true,\r",
+											"        \"payload\": {\r",
+											"            \"quantity\": 3\r",
+											"        }\r",
+											"    };\r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart/product/:productId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart",
+										"product",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Type Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart/product/:productId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart",
+										"product",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "abc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart/product/:productId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart",
+										"product",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "-2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Session Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Session Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "Bearer {{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart/product/:productId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart",
+										"product",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Auth Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Authentication Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart/product/:productId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart",
+										"product",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST cart/product",
+					"item": [
+						{
+							"name": "Correct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Body is correct\", function () {\r",
+											"    const expectedBody = {\r",
+											"        \"success\": true,\r",
+											"        \"payload\": {\r",
+											"            \"quantity\": 3\r",
+											"        }\r",
+											"    };\r",
+											"    pm.response.to.have.body(expectedBody);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantity\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart/product/:productId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart",
+										"product",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Type Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantity\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart/product/:productId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart",
+										"product",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "abc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Type Error 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Type Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantity\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart/product/:productId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart",
+										"product",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\": false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantity\": -5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart/product/:productId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart",
+										"product",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bound Error 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Bound Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantity\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart/product/:productId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart",
+										"product",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "-5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Session Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Session Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "Bearer {{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantity\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart/product/:productId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart",
+										"product",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Auth Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const outObj = {\r",
+											"    \"success\":false,\r",
+											"    \"payload\": {\r",
+											"        \"message\": \"Authentication Error\"\r",
+											"    }\r",
+											"}\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(outObj);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantity\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api-v1/user/cart/product/:productId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api-v1",
+										"user",
+										"cart",
+										"product",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Run for Token",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"success check\", function () {\r",
+							"    var body = pm.response.json();\r",
+							"    pm.expect(body.success).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"token and validity check\", function () {\r",
+							"    const payload = pm.response.json().payload;\r",
+							"    pm.expect(payload.token).to.be.an('string');\r",
+							"    pm.expect(payload.validity).to.be.an('number');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"user check\", function () {\r",
+							"    \r",
+							"    const user = pm.response.json().payload.user;\r",
+							"    pm.expect(user.username).to.be.an('string');\r",
+							"    pm.expect(user.firstName).to.be.an('string');\r",
+							"    pm.expect(user.lastName).to.be.an('string');\r",
+							"    pm.expect(user.address).to.be.an('string');\r",
+							"    pm.expect(user.phone).to.be.an('number');\r",
+							"    pm.expect(user.email).to.be.an('string');\r",
+							"    pm.expect(user.profilePhoto).to.be.an('string');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code\", function () {\r",
+							"    pm.response.to.have.status(202);\r",
+							"});\r",
+							"\r",
+							"pm.environment.set(\"token\", pm.response.json().payload.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"test_user\",\r\n    \"password\" : \"test_user_pass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api-v1/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api-v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [

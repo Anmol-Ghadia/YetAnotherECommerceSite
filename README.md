@@ -455,10 +455,10 @@ errorResponse.body = {
 1) `AUTH` Request to find out if the user has a specific product in their cart
     ```json
     {
-        "URL": "/user/cart/product/:id",
+        "URL": "/user/cart/product/:productId",
         "METHOD" : "GET",
         "TYPES": {
-            "id": "number"
+            "productId": "number"
         }
     }
     ```
@@ -489,7 +489,8 @@ errorResponse.body = {
         }
     }
     ```
-    payload of response is empty if succeded
+    payload of response is empty if succeded, gives `status code: 201`
+
     Can raise:
     1. `Type Error`, product id or quantity is of incorrect type
     1. `Bound Error`, quantity is negative
