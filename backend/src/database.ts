@@ -25,6 +25,10 @@ export {
     createReview,
     getUserFirstLastName,
     getRandomProducts,
+    reviewExists,
+    updateReview,
+    deleteReview,
+    removeCartItemsByProductId,
     getRandomProductsWithSearch
 };
 import { 
@@ -263,6 +267,15 @@ async function removeProduct(productId: number) {
                 .deleteOne(filter);
 }
 
+// Deletes all cart items with the give product Id
+async function removeCartItemsByProductId(productId: number) {
+    let filter: Filter<CartItem> = {
+        "productId": { $eq : productId }
+    }
+    let out = await DB.collection<CartItem>(CART_COLLECTION).deleteMany(filter);
+    console.log(`deleted all carts with product Id: ${productId}, output=${out}`);
+}
+
 // updates user's cart for the product with given quantity
 async function updateUserCart(username:string,productId:number,quantity:number) {
     let currentCartItem = await getUserCartForProduct(username,productId);
@@ -325,16 +338,29 @@ async function getUserDetails(username:string) : Promise<WithId<User>> {
     return user[0];
 }
 
+async function deleteReview(username:string,productId:number) {
+    let filter:Filter<Review> = {
+        "username": {$eq: username},
+        "productId": {$eq: productId}
+    }
+    let out = await  DB.collection<Review>(REVIEW_COLLECTION).deleteOne(filter);
+    console.log("Deleted a review: ", out);
+}
+
+async function reviewExists(username:string,productId:number) {
+    let filter:Filter<Review> = {
+        "username": {$eq: username},
+        "productId": {$eq: productId}
+    }
+    let document = await DB.collection<Review>(REVIEW_COLLECTION).findOne(filter);
+    if (document == null) return false;
+    return true;
+}
+
 async function createReview(title:string,description:string,rating:number,
     username:string,productId:number) {
     
-    const maxReviewId = await DB.collection<Review>(REVIEW_COLLECTION)
-                                    .find().sort({ reviewId: -1 })
-                                    .limit(1).next();
-    let reviewId = 0;
-    if (maxReviewId != null) reviewId = maxReviewId.reviewId +1;
     let document:Review = {
-        reviewId: reviewId,
         title: title,
         description: description,
         rating: rating,
@@ -342,7 +368,7 @@ async function createReview(title:string,description:string,rating:number,
         productId: productId
     }
     console.log('DB Query at ' + Date.now().toString() + " QID:35");
-    console.log("NEW Review created with ID: ", reviewId);
+    console.log("NEW Review created with product ID: ", productId, " and user: ",username);
     await DB.collection<Review>(REVIEW_COLLECTION).insertOne(document);
 }
 
@@ -392,6 +418,24 @@ async function updateProductListing(productId: number, username: string,
 async function deleteUser(username: string) {
     const filter: Filter<User> = { username: username };
     await DB.collection<User>(USER_COLLECTION).deleteOne(filter);
+}
+
+async function updateReview(username:string,productId:number,title:string,description:string,rating:number) {
+    let filter:Filter<Review> = {
+        "username": {$eq: username},
+        "productId": {$eq: productId}
+    }
+    await DB.collection<Review>(REVIEW_COLLECTION).deleteOne(filter);
+    let updatedReview:Review = {
+        title: title,
+        description: description,
+        rating: rating,
+        username: username,
+        productId: productId
+    }
+    await DB.collection<Review>(REVIEW_COLLECTION).replaceOne(filter,updatedReview);
+    console.log("UPDATED review for product, user: " , productId, username);
+    console.log('DB Query at ' + Date.now().toString() + " QID:51");
 }
 
 // Updates a user with the given details

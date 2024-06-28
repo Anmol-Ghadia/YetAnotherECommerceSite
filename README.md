@@ -96,8 +96,6 @@ Routes requiring authentication have to go through auth middleware
 
 
 ## TODO
-1) Add last 2 api calls marked as todo
-1) complete product delete route by deleting artifacts such as products stored in cart
 1) complete user delete route by deleting artifacts such as reviews, products, cart
 1) Add logging capability with different levels
 1) Refactor database connector
@@ -122,6 +120,8 @@ Routes requiring authentication have to go through auth middleware
 1) Add support for displaying multiple images on product page
 1) Add support for fetching and rendering images on search page
 1) Use SASS for styling
+1) ~~complete product delete route by deleting artifacts such as products stored in cart~~
+1) ~~Add last 2 api calls marked as todo~~
 1) ~~Add testing framework~~
 1) ~~Add automated testing on github~~
 1) ~~Add authentication middleware~~
@@ -157,7 +157,7 @@ Special Types
 1. url
 1. search string => chars allowed [0-50]
 
-All the ids such as `username`, `productId`, `reviewId` are integers starting from 0 and going above
+All the ids such as `username`, `productId` are integers starting from 0 and going above
 
 `phoneNumber` is anywhere from 9 to 12 digits, so [0-9] only
 
@@ -198,7 +198,6 @@ All the ids such as `username`, `productId`, `reviewId` are integers starting fr
 1. Review
     ```ts
     interface Review {
-        reviewId: number,
         title: string,
         description: string,
         rating: number,
@@ -565,14 +564,12 @@ errorResponse.body = {
         "success" : "boolean",
         "payload" : {
             {
-                "reviewId" : "number",
                 "title": "string",
                 "description": "string",
                 "rating": "number",
                 "username": "string"
             },
             {
-                "reviewId" : "number",
                 "title": "string",
                 "description": "string",
                 "rating": "number",
@@ -626,14 +623,12 @@ errorResponse.body = {
         "success" : "boolean",
         "payload" : {
             {
-                "reviewId" : "number",
                 "title": "string",
                 "description": "string",
                 "rating": "number",
                 "productId": "number"
             },
             {
-                "reviewId" : "number",
                 "title": "string",
                 "description": "string",
                 "rating": "number",
@@ -651,7 +646,7 @@ errorResponse.body = {
 1) `AUTH` Adds a new review
     ```json
     {
-        "URL": "/review/product/:productId",
+        "URL": "/review/:productId",
         "METHOD": "POST",
         "BODY": {
             "title": "string",
@@ -670,46 +665,45 @@ errorResponse.body = {
     1. `Bound Error`, any parameter does not adhere to constraints
     1. `Session Error`, json-web-token is invalid
     1. `Authentication Error`, no token found
+    1. `General Error`, if the product review already exists
     Adds the user as the owner of the review if success
-1) `NOTE: NOT ADDED YET !!!`
-    `AUTH` Updates an existing review
+1) `AUTH` Updates an existing review
     ```json
     {
-        "URL": "/review/product/:id",
-        "METHOD": "POST",
+        "URL": "/review/:productId",
+        "METHOD": "PATCH",
         "BODY": {
             "title": "string",
             "description": "string",
             "rating": "number"
         },
         "TYPES": {
-            "id": "number"
+            "productId": "number"
         }
     }
     ```
     Can raise:
     1. `Type Error`, any parameter is of incorrect type
     1. `Bound Error`, any parameter does not adhere to constraints
-    1. `Permission Error`, the resource is inaccessible with current json-web-token
     1. `Session Error`, json-web-token is invalid
     1. `Authentication Error`, no token found
-1) `NOTE: NOT ADDED YET !!!`
-    `AUTH` Deletes a review
+    1. `General Error`, if the product review does not exists
+1) `AUTH` Deletes a review
     ```json
     {
-        "URL": "/review/product/:id",
+        "URL": "/review/:productId",
         "METHOD": "DELETE",
         "TYPES": {
-            "id": "number"
+            "productId": "number"
         }
     }
     ```
     Can raise:
     1. `Type Error`, id parameter is of incorrect type
     1. `Bound Error`, id parameter does not adhere to constraints
-    1. `Permission Error`, the resource is inaccessible with current json-web-token
     1. `Authentication Error`, no token found
     1. `Session Error`, json-web-token is invalid
+    1. `General Error`, if the product review does not exists
 
 ### miscellaneous queries
 1) returns the user's first and last name

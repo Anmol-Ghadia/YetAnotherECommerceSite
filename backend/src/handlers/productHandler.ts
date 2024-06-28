@@ -1,6 +1,6 @@
 import { Request,Response } from "express";
 import { checkId, checkLongString, checkMediumString, checkURLArray } from "../schema";
-import { getProductByID, getProductByIDRange, makeProductListing, updateProductListing,isOwnerOfProduct,removeProduct, getRandomProducts } from "../database";
+import { getProductByID, getProductByIDRange, makeProductListing, updateProductListing,isOwnerOfProduct,removeProduct, removeCartItemsByProductId } from "../database";
 import { sendBoundError,sendServerError,sendSuccessData,sendTypeError,sendPermissionError } from "./handlerHelpers";
 
 export {
@@ -174,8 +174,7 @@ async function handleRemoveProductRequest(req:Request,res:Response) {
     await removeProduct(productId);
     sendSuccessData(res,200,{});
 
-    // !!!
-    // Add code to remove product from people's carts
+    removeCartItemsByProductId(productId);
     return;
 }
 

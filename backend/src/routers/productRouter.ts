@@ -18,7 +18,7 @@ const productRouter = express.Router();
 productRouter.post('/query', handleProductQuery); // OLD
 productRouter.post('/create',authMiddleware,handleCreateNewProductRequest);
 productRouter.post('/update/:productId',authMiddleware,handleUpdateProductRequest);
-productRouter.delete('/remove/:productId',authMiddleware,handleRemoveProductRequest); // !!! more code needed
+productRouter.delete('/remove/:productId',authMiddleware,handleRemoveProductRequest);
 productRouter.get('/owner/:productId',authMiddleware,handleOwnershipRequest);
 productRouter.get('/:productId', handleSingleProductRequest);
 productRouter.get('/:startProductId/:endProductId', handleRangeProductRequest);

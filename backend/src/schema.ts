@@ -36,7 +36,6 @@ interface Product {
 }
 
 interface Review {
-    reviewId: number,
     title: string,
     description: string,
     rating: number,
