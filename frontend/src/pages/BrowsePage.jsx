@@ -9,7 +9,7 @@ export default function BrowsePage() {
     const [searchText, setSearchText] = useState('');
     const [quantity, setQuantity] = useState('25');
     const [minPriceText, setMinPriceText] = useState(0);
-    const [maxPriceText, setMaxPriceText] = useState(0);
+    const [maxPriceText, setMaxPriceText] = useState(1000);
 
     // radio buttons for quantity
     const handleOptionChange = (event) => {
@@ -18,68 +18,37 @@ export default function BrowsePage() {
 
     // Search Function
     const doSubmit = ()=> {
-        if (searchText.trim() == '') {
-            doQuery(quantity,minPriceText,maxPriceText);
-        } else {
-            doSearch(searchText,quantity,minPriceText,maxPriceText);
-        }
+        fetchProducts();
     }
 
-    // Query without kwywords
-    const doQuery = (qty,min,max)=>{
+    function fetchProducts() {
         const parameters = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                quantity: qty,
-                minPrice: min.toString(),
-                maxPrice: max.toString()
+                minPrice: parseInt(minPriceText),
+                maxPrice: parseInt(maxPriceText),
+                quantity: parseInt(quantity),
+                search: searchText
             })
         };
-        fetch('/api-v1/product/query',parameters)
+        fetch("/api-v1/misc/search",parameters)
         .then(res=>res.json())
-        .then((data)=>{
-            if (!data['success']) {
-                console.log("Error");
-                console.log(data);
-                return;
+        .then((body)=>{
+            if (!body['success']) {
+                console.log(body);
+                return
             }
-            console.log(data);
-            let newData = shuffleArray(data['payload']);
-            setItems(newData);
             setIsLoaded(true);
+            setItems(body['payload']);
         })
-        .catch((error)=>{
-            console.log(error);
-        })
+        .catch(err=>console.log(err));
     }
 
-    const doSearch = ()=>{
-
-    }
-    
-    // Initial Display Items
-    
-    // Replace this later with an api call that
-    //   displays random products
     useEffect(()=>{
-        fetch('/api-v1/product/0/9')
-        .then(res=>res.json())
-        .then((data)=>{
-            if (!data['success']) {
-                console.log("Error");
-                console.log(data);
-                return;
-            }
-            console.log(data);
-            let newData = shuffleArray(data['payload']);
-            setItems(newData);
-            setIsLoaded(true);
-        })
-        .catch((error)=>{
-            console.log(error);
-        })
-    },[]);
+        fetchProducts();
+    },[])
+
 
     return (
         <>
@@ -139,14 +108,3 @@ export default function BrowsePage() {
         </>
     )
 }
-
-function shuffleArray(array) {
-    const newArray = [...array];
-  
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-  
-    return newArray;
-  }

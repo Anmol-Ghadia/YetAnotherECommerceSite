@@ -1,12 +1,10 @@
 # MERN Stack - E-Commerce Site
 A simple E-Commerce site that allows user to browse products and
 save products to cart if logged in. Allows new users to create an account
-and does not need a password, just a code which is sent to email whenever
-necessary
 
 Allows filtering of products based on category, searching for products by name
 or description. Check out process involves a confirmation and places the order
-by default
+by default. Users can also leave reviews for products
 
 Allows user to view and update profile
 
@@ -89,9 +87,9 @@ Routes requiring authentication have to go through auth middleware
 1) Set Cookie paramaeter `secure: true` in Login.jsx
 
 ## TODO
+1) Modify search api route to ignore max price if it is 0
 1) Refactor database connector
 1) Add sample data to db
-1) Update db for cartitem when front end is updated
 1) Display all cart items in the cart page
 1) Display total in the cart page
 1) Add a order now option on the cart page
@@ -109,6 +107,7 @@ Routes requiring authentication have to go through auth middleware
 1) Add support for displaying multiple images on product page
 1) Add support for fetching and rendering images on search page
 1) Use SASS for styling
+1) ~~Update db for cartitem when front end is updated~~
 1) ~~Complete update option for user route~~
 1) ~~Add logging capability with different levels~~
 1) ~~complete user delete route by deleting artifacts such as reviews, products, cart~~

@@ -19,13 +19,18 @@ export default function LoginPage() {
         .then(res => res.json())
         .then((data) => {
             if (data['success']) {
-                const token = data['payload']['token'];
+                console.log(data);
+                const token = 'Bearer ' + data['payload']['token'];
                 const validFor = data['payload']['validity'];
                 const cookieParameters = {
                     expires: (validFor/(1*60*60*24)),
                     secure: false, // TRUE in Production !!!
                 }
-                window.localStorage.setItem('username',inputUsername);
+                const user = data['payload']['user'];
+                window.localStorage.setItem('username',user['username']);
+                window.localStorage.setItem('firstName',user['firstName']);
+                window.localStorage.setItem('lastName',user['lastName']);
+                window.localStorage.setItem('profilePhoto',user['profilePhoto']);
                 Cookies.set('token',token, cookieParameters);
                 setErrorMessage("logged In!");
                 window.location.href = '/user'
