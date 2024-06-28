@@ -14,6 +14,6 @@ userRouter.get('/cart',authMiddleware,handleUserCartQuery);
 userRouter.get('/cart/product/:productId',authMiddleware,handleUserCartSpecificQuery);
 userRouter.post('/cart/product/:productId',authMiddleware,handleUserCartSpecificUpdate);
 userRouter.post('/update',authMiddleware,handleUpdateUserDetails);
-userRouter.delete('/remove',authMiddleware,handleDeleteUser); // TODO in handler
+userRouter.delete('/remove',authMiddleware,handleDeleteUser);
 
 export default userRouter;

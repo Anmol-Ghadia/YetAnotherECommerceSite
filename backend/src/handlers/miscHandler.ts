@@ -1,6 +1,6 @@
-import { Request,Response } from "express"
-import { checkSearchString, checkUsername } from "../schema";
-import { sendBoundError, sendSuccessData, sendTypeError } from "./handlerHelpers";
+import { Request,Response } from 'express'
+import { checkSearchString, checkUsername } from '../schema';
+import { sendBoundError, sendSuccessData, sendTypeError } from './handlerHelpers';
 import {
     getUserFirstLastName, getRandomProducts,
     getRandomProductsWithSearch
@@ -23,6 +23,10 @@ export async function handleUserNameInformation(req:Request, res:Response) {
     }
 
     const userDetails = await getUserFirstLastName(username);
+    if (userDetails == null) {
+        sendSuccessData(res,202,{});
+        return;
+    }
     sendSuccessData(res,202,userDetails);
     return;
 }

@@ -4,11 +4,12 @@ import {
     ServerApiVersion,
     FindOptions, Filter,
     UpdateFilter
-} from "mongodb";
+} from 'mongodb';
 import {
     User,CartItem,
     Product,Review
 } from './schema';
+import { log } from './logger';
 
 // Globals
 dotenv.config();
@@ -56,87 +57,87 @@ export async function doDBClose() {
 // Pings the DB and prints the message
 export async function pingDB() {
     await DB.command({ ping: 1 });
-    console.log("Pinged your deployment. You are currently connected to MongoDB!");
+    log(1,'DATABASE','Pinged your deployment. You are currently connected to MongoDB!');
 }
 
 // get all reviews for a specific product
 export async function getReviewsByProduct(productId:number) {
     const query= {
-        "productId": { $eq: productId }
+        'productId': { $eq: productId }
     };
     const filter:FindOptions<Product> = {
         projection: { _id: 0, productId: 0 }
     };
     const filteredDocs = await DB.collection<Review>(REVIEW_COLLECTION).find(query,filter).toArray();
-    console.log('DB Query at ' + Date.now().toString() + " QID:15");
-    console.log('Found ', filteredDocs.length ,' documents');
+    log(1,'DATABASE','DB Query QID:15');
+    log(1,'DATABASE',`found ${filteredDocs.length} documents`);
     return filteredDocs;
 }
 
 // get review summary for a specific product
 export async function getReviewStats(productId:number) {
     const query= {
-        "productId": { $eq: productId }
+        'productId': { $eq: productId }
     };
     const filter:FindOptions<Product> = {
         projection: { rating: 1 }
     };
     const filteredDocs = await DB.collection<Review>(REVIEW_COLLECTION).find(query,filter).toArray();
-    console.log('DB Query at ' + Date.now().toString() + " QID:16");
-    console.log('Found ', filteredDocs.length ,' documents');
+    log(1,'DATABASE','DB Query QID:16');
+    log(1,'DATABASE',`found ${filteredDocs.length} documents`);
     return filteredDocs;
 }
 
 export async function getRandomProductsWithSearch(search:string, minPrice: number, maxPrice:number, quantity: number) {
     const filter: Filter<Product> = {
         $text: {$search:search},
-        "price" : { $gte: minPrice, $lte : maxPrice }
+        'price' : { $gte: minPrice, $lte : maxPrice }
     }
 
     // Execute search query
     const filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).find(filter).limit(quantity).toArray();
-    console.log('DB Query at ' + Date.now().toString() + " QID:50");
-    console.log('Found ', filteredDocs.length ,' documents');
+    log(1,'DATABASE','DB Query QID:50');
+    log(1,'DATABASE',`found ${filteredDocs.length} documents`);
     return filteredDocs;
 }
 
 // Returns random set of products, that fall under the specification
 export async function getRandomProducts(minPrice: number, maxPrice:number,qunatity:number) {
     const filter: Filter<Product> = {
-        "price" : { $gte: minPrice, $lte : maxPrice }
+        'price' : { $gte: minPrice, $lte : maxPrice }
     }
     const pipeline = [
         { $match: filter },
         { $sample: { size: qunatity } }
     ];
     const filteredDocs = await DB.collection(PRODUCT_COLLECTION).aggregate(pipeline).toArray();
-    console.log('DB Query at ' + Date.now().toString() + " QID:41");
-    console.log('Found ', filteredDocs.length ,' documents');
+    log(1,'DATABASE','DB Query QID:41');
+    log(1,'DATABASE',`found ${filteredDocs.length} documents`);
     return filteredDocs;
 }
 
 // Returns the user's first and last name
 export async function getUserFirstLastName(username:string) {
     const query= {
-        "username": { $eq: username }
+        'username': { $eq: username }
     };
     const filter:FindOptions<User> = {
         projection: { _id: 0, firstName: 1, lastName: 1 }
     };
     const filteredDocs = await DB.collection<User>(USER_COLLECTION)
                                 .findOne(query,filter);
-    console.log('DB Query at ' + Date.now().toString() + " QID: 40");
+    log(1,'DATABASE','DB Query QID: 40');
     return filteredDocs
 }
 
 // Returns all reviews written by a user
 export async function getUserReviews(username:string) {
-    const query = {"username":{ $eq: username }};
+    const query = {'username':{ $eq: username }};
     const filter:FindOptions<CartItem>={projection: { _id: 0, username: 0 } };
     const filteredDocs = await DB.collection<Review>(REVIEW_COLLECTION)
                             .find(query,filter).toArray();
-    console.log('DB Query at ' + Date.now().toString() + " QID:30");
-    console.log('Found ', filteredDocs.length ,' documents');
+    log(1,'DATABASE','DB Query QID:30');
+    log(1,'DATABASE',`found ${filteredDocs.length} documents`);
     return filteredDocs;
 }
 
@@ -150,21 +151,21 @@ export async function isOwnerOfProduct(productId: number, username: string): Pro
 // gets the document with given product id
 export async function getProductByID(id: number): Promise<WithId<Product> | null> {
     const query= {
-        "productId": { $eq: id }
+        'productId': { $eq: id }
     };
     
     const filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).findOne(query,removeObjectID );
-    console.log('DB Query at ' + Date.now().toString() + " QID:1");
-    console.log('Found ', filteredDocs==null? '0':'1' ,' documents');
+    log(1,'DATABASE','DB Query QID:1');
+    log(1,'DATABASE',`found ${filteredDocs==null? '0':'1'} documents`);    
     return filteredDocs;
 }
 
 // gets the document with given id range, inclusive of both
 export async function getProductByIDRange(startId: number,endId:number): Promise<WithId<Product>[] | null> {
-    const query={ "productId": { $gte: startId, $lte:endId } };
+    const query={ 'productId': { $gte: startId, $lte:endId } };
     const filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).find(query, removeObjectID).toArray();
-    console.log('Found ', filteredDocs.length, ' documents');
-    console.log('DB Query at ' + Date.now().toString() + " QID:2");
+    log(1,'DATABASE',`found ${filteredDocs.length} documents`);
+    log(1,'DATABASE','DB Query  QID:2');
     return filteredDocs;
 }
 
@@ -176,9 +177,9 @@ export async function getProductByIDRange(startId: number,endId:number): Promise
 export async function getProductQuery(qty:number,minPrice:number,maxPrice:number): Promise<WithId<Product>[]> {
     let query;
     if (maxPrice==0) {
-        query = { "price": { $gte:minPrice } };
+        query = { 'price': { $gte:minPrice } };
     } else {
-        query={ "price": { $gte:minPrice, $lte:maxPrice } };
+        query={ 'price': { $gte:minPrice, $lte:maxPrice } };
     }
     const options: FindOptions = {
         limit: qty,
@@ -187,7 +188,7 @@ export async function getProductQuery(qty:number,minPrice:number,maxPrice:number
         }
     };
     const filteredDocs = await DB.collection(PRODUCT_COLLECTION).find(query,options).toArray();
-    console.log('DB Query at ' + Date.now().toString() + " QID:6");
+    log(1,'DATABASE','DB Query  QID:6');
     return filteredDocs as WithId<Product>[];
 }
 
@@ -195,30 +196,30 @@ export async function getProductQuery(qty:number,minPrice:number,maxPrice:number
 
 // Returns all cart items of the given user
 export async function getUserCart(username:string) {
-    const query={ "username": { $eq:username }};
+    const query={ 'username': { $eq:username }};
     const filter:FindOptions<CartItem>={projection: { _id: 0, username: 0 } };
     const filteredDocs = await DB.collection(CART_COLLECTION).find(query,filter).toArray();
-    console.log('DB Query at ' + Date.now().toString() + " QID:15");
+    log(1,'DATABASE','DB Query  QID:15');
     return filteredDocs;
 }
 
 // Returns the specific cart item associated with the given username and product id
 export async function getUserCartForProduct(username:string,productId:number) {
-    const query={ "username": { $eq:username }, "productId": { $eq:productId } };
+    const query={ 'username': { $eq:username }, 'productId': { $eq:productId } };
     const filter:FindOptions<CartItem>={projection: { _id: 0, quantity: 1 } };
     const filteredDocs = await DB.collection(CART_COLLECTION).findOne(query,filter);
-    console.log('DB Query at ' + Date.now().toString() + " QID:16");
+    log(1,'DATABASE','DB Query  QID:16');
     return filteredDocs;
 }
 
 // Deletes the product listing
 export async function removeProduct(productId: number) {
     const filter:Filter<Product> = { 
-        "productId": { $eq:productId }
+        'productId': { $eq:productId }
     };
 
-    console.log('DB Query at ' + Date.now().toString() + " QID:22");
-    console.log("DELETED product with ID: ", productId);
+    log(1,'DATABASE','DB Query QID:22');
+    log(1,'DATABASE',`deleted product with id (${productId})`);
     await DB.collection<Product>(PRODUCT_COLLECTION)
                 .deleteOne(filter);
 }
@@ -226,16 +227,16 @@ export async function removeProduct(productId: number) {
 // Deletes all cart items with the give product Id
 export async function removeCartItemsByProductId(productId: number) {
     const filter: Filter<CartItem> = {
-        "productId": { $eq : productId }
+        'productId': { $eq : productId }
     }
     const out = await DB.collection<CartItem>(CART_COLLECTION).deleteMany(filter);
-    console.log(`deleted all carts with product Id: ${productId}, output=${out}`);
+    log(1,'DATABASE',`deleted all carts with product Id: ${productId}, output=${out}`);
 }
 
 // updates user's cart for the product with given quantity
 export async function updateUserCart(username:string,productId:number,quantity:number) {
     const currentCartItem = await getUserCartForProduct(username,productId);
-    console.log('DB Query at ' + Date.now().toString() + " QID:17");
+    log(1,'DATABASE','DB Query QID:17');
     if (quantity == 0 && currentCartItem == null) {
         // No changes needed
         return;
@@ -243,8 +244,8 @@ export async function updateUserCart(username:string,productId:number,quantity:n
     if (quantity == 0) {
         // Delete existing
         const filter:Filter<CartItem> = { 
-            "username": { $eq:username },
-            "productId": { $eq:productId }
+            'username': { $eq:username },
+            'productId': { $eq:productId }
         };
 
         await DB.collection<CartItem>(CART_COLLECTION)
@@ -262,8 +263,8 @@ export async function updateUserCart(username:string,productId:number,quantity:n
     }
     // Update existing
     const filter:Filter<CartItem> = { 
-        "username": { $eq:username },
-        "productId": { $eq:productId }
+        'username': { $eq:username },
+        'productId': { $eq:productId }
     };
     const updateDoc:UpdateFilter<CartItem> = {
         $set: {
@@ -279,7 +280,7 @@ export async function updateUserCart(username:string,productId:number,quantity:n
 export async function userExists(testUsername:string) :Promise<boolean> {
     const query={'username': {$eq:testUsername}};
     const exists = await DB.collection(USER_COLLECTION).find(query).hasNext();
-    console.log('DB Query at ' + Date.now().toString() + " QID:3");
+    log(1,'DATABASE','DB Query QID:3');
     return exists;
 }
 
@@ -290,23 +291,23 @@ export async function getUserDetails(username:string) : Promise<WithId<User>> {
         projection: { _id: 0, hash: 0 }
     };
     const user = await DB.collection<User>(USER_COLLECTION).find(query,filter).toArray();
-    console.log('DB Query at ' + Date.now().toString() + " QID:3");
+    log(1,'DATABASE','DB Query QID:3');
     return user[0];
 }
 
 export async function deleteReview(username:string,productId:number) {
     const filter:Filter<Review> = {
-        "username": {$eq: username},
-        "productId": {$eq: productId}
+        'username': {$eq: username},
+        'productId': {$eq: productId}
     }
     const out = await  DB.collection<Review>(REVIEW_COLLECTION).deleteOne(filter);
-    console.log("Deleted a review: ", out);
+    log(1,'DATABASE',`deleted review, output is (${out})`);
 }
 
 export async function reviewExists(username:string,productId:number) {
     const filter:Filter<Review> = {
-        "username": {$eq: username},
-        "productId": {$eq: productId}
+        'username': {$eq: username},
+        'productId': {$eq: productId}
     }
     const document = await DB.collection<Review>(REVIEW_COLLECTION).findOne(filter);
     if (document == null) return false;
@@ -323,8 +324,8 @@ export async function createReview(title:string,description:string,rating:number
         username: username,
         productId: productId
     }
-    console.log('DB Query at ' + Date.now().toString() + " QID:35");
-    console.log("NEW Review created with product ID: ", productId, " and user: ",username);
+    log(1,'DATABASE','DB Query QID:35');
+    log(1,'DATABASE',`created new review by user (${username}) for product id (${productId})`);
     await DB.collection<Review>(REVIEW_COLLECTION).insertOne(document);
 }
 
@@ -345,8 +346,8 @@ export async function makeProductListing(username: string, name: string,
         price:price,
         images:images
     }
-    console.log('DB Query at ' + Date.now().toString() + " QID:20");
-    console.log("NEW product created with ID: ", productId);
+    log(1,'DATABASE','DB Query QID:20');
+    log(1,'DATABASE',`created new product with id (${productId})`);
     await DB.collection<Product>(PRODUCT_COLLECTION).insertOne(document);
 }
 
@@ -355,7 +356,7 @@ export async function updateProductListing(productId: number, username: string,
         name: string, description:string, price: number, images: string[]) {
 
     const filter: Filter<Product> = {
-        "productId" : { $eq: productId}
+        'productId' : { $eq: productId}
     }
     await DB.collection<Product>(PRODUCT_COLLECTION).deleteOne(filter);
     const document:Product = {
@@ -366,8 +367,8 @@ export async function updateProductListing(productId: number, username: string,
         price:price,
         images:images
     }
-    console.log('DB Query at ' + Date.now().toString() + " QID:21");
-    console.log("UPDATED product with ID: ", productId);
+    log(1,'DATABASE','DB Query QID:21');
+    log(1,'DATABASE',`updated product with id (${productId})`);
     await DB.collection<Product>(PRODUCT_COLLECTION).insertOne(document);
 }
 // deletes a user from the database
@@ -392,13 +393,13 @@ export async function deleteUserDetails(username: string) {
     // Delete cartitems of this user
     const filterCartItem: Filter<CartItem> = {username: {$eq:username}}
     await DB.collection<CartItem>(CART_COLLECTION).deleteMany(filterCartItem);
-    console.log("DELETED all details of user: ", username);
+    log(1,'DATABASE',`deleted all details of username (${username})s`);
 }
 
 export async function updateReview(username:string,productId:number,title:string,description:string,rating:number) {
     const filter:Filter<Review> = {
-        "username": {$eq: username},
-        "productId": {$eq: productId}
+        'username': {$eq: username},
+        'productId': {$eq: productId}
     }
     await DB.collection<Review>(REVIEW_COLLECTION).deleteOne(filter);
     const updatedReview:Review = {
@@ -409,8 +410,8 @@ export async function updateReview(username:string,productId:number,title:string
         productId: productId
     }
     await DB.collection<Review>(REVIEW_COLLECTION).replaceOne(filter,updatedReview);
-    console.log("UPDATED review for product, user: " , productId, username);
-    console.log('DB Query at ' + Date.now().toString() + " QID:51");
+    log(1,'DATABASE',`updated review for {username:(${username}),product:(${productId})`);
+    log(1,'DATABASE','DB Query QID:51');
 }
 
 // Updates a user with the given details
@@ -421,7 +422,7 @@ export async function updateUser(username:string,firstName:string,lastName:strin
                     .findOne(filter);
 
     if (oldUser==null) {
-        console.log('dbError 1')
+        log(0,'DATABASE','dbError 1');
         return;
     }
     await deleteUser(username);
@@ -435,8 +436,8 @@ export async function updateUser(username:string,firstName:string,lastName:strin
         email: email,
         profilePhoto: profilePhoto
     } 
-    console.log('DB Query at ' + Date.now().toString() + " QID:30");
-    console.log('UPDATED user details: ',username);
+    log(1,'DATABASE','DB Query QID:30');
+    log(1,'DATABASE',`updated user details for (${username})`);
     await DB.collection<User>(USER_COLLECTION).insertOne(newUser);
 }
 
@@ -455,14 +456,14 @@ export async function saveUserAndHash(username: string, hash:string) {
         profilePhoto: 'URL HERE'
 
     }
-    console.log('DB Query at ' + Date.now().toString() + " QID:4");
+    log(1,'DATABASE','DB Query QID:4');
     await DB.collection(USER_COLLECTION).insertOne(document);
 }
 
 // Saves the username and hash in database
 // REQUIRES: username is not already in the database
 export async function saveUser(user: User) {
-    console.log('DB Query at ' + Date.now().toString() + " QID:10");
+    log(1,'DATABASE','DB Query QID:10');
     await DB.collection(USER_COLLECTION).insertOne(user);
 }
 
@@ -471,6 +472,6 @@ export async function saveUser(user: User) {
 export async function getUserHash(username:string):Promise<string> {
     const query={'username': {$eq:username}};
     const document = await DB.collection(USER_COLLECTION).findOne(query);
-    console.log('DB Query at ' + Date.now().toString() + " QID:5");
+    log(1,'DATABASE','DB Query QID:5');
     return (document != null) ? document['hash'] : '';
 }

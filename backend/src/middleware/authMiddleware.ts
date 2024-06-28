@@ -1,13 +1,14 @@
-import { Request,Response, NextFunction } from "express";
-import { sendAuthError, sendSessionError } from "../handlers/handlerHelpers";
-import { userExists } from "../database";
-import { verifyToken } from "./middlewareHelper";
+import { Request,Response, NextFunction } from 'express';
+import { sendAuthError, sendSessionError } from '../handlers/handlerHelpers';
+import { userExists } from '../database';
+import { verifyToken } from './middlewareHelper';
+import { log } from '../logger';
 
 export async function authMiddleware (req:Request, res:Response, next:NextFunction) {    
     const header = req.headers.authorization;
 
     if(typeof header === 'undefined') {
-        console.log("no token found");
+        log(1,'AUTH','token not found');
         sendAuthError(res);
         return;
     }
@@ -15,19 +16,19 @@ export async function authMiddleware (req:Request, res:Response, next:NextFuncti
     const token = header.split(' ')[1];
     const username = verifyToken(token);
     if (username == null) {
-        console.log("Token not valid");
+        log(1,'AUTH',`error verifying token at ${req.url}`);
         sendSessionError(res);
         return;
     }
 
     const exists = await userExists(username);
     if (!exists) {
-        console.log("username not valid");
+        log(1,'CHECK',`username (${username}) is not valid`);
         sendSessionError(res);
         return;
     }
 
-    console.log(`jwt valid for user: ${username}`);
+    log(2,'AUTH',`jwt valid for user (${username})`);
     req.headers.username = username;
     next();
 }

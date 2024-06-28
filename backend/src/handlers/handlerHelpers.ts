@@ -1,16 +1,18 @@
-import { Response } from "express";
+import { Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { WithId } from "mongodb";
+import { WithId } from 'mongodb';
+import { log } from '../logger';
 
 export function sendSuccessData<T>(res: Response,code:number,data:WithId<T>[]|object) {
     res.status(code);
     res.send({
-        "success": true,
-        "payload": data
+        'success': true,
+        'payload': data
     });
 }
 
 export function sendServerError(res:Response, message:string) {
+    log(1,'ERROR',`500 internal server error: ${message}`);
     const out = {
         success: false,
         payload: {
@@ -22,17 +24,17 @@ export function sendServerError(res:Response, message:string) {
 }
 
 export function sendTypeError(res:Response) {
-    sendError(res,"Type Error");
+    sendError(res,'Type Error');
 }
 
 export function sendBoundError(res:Response) {
-    sendError(res,"Bound Error");
+    sendError(res,'Bound Error');
 }
 export function sendPermissionError(res:Response) {
     const out = {
         success: false,
         payload: {
-            message: "Permission Error"
+            message: 'Permission Error'
         }
     }
     res.status(403);
@@ -43,7 +45,7 @@ export function sendAuthError(res: Response) {
     const out = {
         success: false,
         payload: {
-            message: "Authentication Error"
+            message: 'Authentication Error'
         }
     }
     res.status(401);
@@ -53,7 +55,7 @@ export function sendSessionError(res: Response) {
     const out = {
         success: false,
         payload: {
-            message: "Session Error"
+            message: 'Session Error'
         }
     }
     res.status(401);
@@ -75,7 +77,7 @@ export function sendGeneralError(res:Response,description:string) {
     const out = {
         success: false,
         payload: {
-            message: "General Error",
+            message: 'General Error',
             description: description
         }
     }
@@ -86,8 +88,6 @@ export function sendGeneralError(res:Response,description:string) {
 // Generates a JWT for the given user name
 // returns null for fatal errors
 export function generateJWT(username: string,validTime:number):string|null {
-    console.log("PRIVATEKEY below");
-    console.log(process.env.JWT_PRIVATE_KEY);
     const currentTime = Math.floor(Date.now() / 1000); 
     const payload:jwt.JwtPayload = {
         username:username,

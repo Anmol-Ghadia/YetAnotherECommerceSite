@@ -8,7 +8,6 @@ export function verifyToken(token:string):string|null {
         const decoded = jwt.verify(token,key) as jwt.JwtPayload;
         return decoded.username;
     } catch (err) {
-        console.log("Error verifying token");
         return null;
     }
 }

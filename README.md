@@ -69,6 +69,7 @@ Routes requiring authentication have to go through auth middleware
     CART_COLLECTION_NAME=
     JWT_PRIVATE_KEY=#use long and random string
     JWT_SESSION_TIME=#time in seconds for user sessions
+    LOGGING_LEVEL=#0 for critical and 1 for general notifications
     ```
 1) Start server
     ```BASH
@@ -88,9 +89,7 @@ Routes requiring authentication have to go through auth middleware
 1) Set Cookie paramaeter `secure: true` in Login.jsx
 
 ## TODO
-1) Add logging capability with different levels
 1) Refactor database connector
-1) Complete update option for user route
 1) Add sample data to db
 1) Update db for cartitem when front end is updated
 1) Display all cart items in the cart page
@@ -110,6 +109,8 @@ Routes requiring authentication have to go through auth middleware
 1) Add support for displaying multiple images on product page
 1) Add support for fetching and rendering images on search page
 1) Use SASS for styling
+1) ~~Complete update option for user route~~
+1) ~~Add logging capability with different levels~~
 1) ~~complete user delete route by deleting artifacts such as reviews, products, cart~~
 1) ~~Add linter for code consistency~~
 1) ~~complete product delete route by deleting artifacts such as products stored in cart~~

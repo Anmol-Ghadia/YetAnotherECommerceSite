@@ -1,20 +1,21 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { 
     getUserHash, userExists, 
     getUserDetails, saveUser
-} from "../database";
+} from '../database';
 import { 
     sendBoundError, sendTypeError,
     sendGeneralError, sendSuccessData,
     generateJWT, sendServerError
-} from "./handlerHelpers";
+} from './handlerHelpers';
 import { 
     User, checkEmail, checkLongString,
     checkMediumString, checkPhoneNumber,
     checkTinyString, checkURL,
     checkUsername
-} from "../schema";
+} from '../schema';
+import { log } from '../logger';
 
 export async function handleLogin(req:Request,res:Response) {
     // Check all params
@@ -36,28 +37,28 @@ export async function handleLogin(req:Request,res:Response) {
     }
 
     if (!(await userExists(username))) {
-        sendGeneralError(res,"invalid username");
+        sendGeneralError(res,'invalid username');
         return;
     }
 
     const savedHash = await getUserHash(username);
 
     if (!(await bcrypt.compare(password, savedHash))) {
-        sendGeneralError(res,"invalid password");
+        sendGeneralError(res,'invalid password');
         return;
     }
     
     const validTime = parseInt(process.env.JWT_SESSION_TIME as string);
     const token = generateJWT(username,validTime);
     if (token == null) {
-        sendServerError(res,"authHandler1");
+        sendServerError(res,'authHandler1');
         return;
     }
 
     
     const userInfo = await getUserDetails(username);
 
-    console.log('User logged in successfully!: ',username);
+    log(2,'LOGIN',`logged in by username (${username})`);
     const data = {
         token: token,
         validity: validTime,
@@ -107,13 +108,13 @@ export async function handleRegister(req:Request,res:Response) {
     }
 
     if (await userExists(username)) {
-        sendGeneralError(res,"username taken");
+        sendGeneralError(res,'username taken');
         return;
     }
 
     const hash = await bcrypt.hash(password, 10);
     if (typeof hash !== 'string' || hash.length == 0) {
-        sendServerError(res,"authHandler2");
+        sendServerError(res,'authHandler2');
         return;
     }
     
@@ -129,7 +130,7 @@ export async function handleRegister(req:Request,res:Response) {
     }
     
     await saveUser(newUser);
-    console.log(`Saved new User: ${username}`);
+    log(2,'SAVE',`Saved new User: ${username}`);
     sendSuccessData(res,201,{});
     return;
 }

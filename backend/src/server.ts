@@ -2,12 +2,12 @@ import {
     doDBClose,
     doDBConnect
 } from './database.js'
-import dotenv from "dotenv";
-import { isEnvironmentVariableSet } from "./helpers.js";
+import dotenv from 'dotenv';
+import { isEnvironmentVariableSet } from './helpers.js';
 import makeApp from './app.js';
 import { Express } from 'express';
+import { log } from './logger.js';
 
-const connectDB = true;
 dotenv.config();
 let isDBConnected: boolean= false;
 
@@ -15,9 +15,7 @@ let isDBConnected: boolean= false;
 // Perform checks before starting the server
 if (isEnvironmentVariableSet()) {
     process.env.JWT_PRIVATE_KEY += Date.now().toString();
-    console.log('server started at:', Date.now().toString());
 } else {
-    console.log('All Environment Variables are not set')
     process.exit(1);
 }
 
@@ -25,22 +23,21 @@ const app: Express = makeApp();
 const port = process.env.PORT || 5000;
 
 async function endRoutine() {
-    console.log('Server is closing. Performing cleanup...');
+    log(0,'SERVER','shutting down');
     if(isDBConnected) {
         await doDBClose();
-        console.log("Database connection closed");
+        log(0,'SERVER',`database connection closed`);
     } else {
-        console.log("Database not connected, no need to close connection");
+        log(0,'SERVER',`cannot close db connection, db was not connected`)
     }
     process.exit(0);
 }
 
 // Start Process
 const server = app.listen(port, async () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-  if (!connectDB) return;
+  log(0,`SERVER`,`listening at (http://localhost:${port})`);
   isDBConnected = doDBConnect();
-    if (!isDBConnected) endRoutine;
+if (!isDBConnected) endRoutine;
 });
 
 process.on('SIGINT', endRoutine);

@@ -1,5 +1,5 @@
-import express, {Express} from "express";
-import mainRouter from "./routers/mainRouter";
+import express, {Express} from 'express';
+import mainRouter from './routers/mainRouter';
 import cors from 'cors';
 
 export default function makeApp(): Express {

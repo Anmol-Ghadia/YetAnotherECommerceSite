@@ -1,19 +1,19 @@
-import { Request,Response } from "express";
+import { Request,Response } from 'express';
 import { 
     checkId, checkLongString,
     checkMediumString, checkURLArray
-} from "../schema";
+} from '../schema';
 import { 
     getProductByID, getProductByIDRange,
     makeProductListing, updateProductListing,
     isOwnerOfProduct,removeProduct,
     removeCartItemsByProductId
-} from "../database";
+} from '../database';
 import { 
     sendBoundError,sendServerError,
     sendSuccessData,sendTypeError,
     sendPermissionError
-} from "./handlerHelpers";
+} from './handlerHelpers';
 
 // Handles requests related to single product, based on product id
 export async function handleSingleProductRequest(req:Request,res:Response) {
@@ -35,6 +35,7 @@ export async function handleSingleProductRequest(req:Request,res:Response) {
     const productJson = await getProductByID(productId);
     if (productJson != null) {
         sendSuccessData(res,200,productJson);
+        return;
     }
     sendSuccessData(res,200,{});
     return;
@@ -62,6 +63,7 @@ export async function handleRangeProductRequest(req:Request,res:Response) {
     const productJson = await getProductByIDRange(startId,endId);
     if (productJson != null) {
         sendSuccessData(res,200,productJson);
+        return;
     }
     sendSuccessData(res,200,{});
     return;
@@ -78,7 +80,7 @@ export async function handleCreateNewProductRequest(req:Request,res:Response) {
     
     // Check type
     if (typeof username !== 'string') {
-        sendServerError(res,"productHandler1");
+        sendServerError(res,'productHandler1');
         return;
     }
     if (typeof name !== 'string' ||
@@ -117,7 +119,7 @@ export async function handleUpdateProductRequest(req:Request,res:Response) {
     
     // Check type
     if (typeof username !== 'string') {
-        sendServerError(res,"productHandler2");
+        sendServerError(res,'productHandler2');
         return;
     }
     if (isNaN(productId) || typeof productId !== 'number' ||
@@ -160,7 +162,7 @@ export async function handleRemoveProductRequest(req:Request,res:Response) {
     
     // Check type
     if (typeof username !== 'string') {
-        sendServerError(res,"productHandler3");
+        sendServerError(res,'productHandler3');
         return;
     }
     if (isNaN(productId) || typeof productId !== 'number') {
@@ -195,7 +197,7 @@ export async function handleOwnershipRequest(req:Request,res:Response) {
     
     // Check type
     if (typeof username !== 'string') {
-        sendServerError(res,"productHandler4");
+        sendServerError(res,'productHandler4');
         return;
     }
     if (isNaN(productId) || typeof productId !== 'number') {

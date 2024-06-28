@@ -1,21 +1,21 @@
-import { Request,Response } from "express";
+import { Request,Response } from 'express';
 import { 
     Review, checkId,
     checkLongString,
     checkMediumString,
     checkRating
-} from "../schema";
+} from '../schema';
 import { 
     getReviewsByProduct, getReviewStats,
     getUserReviews, createReview,
     updateReview, reviewExists,
     deleteReview
-} from "../database";
+} from '../database';
 import { 
     sendBoundError,sendGeneralError,
     sendServerError,sendSuccessData,
     sendTypeError
-} from "./handlerHelpers";
+} from './handlerHelpers';
 
 export async function handleAllReviewsForProduct(req:Request,res:Response) {
         // Check all params
@@ -66,7 +66,7 @@ export async function handleSingleAllReview(req:Request,res:Response) {
 
     // Check type
     if (typeof username !== 'string') {
-        sendServerError(res,"reviewHandler1");
+        sendServerError(res,'reviewHandler1');
         return;
     }
 
@@ -85,7 +85,7 @@ export async function handleCreateReview(req:Request,res:Response) {
 
     // Check type
     if (typeof username !== 'string') {
-        sendServerError(res,"reviewHandler2");
+        sendServerError(res,'reviewHandler2');
         return;
     }
     if (isNaN(productId) || productId === null ||
@@ -106,7 +106,7 @@ export async function handleCreateReview(req:Request,res:Response) {
     }
 
     if (await reviewExists(username,productId)) {
-        sendGeneralError(res,"Review already exists for this product");
+        sendGeneralError(res,'Review already exists for this product');
         return;
     }
 
@@ -126,8 +126,8 @@ function computeStats(docs: Review[]) {
     const rating = (total/size) - (total/size)%0.5;
 
     const outObject = {
-        "rating": rating,
-        "count": size
+        'rating': rating,
+        'count': size
     }
     return outObject;
 }
@@ -143,7 +143,7 @@ export async function handleReviewUpdate(req:Request,res:Response) {
 
     // Check type
     if (typeof username !== 'string') {
-        sendServerError(res,"reviewHandler3");
+        sendServerError(res,'reviewHandler3');
         return;
     }
     if (isNaN(productId) || productId === null ||
@@ -164,7 +164,7 @@ export async function handleReviewUpdate(req:Request,res:Response) {
     }
 
     if (! await reviewExists(username,productId)) {
-        sendGeneralError(res,"Review does not exist");
+        sendGeneralError(res,'Review does not exist');
         return;
     }
 
@@ -180,7 +180,7 @@ export async function handleDeleteReview(req:Request,res:Response) {
 
     // Check type
     if (typeof username !== 'string') {
-        sendServerError(res,"reviewHandler4");
+        sendServerError(res,'reviewHandler4');
         return;
     }
     if (isNaN(productId) || productId === null) {
@@ -195,7 +195,7 @@ export async function handleDeleteReview(req:Request,res:Response) {
     }
 
     if (! await reviewExists(username,productId)) {
-        sendGeneralError(res,"Review does not exist");
+        sendGeneralError(res,'Review does not exist');
         return;
     }
 
