@@ -5,7 +5,8 @@ export {
     checkMediumString,
     checkShortString,checkURL,
     checkEmail,checkTinyString,
-    checkUsername, checkURLArray
+    checkUsername, checkURLArray,
+    checkSearchString
 }
 
 interface User {
@@ -128,6 +129,13 @@ function checkURLArray(object: string[]) {
         }
     }
     return true;
+}
+
+// Returns true if all search string is allowed
+function checkSearchString(search: string) {
+    const check1 = checkGeneralChars(search);
+    const check2 = checkStringSize(search,0,50);
+    return check1 && check2;
 }
 
 // HELPERS BELOW THIS

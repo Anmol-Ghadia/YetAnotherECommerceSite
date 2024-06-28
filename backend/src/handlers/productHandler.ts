@@ -1,6 +1,6 @@
 import { Request,Response } from "express";
 import { checkId, checkLongString, checkMediumString, checkURLArray } from "../schema";
-import { getProductByID, getProductByIDRange, makeProductListing, updateProductListing,isOwnerOfProduct,removeProduct } from "../database";
+import { getProductByID, getProductByIDRange, makeProductListing, updateProductListing,isOwnerOfProduct,removeProduct, getRandomProducts } from "../database";
 import { sendBoundError,sendServerError,sendSuccessData,sendTypeError,sendPermissionError } from "./handlerHelpers";
 
 export {

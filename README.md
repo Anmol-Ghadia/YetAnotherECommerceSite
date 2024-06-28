@@ -14,11 +14,9 @@ Seller's are also users with special status who can create a product listing
 
 ## Search Logic (BrowsePage)
 1) When no keywords are supplied
-    When no preferences are set, the backend server selects a random product and the next 14 products (15 total) for retrieval. To keep things fresh, the frontend then shuffles these items before displaying them.
+    When no preferences are set, the backend server selects random products that satisfy the criteria for retrieval.
 
     Quantity buttons: then number of items selected after the inital random product is controlled
-
-    Category: **under devlopment**
 
     Price range: The next items that do not fall in acceptable range are omited by database
 1) When keywords are supplied
@@ -98,7 +96,9 @@ Routes requiring authentication have to go through auth middleware
 
 
 ## TODO
-1) Add testing framework
+1) Complete update option for user route
+1) complete product delete route by deleting artifacts such as products stored in cart
+1) ~~Add testing framework~~
 1) Add automated testing on github
 1) Add sample data to db
 1) Add log detials to text file
@@ -146,7 +146,8 @@ Number of characters allowed in each string are specified as follows
 
 Special Types
 1. email
-1. url 
+1. url
+1. search string
 
 All the ids such as `username`, `productId`, `reviewId` are integers starting from 0 and going above
 
@@ -514,8 +515,8 @@ errorResponse.body = {
         }
     }
     ```
-    If any parameter is not needing updation, then omit it from the body.
-    Returns `success: true` if the user data was modified
+    Returns `success: true` if the user data was modified along with `status code:200`
+
     Can raise:
     1. `Type Error`, any parameter is of incorrect type
     1. `Bound Error`, any parameter does not adhere to constraints
@@ -531,7 +532,8 @@ errorResponse.body = {
         }
     }
     ```
-    Returns `success: true` if the user data was deleted
+    Returns `success: true` if the user data was deleted and `status code: 200`
+
     Can raise:
     1. `Type Error`, password is of incorrect type
     1. `Bound Error`, password does not adhere to constraints
@@ -641,25 +643,28 @@ errorResponse.body = {
 1) `AUTH` Adds a new review
     ```json
     {
-        "URL": "/review/product/:id",
-        "METHOD": "PUT",
+        "URL": "/review/product/:productId",
+        "METHOD": "POST",
         "BODY": {
             "title": "string",
             "description": "string",
             "rating": "number"
         },
         "TYPES": {
-            "id": "number"
+            "productId": "number"
         }
     }
     ```
+    returns `201` if created and success is truthy
+
     Can raise:
     1. `Type Error`, any parameter is of incorrect type
     1. `Bound Error`, any parameter does not adhere to constraints
     1. `Session Error`, json-web-token is invalid
     1. `Authentication Error`, no token found
     Adds the user as the owner of the review if success
-1) `AUTH` Updates an existing review
+1) `NOTE: NOT ADDED YET !!!`
+    `AUTH` Updates an existing review
     ```json
     {
         "URL": "/review/product/:id",
@@ -680,7 +685,8 @@ errorResponse.body = {
     1. `Permission Error`, the resource is inaccessible with current json-web-token
     1. `Session Error`, json-web-token is invalid
     1. `Authentication Error`, no token found
-1) `AUTH` Deletes a review
+1) `NOTE: NOT ADDED YET !!!`
+    `AUTH` Deletes a review
     ```json
     {
         "URL": "/review/product/:id",
@@ -721,46 +727,6 @@ errorResponse.body = {
     Can raise:
     1. `Type Error`, username is of incorrect type
     1. `Bound Error`, username does not adhere to constraints
-1) get random set of products from the database
-    ```json
-    {
-        "URL": "/misc/product/random/:qty",
-        "METHOD" : "GET",
-        "TYPES": {
-            "quantity": "number"
-        }
-    }
-    ```
-    returns qunatity number of random products
-    ```js
-    response.body= {
-        "success": "boolean",
-        "payload": {
-            {
-                "productId": "number";
-                "name": "string";
-                "description": "string";
-                "price": "number";
-                "images": "array of strings",
-                "username": "string"
-            },
-            {
-                "productId": "number";
-                "name": "string";
-                "description": "string";
-                "price": "number";
-                "images": "array of strings",
-                "username": "string"
-            },
-            .
-            .
-            .
-        }
-    }
-    ```
-    Can raise:
-    1. `Type Error`, quantity is of incorrect type
-    1. `Bound Error`, quantity does not adhere to constraints
 1) get items based on search
     ```json
     {

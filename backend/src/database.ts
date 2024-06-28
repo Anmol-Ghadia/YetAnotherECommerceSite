@@ -18,7 +18,14 @@ export {
     makeProductListing,
     updateProductListing,
     isOwnerOfProduct,
-    removeProduct
+    removeProduct,
+    updateUser,
+    deleteUser,
+    getUserReviews,
+    createReview,
+    getUserFirstLastName,
+    getRandomProducts,
+    getRandomProductsWithSearch
 };
 import { 
     Collection, 
@@ -56,7 +63,7 @@ function doDBConnect():boolean {
             process.env.DB_URI as string, {
             serverApi: {
             version: ServerApiVersion.v1,
-            strict: true,
+            strict: false,
             deprecationErrors: true,
             }
         });
@@ -66,11 +73,19 @@ function doDBConnect():boolean {
         CART_COLLECTION = process.env.CART_COLLECTION_NAME as string;
         REVIEW_COLLECTION = process.env.REVIEW_COLLECTION_NAME as string;
         pingDB();
+        dbMakeIndex();
         return true;
     } catch (err) {
         doDBClose();
         return false;
     }
+}
+
+async function dbMakeIndex() {
+    // let out = await DB.collection<Product>(PRODUCT_COLLECTION)
+    //             .createIndex({ title: "text", body: "text" });
+
+    // console.log("DB Indexing complete, output: ", out);
 }
 
 // Closes database connection
@@ -108,6 +123,59 @@ async function getReviewStats(productId:number) {
     };
     const filteredDocs = await DB.collection<Review>(REVIEW_COLLECTION).find(query,filter).toArray();
     console.log('DB Query at ' + Date.now().toString() + " QID:16");
+    console.log('Found ', filteredDocs.length ,' documents');
+    return filteredDocs;
+}
+
+async function getRandomProductsWithSearch(search:string, minPrice: number, maxPrice:number, quantity: number) {
+    const filter: Filter<Product> = {
+        $text: {$search:search},
+        "price" : { $gte: minPrice, $lte : maxPrice }
+    }
+
+    // Execute search query
+    const filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).find(filter).limit(quantity).toArray();
+    console.log('DB Query at ' + Date.now().toString() + " QID:50");
+    console.log('Found ', filteredDocs.length ,' documents');
+    return filteredDocs;
+}
+
+// Returns random set of products, that fall under the specification
+async function getRandomProducts(minPrice: number, maxPrice:number,qunatity:number) {
+    const filter: Filter<Product> = {
+        "price" : { $gte: minPrice, $lte : maxPrice }
+    }
+    const pipeline = [
+        { $match: filter },
+        { $sample: { size: qunatity } }
+    ];
+    const filteredDocs = await DB.collection(PRODUCT_COLLECTION).aggregate(pipeline).toArray();
+    console.log('DB Query at ' + Date.now().toString() + " QID:41");
+    console.log('Found ', filteredDocs.length ,' documents');
+    return filteredDocs;
+}
+
+// Returns the user's first and last name
+async function getUserFirstLastName(username:string) {
+    let query= {
+        "username": { $eq: username }
+    };
+    const filter:FindOptions<User> = {
+        projection: { _id: 0, firstName: 1, lastName: 1 }
+    };
+    let filteredDocs = await DB.collection<User>(USER_COLLECTION)
+                                .findOne(query,filter);
+    console.log('DB Query at ' + Date.now().toString() + " QID: 40");
+    return filteredDocs
+}
+
+// Returns all reviews written by a user
+async function getUserReviews(username:string) {
+    let query = {"username":{ $eq: username }};
+    const filter:FindOptions<CartItem>={projection: { _id: 0, username: 0 } };
+    let filteredDocs = await DB.collection<Review>(REVIEW_COLLECTION)
+                            .find(query,filter).toArray();
+    console.log('DB Query at ' + Date.now().toString() + " QID:30");
     console.log('Found ', filteredDocs.length ,' documents');
     return filteredDocs;
 }
@@ -257,6 +325,27 @@ async function getUserDetails(username:string) : Promise<WithId<User>> {
     return user[0];
 }
 
+async function createReview(title:string,description:string,rating:number,
+    username:string,productId:number) {
+    
+    const maxReviewId = await DB.collection<Review>(REVIEW_COLLECTION)
+                                    .find().sort({ reviewId: -1 })
+                                    .limit(1).next();
+    let reviewId = 0;
+    if (maxReviewId != null) reviewId = maxReviewId.reviewId +1;
+    let document:Review = {
+        reviewId: reviewId,
+        title: title,
+        description: description,
+        rating: rating,
+        username: username,
+        productId: productId
+    }
+    console.log('DB Query at ' + Date.now().toString() + " QID:35");
+    console.log("NEW Review created with ID: ", reviewId);
+    await DB.collection<Review>(REVIEW_COLLECTION).insertOne(document);
+}
+
 // Adds a new product listing
 async function makeProductListing(username: string, name: string,
         description:string, price: number, images: string[]) {
@@ -298,6 +387,38 @@ async function updateProductListing(productId: number, username: string,
     console.log('DB Query at ' + Date.now().toString() + " QID:21");
     console.log("UPDATED product with ID: ", productId);
     await DB.collection<Product>(PRODUCT_COLLECTION).insertOne(document);
+}
+// deletes a user from the database
+async function deleteUser(username: string) {
+    const filter: Filter<User> = { username: username };
+    await DB.collection<User>(USER_COLLECTION).deleteOne(filter);
+}
+
+// Updates a user with the given details
+async function updateUser(username:string,firstName:string,lastName:string,address:string,phone:number,email:string,profilePhoto:string) {
+    const filter: Filter<User> = { username: username };
+
+    let oldUser = await DB.collection<User>(USER_COLLECTION)
+                    .findOne(filter);
+
+    if (oldUser==null) {
+        console.log('dbError 1')
+        return;
+    }
+    await deleteUser(username);
+    const newUser: User = {
+        username: username,
+        hash: oldUser.hash,
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
+        phone: phone,
+        email: email,
+        profilePhoto: profilePhoto
+    } 
+    console.log('DB Query at ' + Date.now().toString() + " QID:30");
+    console.log('UPDATED user details: ',username);
+    await DB.collection<User>(USER_COLLECTION).insertOne(newUser);
 }
 
 // OLD !!!

@@ -1,8 +1,8 @@
-export {handleUserCartQuery,handleUserCartSpecificQuery,handleUserCartSpecificUpdate};
+export {handleUserCartQuery,handleUserCartSpecificQuery,handleUserCartSpecificUpdate,handleUpdateUserDetails,handleDeleteUser};
 import { Request, Response } from "express";
-import { sendBoundError, sendServerError, sendSuccessData, sendTypeError } from "./handlerHelpers";
-import { checkId } from "../schema";
-import { getUserCart,getUserCartForProduct,updateUserCart } from "../database";
+import { sendBoundError, sendGeneralError, sendServerError, sendSuccessData, sendTypeError } from "./handlerHelpers";
+import { checkEmail, checkId, checkLongString, checkMediumString, checkPhoneNumber, checkTinyString, checkURL } from "../schema";
+import { getUserCart,getUserCartForProduct,updateUserCart,updateUser, userExists, deleteUser } from "../database";
 
 
 // Handles request related to all items in a user's cart
@@ -56,7 +56,7 @@ async function handleUserCartSpecificQuery(req: Request, res:Response) {
 
 async function handleUserCartSpecificUpdate(req: Request, res: Response) {
     
-    // Check all params
+    // Get all params
     let username = req.headers.username;
     let productId = parseInt(req.params['productId']);
     let quantity = parseInt(req.body['quantity']);
@@ -83,5 +83,82 @@ async function handleUserCartSpecificUpdate(req: Request, res: Response) {
 
     await updateUserCart(username,productId,quantity);
     sendSuccessData(res,201,{});
+    return;
+}
+
+// Handles requests to update user details
+async function handleUpdateUserDetails(req:Request,res:Response) {
+    
+    // Get all params
+    let username = req.headers.username;
+    let firstName = req.body['firstName'];
+    let lastName = req.body['lastName'];
+    let address = req.body['address'];
+    let phone = req.body['phone'];
+    let email = req.body['email'];
+    let profilePhoto = req.body['profilePhoto'];
+
+    // Check type
+    if (typeof username !== 'string') {
+        sendServerError(res,"cartHandler4");
+        return;
+    }
+    if (typeof firstName !== 'string' ||
+        typeof lastName !== 'string' ||
+        typeof address !== 'string' ||
+        typeof phone !== 'number' ||
+        typeof email !== 'string' ||
+        typeof profilePhoto !== 'string')
+    {
+        sendTypeError(res);
+        return;
+    }
+
+    // Check in bounds
+    if (!checkTinyString(firstName) ||
+        !checkTinyString(lastName) ||
+        !checkLongString(address) ||
+        !checkPhoneNumber(phone) ||
+        !checkEmail(email) ||
+        !checkURL(profilePhoto)) {
+        sendBoundError(res);
+        return;
+    }
+
+    await updateUser(username,firstName,lastName,address,phone,email,profilePhoto);
+    console.log(`Updated User details: ${username}`);
+    sendSuccessData(res,200,{});
+    return;
+}
+
+async function handleDeleteUser(req:Request,res:Response) {
+    // Check all params
+    let username = req.headers.username;
+    let password = req.body['password'];
+
+    // Check type
+    if (typeof username !== 'string') {
+        sendServerError(res,"cartHandler5");
+        return;
+    }
+    if (typeof password !== 'string') {
+        sendTypeError(res);
+        return;
+    }
+
+    // Check in bounds
+    if (!checkMediumString(password)) {
+        sendBoundError(res);
+        return;
+    }
+
+    if (!(await userExists(username))) {
+        sendGeneralError(res,"username already deleted");
+        return;
+    }
+
+    deleteUser(username);    
+    sendSuccessData(res,200,{});
+    // TODO !!! delete all user related reviews and cart
     return;
 }
