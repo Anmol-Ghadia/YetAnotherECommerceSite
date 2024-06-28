@@ -41,8 +41,9 @@ This is a sitemap with corresponding React Component names in round brackets and
 ## Backend Structure
 
 1. Initial checks for environment variables are done in `helpers.ts` at top level
-1. All routers are contined in routers where the api is divided in sub parts as specified by sub routers
+1. All routers are contained in routers where the api is divided in sub parts as specified by sub routers
 1. Handlers perform checks on received data before passing it to the database
+1. All authenticated routes are protected by authentication middleware which also appends username to `headers`
 1. All database interactions are contained in `database.ts`
 
 Routes requiring authentication have to go through auth middleware
@@ -69,31 +70,22 @@ Routes requiring authentication have to go through auth middleware
     JWT_PRIVATE_KEY=#use long and random string
     JWT_SESSION_TIME=#time in seconds for user sessions
     ```
-1) compile Typescript files
-    ```BASH
-    cd backend
-    npx tsc -w
-    ```
 1) Start server
     ```BASH
-    node .backend/dist/main.js
-    ```
-    or
-    ```BASH
-    cd backend
+    cs ./backend
     npm start
     ```
 1) Start React app
     ```BASH
-    cd client
+    cd ./frontend
     npm start
     ```
-    ![DB Draft](https://github.com/Anmol-Ghadia/YetAnotherECommerceSite/assets/47422194/e44b70f6-8980-4840-90a6-733c34cc8120)
+
+![DB Draft](https://github.com/Anmol-Ghadia/YetAnotherECommerceSite/assets/47422194/e44b70f6-8980-4840-90a6-733c34cc8120)
 
 ## Build Notes:
 1) Remove React Strict tags from `index.js`
 1) Set Cookie paramaeter `secure: true` in Login.jsx
-
 
 ## TODO
 1) complete user delete route by deleting artifacts such as reviews, products, cart

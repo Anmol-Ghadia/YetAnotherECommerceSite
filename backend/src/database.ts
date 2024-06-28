@@ -1,53 +1,17 @@
-export {
-    doDBConnect,
-    getProductByID,
-    doDBClose,
-    Product,
-    getProductByIDRange,
-    userExists,
-    saveUserAndHash,
-    getUserHash,
-    getProductQuery,
-    getUserCartForProduct,
-    getUserDetails,
-    saveUser,
-    getReviewsByProduct,
-    getReviewStats,
-    getUserCart,
-    updateUserCart,
-    makeProductListing,
-    updateProductListing,
-    isOwnerOfProduct,
-    removeProduct,
-    updateUser,
-    deleteUser,
-    getUserReviews,
-    createReview,
-    getUserFirstLastName,
-    getRandomProducts,
-    reviewExists,
-    updateReview,
-    deleteReview,
-    removeCartItemsByProductId,
-    getRandomProductsWithSearch
-};
+import dotenv from 'dotenv';
 import { 
-    Collection, 
-    Db, 
-    MongoClient,
+    Db, MongoClient, WithId,
     ServerApiVersion,
-    WithId,
-    FindOptions,
-    UpdateFilter,
-    Filter
+    FindOptions, Filter,
+    UpdateFilter
 } from "mongodb";
 import {
-    User,CartItem,Product,Review
+    User,CartItem,
+    Product,Review
 } from './schema';
-import dotenv from 'dotenv';
-dotenv.config();
 
 // Globals
+dotenv.config();
 let CLIENT:MongoClient;
 let DB:Db;
 let PRODUCT_COLLECTION: string;
@@ -61,7 +25,7 @@ const removeObjectID:FindOptions<Product> = {
 };
 
 // Returns true upon successfull connection to database
-function doDBConnect():boolean {
+export function doDBConnect():boolean {
     try {
         CLIENT = new MongoClient(
             process.env.DB_URI as string, {
@@ -77,7 +41,6 @@ function doDBConnect():boolean {
         CART_COLLECTION = process.env.CART_COLLECTION_NAME as string;
         REVIEW_COLLECTION = process.env.REVIEW_COLLECTION_NAME as string;
         pingDB();
-        dbMakeIndex();
         return true;
     } catch (err) {
         doDBClose();
@@ -85,26 +48,19 @@ function doDBConnect():boolean {
     }
 }
 
-async function dbMakeIndex() {
-    // let out = await DB.collection<Product>(PRODUCT_COLLECTION)
-    //             .createIndex({ title: "text", body: "text" });
-
-    // console.log("DB Indexing complete, output: ", out);
-}
-
 // Closes database connection
-async function doDBClose() {
+export async function doDBClose() {
     await CLIENT.close();
 }
 
 // Pings the DB and prints the message
-async function pingDB() {
+export async function pingDB() {
     await DB.command({ ping: 1 });
     console.log("Pinged your deployment. You are currently connected to MongoDB!");
 }
 
 // get all reviews for a specific product
-async function getReviewsByProduct(productId:number) {
+export async function getReviewsByProduct(productId:number) {
     let query= {
         "productId": { $eq: productId }
     };
@@ -118,7 +74,7 @@ async function getReviewsByProduct(productId:number) {
 }
 
 // get review summary for a specific product
-async function getReviewStats(productId:number) {
+export async function getReviewStats(productId:number) {
     let query= {
         "productId": { $eq: productId }
     };
@@ -131,7 +87,7 @@ async function getReviewStats(productId:number) {
     return filteredDocs;
 }
 
-async function getRandomProductsWithSearch(search:string, minPrice: number, maxPrice:number, quantity: number) {
+export async function getRandomProductsWithSearch(search:string, minPrice: number, maxPrice:number, quantity: number) {
     const filter: Filter<Product> = {
         $text: {$search:search},
         "price" : { $gte: minPrice, $lte : maxPrice }
@@ -145,7 +101,7 @@ async function getRandomProductsWithSearch(search:string, minPrice: number, maxP
 }
 
 // Returns random set of products, that fall under the specification
-async function getRandomProducts(minPrice: number, maxPrice:number,qunatity:number) {
+export async function getRandomProducts(minPrice: number, maxPrice:number,qunatity:number) {
     const filter: Filter<Product> = {
         "price" : { $gte: minPrice, $lte : maxPrice }
     }
@@ -160,7 +116,7 @@ async function getRandomProducts(minPrice: number, maxPrice:number,qunatity:numb
 }
 
 // Returns the user's first and last name
-async function getUserFirstLastName(username:string) {
+export async function getUserFirstLastName(username:string) {
     let query= {
         "username": { $eq: username }
     };
@@ -174,7 +130,7 @@ async function getUserFirstLastName(username:string) {
 }
 
 // Returns all reviews written by a user
-async function getUserReviews(username:string) {
+export async function getUserReviews(username:string) {
     let query = {"username":{ $eq: username }};
     const filter:FindOptions<CartItem>={projection: { _id: 0, username: 0 } };
     let filteredDocs = await DB.collection<Review>(REVIEW_COLLECTION)
@@ -184,7 +140,7 @@ async function getUserReviews(username:string) {
     return filteredDocs;
 }
 
-async function isOwnerOfProduct(productId: number, username: string): Promise<boolean> {
+export async function isOwnerOfProduct(productId: number, username: string): Promise<boolean> {
     let prod = await getProductByID(productId);
     if (prod == null) return false;
     if (prod.username == null) return false;
@@ -192,7 +148,7 @@ async function isOwnerOfProduct(productId: number, username: string): Promise<bo
 }
 
 // gets the document with given product id
-async function getProductByID(id: number): Promise<WithId<Product> | null> {
+export async function getProductByID(id: number): Promise<WithId<Product> | null> {
     let query= {
         "productId": { $eq: id }
     };
@@ -204,7 +160,7 @@ async function getProductByID(id: number): Promise<WithId<Product> | null> {
 }
 
 // gets the document with given id range, inclusive of both
-async function getProductByIDRange(startId: number,endId:number): Promise<WithId<Product>[] | null> {
+export async function getProductByIDRange(startId: number,endId:number): Promise<WithId<Product>[] | null> {
     let query={ "productId": { $gte: startId, $lte:endId } };
     const filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).find(query, removeObjectID).toArray();
     console.log('Found ', filteredDocs.length, ' documents');
@@ -217,7 +173,7 @@ async function getProductByIDRange(startId: number,endId:number): Promise<WithId
 //    minPrice: minimum price of each item
 //    maxPrice: maximum price of each item
 //  Note: Omits maxPrice if 0
-async function getProductQuery(qty:number,minPrice:number,maxPrice:number): Promise<WithId<Product>[]> {
+export async function getProductQuery(qty:number,minPrice:number,maxPrice:number): Promise<WithId<Product>[]> {
     let query;
     if (maxPrice==0) {
         query = { "price": { $gte:minPrice } };
@@ -238,7 +194,7 @@ async function getProductQuery(qty:number,minPrice:number,maxPrice:number): Prom
 
 
 // Returns all cart items of the given user
-async function getUserCart(username:string) {
+export async function getUserCart(username:string) {
     const query={ "username": { $eq:username }};
     const filter:FindOptions<CartItem>={projection: { _id: 0, username: 0 } };
     const filteredDocs = await DB.collection(CART_COLLECTION).find(query,filter).toArray();
@@ -247,7 +203,7 @@ async function getUserCart(username:string) {
 }
 
 // Returns the specific cart item associated with the given username and product id
-async function getUserCartForProduct(username:string,productId:number) {
+export async function getUserCartForProduct(username:string,productId:number) {
     const query={ "username": { $eq:username }, "productId": { $eq:productId } };
     const filter:FindOptions<CartItem>={projection: { _id: 0, quantity: 1 } };
     const filteredDocs = await DB.collection(CART_COLLECTION).findOne(query,filter);
@@ -256,7 +212,7 @@ async function getUserCartForProduct(username:string,productId:number) {
 }
 
 // Deletes the product listing
-async function removeProduct(productId: number) {
+export async function removeProduct(productId: number) {
     const filter:Filter<Product> = { 
         "productId": { $eq:productId }
     };
@@ -268,7 +224,7 @@ async function removeProduct(productId: number) {
 }
 
 // Deletes all cart items with the give product Id
-async function removeCartItemsByProductId(productId: number) {
+export async function removeCartItemsByProductId(productId: number) {
     let filter: Filter<CartItem> = {
         "productId": { $eq : productId }
     }
@@ -277,7 +233,7 @@ async function removeCartItemsByProductId(productId: number) {
 }
 
 // updates user's cart for the product with given quantity
-async function updateUserCart(username:string,productId:number,quantity:number) {
+export async function updateUserCart(username:string,productId:number,quantity:number) {
     let currentCartItem = await getUserCartForProduct(username,productId);
     console.log('DB Query at ' + Date.now().toString() + " QID:17");
     if (quantity == 0 && currentCartItem == null) {
@@ -320,7 +276,7 @@ async function updateUserCart(username:string,productId:number,quantity:number) 
 }
 
 // Returns true if the given username exists in the database
-async function userExists(testUsername:string) :Promise<boolean> {
+export async function userExists(testUsername:string) :Promise<boolean> {
     let query={'username': {$eq:testUsername}};
     let exists = await DB.collection(USER_COLLECTION).find(query).hasNext();
     console.log('DB Query at ' + Date.now().toString() + " QID:3");
@@ -328,7 +284,7 @@ async function userExists(testUsername:string) :Promise<boolean> {
 }
 
 // Returns user document if the given username exists in the database
-async function getUserDetails(username:string) : Promise<WithId<User>> {
+export async function getUserDetails(username:string) : Promise<WithId<User>> {
     const query={'username': {$eq:username}};
     const filter:FindOptions<Product> = {
         projection: { _id: 0, hash: 0 }
@@ -338,7 +294,7 @@ async function getUserDetails(username:string) : Promise<WithId<User>> {
     return user[0];
 }
 
-async function deleteReview(username:string,productId:number) {
+export async function deleteReview(username:string,productId:number) {
     let filter:Filter<Review> = {
         "username": {$eq: username},
         "productId": {$eq: productId}
@@ -347,7 +303,7 @@ async function deleteReview(username:string,productId:number) {
     console.log("Deleted a review: ", out);
 }
 
-async function reviewExists(username:string,productId:number) {
+export async function reviewExists(username:string,productId:number) {
     let filter:Filter<Review> = {
         "username": {$eq: username},
         "productId": {$eq: productId}
@@ -357,7 +313,7 @@ async function reviewExists(username:string,productId:number) {
     return true;
 }
 
-async function createReview(title:string,description:string,rating:number,
+export async function createReview(title:string,description:string,rating:number,
     username:string,productId:number) {
     
     let document:Review = {
@@ -373,7 +329,7 @@ async function createReview(title:string,description:string,rating:number,
 }
 
 // Adds a new product listing
-async function makeProductListing(username: string, name: string,
+export async function makeProductListing(username: string, name: string,
         description:string, price: number, images: string[]) {
 
     const maxProductIdDoc = await DB.collection<Product>(PRODUCT_COLLECTION)
@@ -395,7 +351,7 @@ async function makeProductListing(username: string, name: string,
 }
 
 // Adds a new product listing
-async function updateProductListing(productId: number, username: string,
+export async function updateProductListing(productId: number, username: string,
         name: string, description:string, price: number, images: string[]) {
 
     let filter: Filter<Product> = {
@@ -415,12 +371,12 @@ async function updateProductListing(productId: number, username: string,
     await DB.collection<Product>(PRODUCT_COLLECTION).insertOne(document);
 }
 // deletes a user from the database
-async function deleteUser(username: string) {
+export async function deleteUser(username: string) {
     const filter: Filter<User> = { username: username };
     await DB.collection<User>(USER_COLLECTION).deleteOne(filter);
 }
 
-async function updateReview(username:string,productId:number,title:string,description:string,rating:number) {
+export async function updateReview(username:string,productId:number,title:string,description:string,rating:number) {
     let filter:Filter<Review> = {
         "username": {$eq: username},
         "productId": {$eq: productId}
@@ -439,7 +395,7 @@ async function updateReview(username:string,productId:number,title:string,descri
 }
 
 // Updates a user with the given details
-async function updateUser(username:string,firstName:string,lastName:string,address:string,phone:number,email:string,profilePhoto:string) {
+export async function updateUser(username:string,firstName:string,lastName:string,address:string,phone:number,email:string,profilePhoto:string) {
     const filter: Filter<User> = { username: username };
 
     let oldUser = await DB.collection<User>(USER_COLLECTION)
@@ -468,7 +424,7 @@ async function updateUser(username:string,firstName:string,lastName:string,addre
 // OLD !!!
 // Saves the given username and hash in database
 // REQUIRES: username is not already in the database
-async function saveUserAndHash(username: string, hash:string) {
+export async function saveUserAndHash(username: string, hash:string) {
     let document:User = {
         username:username,
         hash:hash,
@@ -486,14 +442,14 @@ async function saveUserAndHash(username: string, hash:string) {
 
 // Saves the username and hash in database
 // REQUIRES: username is not already in the database
-async function saveUser(user: User) {
+export async function saveUser(user: User) {
     console.log('DB Query at ' + Date.now().toString() + " QID:10");
     await DB.collection(USER_COLLECTION).insertOne(user);
 }
 
 // Returns the has corresponding to the given username
 // REQUIRES: such a username exists in database
-async function getUserHash(username:string):Promise<string> {
+export async function getUserHash(username:string):Promise<string> {
     let query={'username': {$eq:username}};
     const document = await DB.collection(USER_COLLECTION).findOne(query);
     console.log('DB Query at ' + Date.now().toString() + " QID:5");

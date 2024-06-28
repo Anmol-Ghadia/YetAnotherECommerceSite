@@ -1,7 +1,5 @@
 import express from 'express';
-import { 
-    handleProductQuery,
-} from '../handlers';
+import { authMiddleware } from '../middleware/authMiddleware';
 import { 
     handleRangeProductRequest,
     handleSingleProductRequest,
@@ -10,12 +8,9 @@ import {
     handleRemoveProductRequest,
     handleOwnershipRequest
  } from '../handlers/productHandler';
-import { authMiddleware } from '../middleware/authMiddleware';
 
 const productRouter = express.Router();
 
-// Route to handle queries related to products
-productRouter.post('/query', handleProductQuery); // OLD
 productRouter.post('/create',authMiddleware,handleCreateNewProductRequest);
 productRouter.post('/update/:productId',authMiddleware,handleUpdateProductRequest);
 productRouter.delete('/remove/:productId',authMiddleware,handleRemoveProductRequest);

@@ -3,12 +3,7 @@ import { sendAuthError, sendSessionError } from "../handlers/handlerHelpers";
 import { userExists } from "../database";
 import { verifyToken } from "./middlewareHelper";
 
-export {authMiddleware};
-
-async function authMiddleware (req:Request, res:Response, next:NextFunction){
-
-    
-    // const header = req.headers['authorization'];
+export async function authMiddleware (req:Request, res:Response, next:NextFunction) {    
     const header = req.headers.authorization;
 
     if(typeof header === 'undefined') {

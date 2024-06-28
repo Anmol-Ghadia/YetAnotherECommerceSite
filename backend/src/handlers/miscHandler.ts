@@ -1,11 +1,12 @@
 import { Request,Response } from "express"
+import { checkSearchString, checkUsername } from "../schema";
 import { sendBoundError, sendSuccessData, sendTypeError } from "./handlerHelpers";
-import {getUserFirstLastName, getRandomProducts, getRandomProductsWithSearch} from '../database';
-import { checkMediumString, checkSearchString, checkUsername } from "../schema";
+import {
+    getUserFirstLastName, getRandomProducts,
+    getRandomProductsWithSearch
+} from '../database';
 
-export {handleUserNameInformation,handleSearch};
-
-async function handleUserNameInformation(req:Request, res:Response) {
+export async function handleUserNameInformation(req:Request, res:Response) {
     // Check all params
     let username = req.params['username'];
 
@@ -26,7 +27,7 @@ async function handleUserNameInformation(req:Request, res:Response) {
     return;
 }
 
-async function handleSearch(req:Request,res:Response) {
+export async function handleSearch(req:Request,res:Response) {
     
     let minPrice = req.body['minPrice'];
     let maxPrice = req.body['maxPrice'];

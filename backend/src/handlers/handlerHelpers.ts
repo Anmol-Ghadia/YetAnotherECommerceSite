@@ -1,18 +1,7 @@
 import { Response } from "express";
 import jwt from 'jsonwebtoken';
-export {
-    sendSuccessData,
-    sendTypeError,
-    sendBoundError,
-    sendGeneralError,
-    generateJWT,
-    sendServerError,
-    sendAuthError,
-    sendSessionError,
-    sendPermissionError
-}
 
-function sendSuccessData(res: Response,code:number,data:any) {
+export function sendSuccessData(res: Response,code:number,data:any) {
     res.status(code);
     res.send({
         "success": true,
@@ -20,8 +9,7 @@ function sendSuccessData(res: Response,code:number,data:any) {
     });
 }
 
-
-function sendServerError(res:Response, message:string) {
+export function sendServerError(res:Response, message:string) {
     let out = {
         success: false,
         payload: {
@@ -32,14 +20,14 @@ function sendServerError(res:Response, message:string) {
     res.send(out);
 }
 
-function sendTypeError(res:Response) {
+export function sendTypeError(res:Response) {
     sendError(res,"Type Error");
 }
 
-function sendBoundError(res:Response) {
+export function sendBoundError(res:Response) {
     sendError(res,"Bound Error");
 }
-function sendPermissionError(res:Response) {
+export function sendPermissionError(res:Response) {
     let out = {
         success: false,
         payload: {
@@ -50,7 +38,7 @@ function sendPermissionError(res:Response) {
     res.send(out);
 }
 
-function sendAuthError(res: Response) {
+export function sendAuthError(res: Response) {
     let out = {
         success: false,
         payload: {
@@ -60,7 +48,7 @@ function sendAuthError(res: Response) {
     res.status(401);
     res.send(out);
 }
-function sendSessionError(res: Response) {
+export function sendSessionError(res: Response) {
     let out = {
         success: false,
         payload: {
@@ -71,7 +59,7 @@ function sendSessionError(res: Response) {
     res.send(out);
 }
 
-function sendError(res:Response,message:string) {
+export function sendError(res:Response,message:string) {
     let out = {
         success: false,
         payload: {
@@ -82,7 +70,7 @@ function sendError(res:Response,message:string) {
     res.send(out);
 }
 
-function sendGeneralError(res:Response,description:string) {
+export function sendGeneralError(res:Response,description:string) {
     let out = {
         success: false,
         payload: {
@@ -96,7 +84,7 @@ function sendGeneralError(res:Response,description:string) {
 
 // Generates a JWT for the given user name
 // returns null for fatal errors
-function generateJWT(username: string,validTime:number):string|null {
+export function generateJWT(username: string,validTime:number):string|null {
     console.log("PRIVATEKEY below");
     console.log(process.env.JWT_PRIVATE_KEY);
     let currentTime = Math.floor(Date.now() / 1000); 

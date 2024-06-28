@@ -1,19 +1,22 @@
 import { Request,Response } from "express";
-import { checkId, checkLongString, checkMediumString, checkURLArray } from "../schema";
-import { getProductByID, getProductByIDRange, makeProductListing, updateProductListing,isOwnerOfProduct,removeProduct, removeCartItemsByProductId } from "../database";
-import { sendBoundError,sendServerError,sendSuccessData,sendTypeError,sendPermissionError } from "./handlerHelpers";
-
-export {
-    handleSingleProductRequest,
-    handleRangeProductRequest,
-    handleCreateNewProductRequest,
-    handleUpdateProductRequest,
-    handleRemoveProductRequest,
-    handleOwnershipRequest
-}
+import { 
+    checkId, checkLongString,
+    checkMediumString, checkURLArray
+} from "../schema";
+import { 
+    getProductByID, getProductByIDRange,
+    makeProductListing, updateProductListing,
+    isOwnerOfProduct,removeProduct,
+    removeCartItemsByProductId
+} from "../database";
+import { 
+    sendBoundError,sendServerError,
+    sendSuccessData,sendTypeError,
+    sendPermissionError
+} from "./handlerHelpers";
 
 // Handles requests related to single product, based on product id
-async function handleSingleProductRequest(req:Request,res:Response) {
+export async function handleSingleProductRequest(req:Request,res:Response) {
     // Check all params
     let productId = parseInt(req.params['productId']);
     
@@ -35,7 +38,7 @@ async function handleSingleProductRequest(req:Request,res:Response) {
 }
 
 // Handles requests related to range of products, based on product id
-async function handleRangeProductRequest(req:Request,res:Response) {
+export async function handleRangeProductRequest(req:Request,res:Response) {
     // Check all params
     let startId = parseInt(req.params['startProductId']);
     let endId = parseInt(req.params['endProductId']);
@@ -59,7 +62,7 @@ async function handleRangeProductRequest(req:Request,res:Response) {
 }
 
 // Handles request to create new product
-async function handleCreateNewProductRequest(req:Request,res:Response) {
+export async function handleCreateNewProductRequest(req:Request,res:Response) {
     // Check all params
     let name = req.body['name'];
     let username = req.headers.username;
@@ -97,7 +100,7 @@ async function handleCreateNewProductRequest(req:Request,res:Response) {
 }
     
 // Handles request to update a product
-async function handleUpdateProductRequest(req:Request,res:Response) {
+export async function handleUpdateProductRequest(req:Request,res:Response) {
     // Check all params
     let productId = parseInt(req.params['productId']);
     let username = req.headers.username;
@@ -144,7 +147,7 @@ async function handleUpdateProductRequest(req:Request,res:Response) {
 }
 
 // Handles request to delete a product listing
-async function handleRemoveProductRequest(req:Request,res:Response) {
+export async function handleRemoveProductRequest(req:Request,res:Response) {
     // Check all params
     let productId = parseInt(req.params['productId']);
     let username = req.headers.username;
@@ -179,7 +182,7 @@ async function handleRemoveProductRequest(req:Request,res:Response) {
 }
 
 // Handles request to check ownership of product
-async function handleOwnershipRequest(req:Request,res:Response) {
+export async function handleOwnershipRequest(req:Request,res:Response) {
     // Check all params
     let productId = parseInt(req.params['productId']);
     let username = req.headers.username;

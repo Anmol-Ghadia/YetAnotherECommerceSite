@@ -1,12 +1,23 @@
 import { Request,Response } from "express";
-import { Review, checkId, checkLongString, checkMediumString, checkRating } from "../schema";
-import { getReviewsByProduct, getReviewStats, getUserReviews, createReview, updateReview, reviewExists, deleteReview } from "../database";
-import { sendBoundError,sendGeneralError,sendPermissionError,sendServerError,sendSuccessData,sendTypeError } from "./handlerHelpers";
-import { WithId } from "mongodb";
+import { 
+    Review, checkId,
+    checkLongString,
+    checkMediumString,
+    checkRating
+} from "../schema";
+import { 
+    getReviewsByProduct, getReviewStats,
+    getUserReviews, createReview,
+    updateReview, reviewExists,
+    deleteReview
+} from "../database";
+import { 
+    sendBoundError,sendGeneralError,
+    sendServerError,sendSuccessData,
+    sendTypeError
+} from "./handlerHelpers";
 
-export {handleDeleteReview,handleReviewUpdate,handleAllReviewsForProduct, handleReviewStats,handleSingleAllReview,handleCreateReview};
-
-async function handleAllReviewsForProduct(req:Request,res:Response) {
+export async function handleAllReviewsForProduct(req:Request,res:Response) {
         // Check all params
         let productId = parseInt(req.params['productId']);
     
@@ -27,7 +38,7 @@ async function handleAllReviewsForProduct(req:Request,res:Response) {
         return;
 }
 
-async function handleReviewStats(req:Request,res:Response) {
+export async function handleReviewStats(req:Request,res:Response) {
     // Check all params
     let productId = parseInt(req.params['productId']);
 
@@ -49,7 +60,7 @@ async function handleReviewStats(req:Request,res:Response) {
     return;
 }
 
-async function handleSingleAllReview(req:Request,res:Response) {
+export async function handleSingleAllReview(req:Request,res:Response) {
     // Check all params
     let username = req.headers.username;
 
@@ -63,7 +74,7 @@ async function handleSingleAllReview(req:Request,res:Response) {
     sendSuccessData(res,200,reviewsJson)
 }
 
-async function handleCreateReview(req:Request,res:Response) {
+export async function handleCreateReview(req:Request,res:Response) {
 
     // Check all params
     let username = req.headers.username;
@@ -105,7 +116,7 @@ async function handleCreateReview(req:Request,res:Response) {
 }
 
 // Helper function to compute stats and return an object
-function computeStats(docs: WithId<Review>[]) {
+function computeStats(docs: Review[]) {
     let total = 0;
     let size = docs.length
     for (let index = 0; index < size ; index++) {
@@ -122,7 +133,7 @@ function computeStats(docs: WithId<Review>[]) {
 }
 
 // Handles update for a review
-async function handleReviewUpdate(req:Request,res:Response) {
+export async function handleReviewUpdate(req:Request,res:Response) {
     
     let username = req.headers.username;
     let productId = parseInt(req.params['productId']);
@@ -162,7 +173,7 @@ async function handleReviewUpdate(req:Request,res:Response) {
     return;
 }
 
-async function handleDeleteReview(req:Request,res:Response) {
+export async function handleDeleteReview(req:Request,res:Response) {
     
     let username = req.headers.username;
     let productId = parseInt(req.params['productId']);

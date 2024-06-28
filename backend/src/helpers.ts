@@ -1,10 +1,9 @@
-export {isEnvironmentVariableSet};
 import dotenv from "dotenv";
 
 dotenv.config();
 
 // Returns true if all are set
-function isEnvironmentVariableSet():boolean {
+export function isEnvironmentVariableSet():boolean {
     if (process.env.DB_URI == null) {
         console.log("DB_URI not set");
         return false;

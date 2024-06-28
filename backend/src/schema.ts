@@ -1,15 +1,4 @@
-export {
-    User,CartItem,Product,Review,
-    checkRating,checkPhoneNumber,
-    checkId,checkLongString,
-    checkMediumString,
-    checkShortString,checkURL,
-    checkEmail,checkTinyString,
-    checkUsername, checkURLArray,
-    checkSearchString
-}
-
-interface User {
+export interface User {
     username:string,
     hash:string,
     firstName: string,
@@ -20,13 +9,13 @@ interface User {
     profilePhoto: string
 }
 
-interface CartItem {
+export interface CartItem {
     username: string,
     productId: number,
     quantity: number
 }
 
-interface Product {
+export interface Product {
     productId: number;
     name: string;
     description: string;
@@ -35,7 +24,7 @@ interface Product {
     username: string
 }
 
-interface Review {
+export interface Review {
     title: string,
     description: string,
     rating: number,
@@ -43,7 +32,7 @@ interface Review {
     productId: number
 }
 
-function checkUsername(input:string) {
+export function checkUsername(input:string) {
     const check1 = checkStringSize(input,5,25);
     const check2 = checkStrictChars(input);
     if (!(check1 && check2)) console.log(`bound error for: ${input}`) 
@@ -51,14 +40,14 @@ function checkUsername(input:string) {
 }
 
 // Checks tiny string constraints are met
-function checkTinyString(inputString:string):boolean {
+export function checkTinyString(inputString:string):boolean {
     const check1 = checkStringSize(inputString,1,25);
     const check2 = checkGeneralChars(inputString);
     if (!(check1 && check2)) console.log(`bound error for: ${inputString}`) 
     return check1 && check2;
 }
 // Checks short string constraints are met
-function checkShortString(inputString:string):boolean {
+export function checkShortString(inputString:string):boolean {
     const check1 = checkStringSize(inputString,5,25);
     const check2 = checkGeneralChars(inputString);
     if (!(check1 && check2)) console.log(`bound error for: ${inputString}`)
@@ -66,7 +55,7 @@ function checkShortString(inputString:string):boolean {
 }
 
 // Checks medium string constraints are met
-function checkMediumString(inputString:string):boolean {
+export function checkMediumString(inputString:string):boolean {
     const check1 = checkStringSize(inputString,8,25);
     const check2 = checkGeneralChars(inputString);
     if (!(check1 && check2)) console.log(`bound error for: ${inputString}`)
@@ -74,7 +63,7 @@ function checkMediumString(inputString:string):boolean {
 }
 
 // Checks long string constraints are met
-function checkLongString(inputString:string):boolean {
+export function checkLongString(inputString:string):boolean {
     const check1 = checkStringSize(inputString,10,500);
     const check2 = checkGeneralChars(inputString);
     if (!(check1 && check2)) console.log(`bound error for: ${inputString}`)
@@ -82,7 +71,7 @@ function checkLongString(inputString:string):boolean {
 }
 
 // Checks identifier number is valid
-function checkId(input: number):boolean {
+export function checkId(input: number):boolean {
     const check1 = 0 <= input;
     const check2 = ((input % 1) == 0);
     if (!(check1 && check2)) console.log(`bound error for: ${input}`)
@@ -90,7 +79,7 @@ function checkId(input: number):boolean {
 }
 
 // Checks phone number is valid
-function checkPhoneNumber(input: number):boolean {
+export function checkPhoneNumber(input: number):boolean {
     const check1 = 99_999_999 < input;
     const check2 = input < 1_000_000_000_000;
     const check3 = ((input % 1) == 0);
@@ -99,7 +88,7 @@ function checkPhoneNumber(input: number):boolean {
 }
 
 // Checks rating is valid
-function checkRating(input:number):boolean {
+export function checkRating(input:number):boolean {
     const check1 = 0 <= input;
     const check2 = input <= 5;
     const check3 = ((input % 0.5) == 0);
@@ -108,20 +97,20 @@ function checkRating(input:number):boolean {
 }
 
 // Checks if email is correctly formatted
-function checkEmail(email: string): boolean {
+export function checkEmail(email: string): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!(emailRegex.test(email))) console.log(`bound error for: ${email}`)
     return emailRegex.test(email);
 }
 
 // Checks if URL is correctly formatted
-function checkURL(url: string): boolean {
+export function checkURL(url: string): boolean {
     const urlRegex = /^(http|https):\/\/[^ "]+$/;
     if (!(urlRegex.test(url))) console.log(`bound error for: ${url}`)
     return urlRegex.test(url);
 }
 
-function checkURLArray(object: string[]) {
+export function checkURLArray(object: string[]) {
     for (let index = 0; index < object.length; index++) {
         if (!checkURL(object[index])) {
             return false;
@@ -131,7 +120,7 @@ function checkURLArray(object: string[]) {
 }
 
 // Returns true if all search string is allowed
-function checkSearchString(search: string) {
+export function checkSearchString(search: string) {
     const check1 = checkGeneralChars(search);
     const check2 = checkStringSize(search,0,50);
     return check1 && check2;

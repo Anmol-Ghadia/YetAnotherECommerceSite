@@ -1,6 +1,6 @@
 import express from 'express';
-import { checkJWTValidity, handleLogin,handleRegister } from '../handlers/authHandler';
 import { authMiddleware } from '../middleware/authMiddleware';
+import { checkJWTValidity, handleLogin,handleRegister } from '../handlers/authHandler';
 
 const authRouter = express.Router();
 

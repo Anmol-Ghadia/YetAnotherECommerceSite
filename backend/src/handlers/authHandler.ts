@@ -1,13 +1,22 @@
 import { Request, Response } from "express";
-import { sendBoundError, sendTypeError, sendGeneralError, sendSuccessData, generateJWT, sendServerError } from "./handlerHelpers";
-import { User, checkEmail, checkLongString, checkMediumString, checkPhoneNumber, checkShortString, checkTinyString, checkURL, checkUsername } from "../schema";
-import { getUserHash, userExists, getUserDetails, saveUser } from "../database";
 import bcrypt from 'bcrypt';
+import { 
+    getUserHash, userExists, 
+    getUserDetails, saveUser
+} from "../database";
+import { 
+    sendBoundError, sendTypeError,
+    sendGeneralError, sendSuccessData,
+    generateJWT, sendServerError
+} from "./handlerHelpers";
+import { 
+    User, checkEmail, checkLongString,
+    checkMediumString, checkPhoneNumber,
+    checkTinyString, checkURL,
+    checkUsername
+} from "../schema";
 
-
-export {handleLogin,handleRegister,checkJWTValidity};
-
-async function handleLogin(req:Request,res:Response) {
+export async function handleLogin(req:Request,res:Response) {
     // Check all params
     let username = req.body['username'];
     let password = req.body['password'];
@@ -59,7 +68,7 @@ async function handleLogin(req:Request,res:Response) {
 }
 
 
-async function handleRegister(req:Request,res:Response) {
+export async function handleRegister(req:Request,res:Response) {
     // Check all params
     let username = req.body['username'];
     let password = req.body['password'];
@@ -125,6 +134,6 @@ async function handleRegister(req:Request,res:Response) {
     return;
 }
 
-function checkJWTValidity(req:Request,res:Response) {
+export function checkJWTValidity(req:Request,res:Response) {
     sendSuccessData(res,200,{});
 }

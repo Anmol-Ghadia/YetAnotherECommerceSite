@@ -1,12 +1,23 @@
-export {handleUserCartQuery,handleUserCartSpecificQuery,handleUserCartSpecificUpdate,handleUpdateUserDetails,handleDeleteUser};
 import { Request, Response } from "express";
-import { sendBoundError, sendGeneralError, sendServerError, sendSuccessData, sendTypeError } from "./handlerHelpers";
-import { checkEmail, checkId, checkLongString, checkMediumString, checkPhoneNumber, checkTinyString, checkURL } from "../schema";
-import { getUserCart,getUserCartForProduct,updateUserCart,updateUser, userExists, deleteUser } from "../database";
+import { 
+    sendBoundError, sendGeneralError,
+    sendServerError, sendSuccessData,
+    sendTypeError
+} from "./handlerHelpers";
+import { 
+    checkEmail, checkId, checkLongString,
+    checkMediumString, checkPhoneNumber,
+    checkTinyString, checkURL
+} from "../schema";
+import { 
+    getUserCart,getUserCartForProduct,
+    updateUserCart,updateUser,
+    userExists, deleteUser
+} from "../database";
 
 
 // Handles request related to all items in a user's cart
-async function handleUserCartQuery(req:Request,res:Response) {
+export async function handleUserCartQuery(req:Request,res:Response) {
 
     // Check all params
     let username = req.headers.username;
@@ -22,7 +33,7 @@ async function handleUserCartQuery(req:Request,res:Response) {
 }
 
 // Handles request related to specific item in a user's cart
-async function handleUserCartSpecificQuery(req: Request, res:Response) {
+export async function handleUserCartSpecificQuery(req: Request, res:Response) {
     
     // Check all params
     let username = req.headers.username;
@@ -53,8 +64,7 @@ async function handleUserCartSpecificQuery(req: Request, res:Response) {
     return;
 }
 
-
-async function handleUserCartSpecificUpdate(req: Request, res: Response) {
+export async function handleUserCartSpecificUpdate(req: Request, res: Response) {
     
     // Get all params
     let username = req.headers.username;
@@ -87,7 +97,7 @@ async function handleUserCartSpecificUpdate(req: Request, res: Response) {
 }
 
 // Handles requests to update user details
-async function handleUpdateUserDetails(req:Request,res:Response) {
+export async function handleUpdateUserDetails(req:Request,res:Response) {
     
     // Get all params
     let username = req.headers.username;
@@ -131,7 +141,7 @@ async function handleUpdateUserDetails(req:Request,res:Response) {
     return;
 }
 
-async function handleDeleteUser(req:Request,res:Response) {
+export async function handleDeleteUser(req:Request,res:Response) {
     // Check all params
     let username = req.headers.username;
     let password = req.body['password'];
