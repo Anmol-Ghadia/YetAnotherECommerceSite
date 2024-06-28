@@ -96,12 +96,14 @@ Routes requiring authentication have to go through auth middleware
 
 
 ## TODO
-1) Complete update option for user route
+1) Add last 2 api calls marked as todo
 1) complete product delete route by deleting artifacts such as products stored in cart
-1) ~~Add testing framework~~
-1) Add automated testing on github
+1) complete user delete route by deleting artifacts such as reviews, products, cart
+1) Add logging capability with different levels
+1) Refactor database connector
+1) Add linter for code consistency
+1) Complete update option for user route
 1) Add sample data to db
-1) Add log detials to text file
 1) Update db for cartitem when front end is updated
 1) Display all cart items in the cart page
 1) Display total in the cart page
@@ -120,6 +122,8 @@ Routes requiring authentication have to go through auth middleware
 1) Add support for displaying multiple images on product page
 1) Add support for fetching and rendering images on search page
 1) Use SASS for styling
+1) ~~Add testing framework~~
+1) ~~Add automated testing on github~~
 1) ~~Add authentication middleware~~
 1) ~~Add backend checks for registration data~~
 1) ~~Rethink API access points~~
@@ -134,9 +138,13 @@ Routes requiring authentication have to go through auth middleware
 1) ~~If valid token exists then user should be redirected to user home page from login page~~
 
 ## Database Schema
-Valid Characters for strings include: 
+Valid Characters for username include: 
 ```ts
-const validChar = /^[a-zA-Z0-9()_\-,.]*$/;
+const validChars = /^[a-zA-Z0-9()_\-.!@#$%^&\*]*$/
+```
+Valid Characters for more general cases such as descriptions include: 
+```ts
+const validChars = /^[a-zA-Z0-9()_\-,. !@#$%^&\*]*$/
 ```
 Number of characters allowed in each string are specified as follows
 1. (tiny) firstName,LastName => [1-25]
@@ -147,7 +155,7 @@ Number of characters allowed in each string are specified as follows
 Special Types
 1. email
 1. url
-1. search string
+1. search string => chars allowed [0-50]
 
 All the ids such as `username`, `productId`, `reviewId` are integers starting from 0 and going above
 
@@ -203,7 +211,7 @@ All the ids such as `username`, `productId`, `reviewId` are integers starting fr
 Every response will be in the following format:
 ```json
 {
-    "success": boolean,
+    "success": "boolean",
     "payload": {
         // Access point specific data
     }
