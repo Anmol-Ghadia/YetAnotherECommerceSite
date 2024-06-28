@@ -376,6 +376,25 @@ export async function deleteUser(username: string) {
     await DB.collection<User>(USER_COLLECTION).deleteOne(filter);
 }
 
+// deletes all information related to a user except the user itself
+export async function deleteUserDetails(username: string) {
+    // Delete all products of this user
+    const filterProduct: Filter<Product> = {username:{$eq:username}}
+    const products = await DB.collection<Product>(PRODUCT_COLLECTION).find(filterProduct).toArray();
+    for (let index = 0; index < products.length; index++) {
+        const productId = products[index].productId;
+        await removeCartItemsByProductId(productId);
+        await removeProduct(productId);
+    }
+    // Delete all reviews by this user
+    const filterReview: Filter<Review> = {username: {$eq:username}}
+    await DB.collection<Review>(REVIEW_COLLECTION).deleteMany(filterReview);
+    // Delete cartitems of this user
+    const filterCartItem: Filter<CartItem> = {username: {$eq:username}}
+    await DB.collection<CartItem>(CART_COLLECTION).deleteMany(filterCartItem);
+    console.log("DELETED all details of user: ", username);
+}
+
 export async function updateReview(username:string,productId:number,title:string,description:string,rating:number) {
     const filter:Filter<Review> = {
         "username": {$eq: username},

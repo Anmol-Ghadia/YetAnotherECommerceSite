@@ -1,7 +1,8 @@
 import { Response } from "express";
 import jwt from 'jsonwebtoken';
+import { WithId } from "mongodb";
 
-export function sendSuccessData(res: Response,code:number,data:object) {
+export function sendSuccessData<T>(res: Response,code:number,data:WithId<T>[]|object) {
     res.status(code);
     res.send({
         "success": true,

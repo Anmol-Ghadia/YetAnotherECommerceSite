@@ -12,7 +12,8 @@ import {
 import { 
     getUserCart,getUserCartForProduct,
     updateUserCart,updateUser,
-    userExists, deleteUser
+    userExists, deleteUser,
+    deleteUserDetails
 } from "../database";
 
 
@@ -167,8 +168,8 @@ export async function handleDeleteUser(req:Request,res:Response) {
         return;
     }
 
-    deleteUser(username);    
+    deleteUser(username);
     sendSuccessData(res,200,{});
-    // TODO !!! delete all user related reviews and cart
+    deleteUserDetails(username);
     return;
 }

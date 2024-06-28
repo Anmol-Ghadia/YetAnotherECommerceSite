@@ -33,7 +33,10 @@ export async function handleSingleProductRequest(req:Request,res:Response) {
     }
 
     const productJson = await getProductByID(productId);
-    sendSuccessData(res,200,productJson);
+    if (productJson != null) {
+        sendSuccessData(res,200,productJson);
+    }
+    sendSuccessData(res,200,{});
     return;
 }
 
@@ -57,7 +60,10 @@ export async function handleRangeProductRequest(req:Request,res:Response) {
     }
     
     const productJson = await getProductByIDRange(startId,endId);
-    sendSuccessData(res,200,productJson);
+    if (productJson != null) {
+        sendSuccessData(res,200,productJson);
+    }
+    sendSuccessData(res,200,{});
     return;
 }
 
