@@ -130,13 +130,13 @@ export function checkSearchString(search: string) {
 
 // Returns true if all characters are defined in schema
 function checkGeneralChars(inputString: string):boolean {
-    const validChars = /^[a-zA-Z0-9()_\-,. !@#$%^&\*]*$/
+    const validChars = /^[a-zA-Z0-9()_\-,. !@#$%^&*]*$/
     return validChars.test(inputString);
 }
 
 // Returns true if all characters are defined in schema
 function checkStrictChars(inputString: string):boolean {
-    const validChars = /^[a-zA-Z0-9()_\-.!@#$%^&\*]*$/
+    const validChars = /^[a-zA-Z0-9()_\-.!@#$%^&*]*$/
     return validChars.test(inputString);
 }
 

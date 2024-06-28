@@ -1,7 +1,7 @@
 import { Response } from "express";
 import jwt from 'jsonwebtoken';
 
-export function sendSuccessData(res: Response,code:number,data:any) {
+export function sendSuccessData(res: Response,code:number,data:object) {
     res.status(code);
     res.send({
         "success": true,
@@ -10,7 +10,7 @@ export function sendSuccessData(res: Response,code:number,data:any) {
 }
 
 export function sendServerError(res:Response, message:string) {
-    let out = {
+    const out = {
         success: false,
         payload: {
             message: `Internal Error: (${message})`
@@ -28,7 +28,7 @@ export function sendBoundError(res:Response) {
     sendError(res,"Bound Error");
 }
 export function sendPermissionError(res:Response) {
-    let out = {
+    const out = {
         success: false,
         payload: {
             message: "Permission Error"
@@ -39,7 +39,7 @@ export function sendPermissionError(res:Response) {
 }
 
 export function sendAuthError(res: Response) {
-    let out = {
+    const out = {
         success: false,
         payload: {
             message: "Authentication Error"
@@ -49,7 +49,7 @@ export function sendAuthError(res: Response) {
     res.send(out);
 }
 export function sendSessionError(res: Response) {
-    let out = {
+    const out = {
         success: false,
         payload: {
             message: "Session Error"
@@ -60,7 +60,7 @@ export function sendSessionError(res: Response) {
 }
 
 export function sendError(res:Response,message:string) {
-    let out = {
+    const out = {
         success: false,
         payload: {
             message: message
@@ -71,7 +71,7 @@ export function sendError(res:Response,message:string) {
 }
 
 export function sendGeneralError(res:Response,description:string) {
-    let out = {
+    const out = {
         success: false,
         payload: {
             message: "General Error",
@@ -87,15 +87,15 @@ export function sendGeneralError(res:Response,description:string) {
 export function generateJWT(username: string,validTime:number):string|null {
     console.log("PRIVATEKEY below");
     console.log(process.env.JWT_PRIVATE_KEY);
-    let currentTime = Math.floor(Date.now() / 1000); 
-    let payload:jwt.JwtPayload = {
+    const currentTime = Math.floor(Date.now() / 1000); 
+    const payload:jwt.JwtPayload = {
         username:username,
         iat: currentTime,
         exp: currentTime + validTime
     };
-    let key:jwt.Secret =process.env.JWT_PRIVATE_KEY as string; 
+    const key:jwt.Secret =process.env.JWT_PRIVATE_KEY as string; 
     try {
-        let token = jwt.sign(payload, key)
+        const token = jwt.sign(payload, key)
         return token;
     } catch (err) {
         return null;

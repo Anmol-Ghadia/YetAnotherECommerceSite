@@ -13,14 +13,14 @@ export async function authMiddleware (req:Request, res:Response, next:NextFuncti
     }
 
     const token = header.split(' ')[1];
-    let username = verifyToken(token);
+    const username = verifyToken(token);
     if (username == null) {
         console.log("Token not valid");
         sendSessionError(res);
         return;
     }
 
-    let exists = await userExists(username);
+    const exists = await userExists(username);
     if (!exists) {
         console.log("username not valid");
         sendSessionError(res);

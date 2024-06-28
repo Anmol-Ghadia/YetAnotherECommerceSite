@@ -18,8 +18,8 @@ import {
 
 export async function handleLogin(req:Request,res:Response) {
     // Check all params
-    let username = req.body['username'];
-    let password = req.body['password'];
+    const username = req.body['username'];
+    const password = req.body['password'];
 
     // Check type
     if (typeof username !== 'string' ||
@@ -47,7 +47,7 @@ export async function handleLogin(req:Request,res:Response) {
         return;
     }
     
-    let validTime = parseInt(process.env.JWT_SESSION_TIME as string);
+    const validTime = parseInt(process.env.JWT_SESSION_TIME as string);
     const token = generateJWT(username,validTime);
     if (token == null) {
         sendServerError(res,"authHandler1");
@@ -55,10 +55,10 @@ export async function handleLogin(req:Request,res:Response) {
     }
 
     
-    let userInfo = await getUserDetails(username);
+    const userInfo = await getUserDetails(username);
 
     console.log('User logged in successfully!: ',username);
-    let data = {
+    const data = {
         token: token,
         validity: validTime,
         user: userInfo
@@ -70,14 +70,14 @@ export async function handleLogin(req:Request,res:Response) {
 
 export async function handleRegister(req:Request,res:Response) {
     // Check all params
-    let username = req.body['username'];
-    let password = req.body['password'];
-    let firstName = req.body['firstName'];
-    let lastName = req.body['lastName'];
-    let address = req.body['address'];
-    let phone = req.body['phone'];
-    let email = req.body['email'];
-    let profilePhoto = req.body['profilePhoto'];
+    const username = req.body['username'];
+    const password = req.body['password'];
+    const firstName = req.body['firstName'];
+    const lastName = req.body['lastName'];
+    const address = req.body['address'];
+    const phone = req.body['phone'];
+    const email = req.body['email'];
+    const profilePhoto = req.body['profilePhoto'];
 
     // Check type
     if (typeof username !== 'string' ||

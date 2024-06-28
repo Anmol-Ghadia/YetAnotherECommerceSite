@@ -7,7 +7,7 @@ import { isEnvironmentVariableSet } from "./helpers.js";
 import makeApp from './app.js';
 import { Express } from 'express';
 
-let connectDB = true;
+const connectDB = true;
 dotenv.config();
 let isDBConnected: boolean= false;
 
@@ -36,7 +36,7 @@ async function endRoutine() {
 }
 
 // Start Process
-let server = app.listen(port, async () => {
+const server = app.listen(port, async () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
   if (!connectDB) return;
   isDBConnected = doDBConnect();

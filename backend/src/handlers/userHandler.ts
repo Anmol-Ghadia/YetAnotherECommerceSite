@@ -20,7 +20,7 @@ import {
 export async function handleUserCartQuery(req:Request,res:Response) {
 
     // Check all params
-    let username = req.headers.username;
+    const username = req.headers.username;
 
     // Check type
     if (typeof username !== 'string') {
@@ -28,7 +28,7 @@ export async function handleUserCartQuery(req:Request,res:Response) {
         return;
     }
 
-    let cartItemsJson = await getUserCart(username);
+    const cartItemsJson = await getUserCart(username);
     sendSuccessData(res,200,cartItemsJson)
 }
 
@@ -36,8 +36,8 @@ export async function handleUserCartQuery(req:Request,res:Response) {
 export async function handleUserCartSpecificQuery(req: Request, res:Response) {
     
     // Check all params
-    let username = req.headers.username;
-    let productId = parseInt(req.params['productId']);
+    const username = req.headers.username;
+    const productId = parseInt(req.params['productId']);
     
     // Check type
     if (typeof username !== 'string') {
@@ -55,7 +55,7 @@ export async function handleUserCartSpecificQuery(req: Request, res:Response) {
         return;
     }
 
-    let productJson = await getUserCartForProduct(username,productId);
+    const productJson = await getUserCartForProduct(username,productId);
     if (productJson === null) {
         sendSuccessData(res,200,{"quantity":0});
     } else {
@@ -67,9 +67,9 @@ export async function handleUserCartSpecificQuery(req: Request, res:Response) {
 export async function handleUserCartSpecificUpdate(req: Request, res: Response) {
     
     // Get all params
-    let username = req.headers.username;
-    let productId = parseInt(req.params['productId']);
-    let quantity = parseInt(req.body['quantity']);
+    const username = req.headers.username;
+    const productId = parseInt(req.params['productId']);
+    const quantity = parseInt(req.body['quantity']);
     
     // Check type
     if (typeof username !== 'string') {
@@ -100,13 +100,13 @@ export async function handleUserCartSpecificUpdate(req: Request, res: Response) 
 export async function handleUpdateUserDetails(req:Request,res:Response) {
     
     // Get all params
-    let username = req.headers.username;
-    let firstName = req.body['firstName'];
-    let lastName = req.body['lastName'];
-    let address = req.body['address'];
-    let phone = req.body['phone'];
-    let email = req.body['email'];
-    let profilePhoto = req.body['profilePhoto'];
+    const username = req.headers.username;
+    const firstName = req.body['firstName'];
+    const lastName = req.body['lastName'];
+    const address = req.body['address'];
+    const phone = req.body['phone'];
+    const email = req.body['email'];
+    const profilePhoto = req.body['profilePhoto'];
 
     // Check type
     if (typeof username !== 'string') {
@@ -143,8 +143,8 @@ export async function handleUpdateUserDetails(req:Request,res:Response) {
 
 export async function handleDeleteUser(req:Request,res:Response) {
     // Check all params
-    let username = req.headers.username;
-    let password = req.body['password'];
+    const username = req.headers.username;
+    const password = req.body['password'];
 
     // Check type
     if (typeof username !== 'string') {

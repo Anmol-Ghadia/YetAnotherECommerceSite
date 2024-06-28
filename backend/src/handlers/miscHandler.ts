@@ -8,7 +8,7 @@ import {
 
 export async function handleUserNameInformation(req:Request, res:Response) {
     // Check all params
-    let username = req.params['username'];
+    const username = req.params['username'];
 
     // Check type
     if (typeof username !== 'string') {
@@ -22,16 +22,16 @@ export async function handleUserNameInformation(req:Request, res:Response) {
         return;
     }
 
-    let userDetails = await getUserFirstLastName(username);
+    const userDetails = await getUserFirstLastName(username);
     sendSuccessData(res,202,userDetails);
     return;
 }
 
 export async function handleSearch(req:Request,res:Response) {
     
-    let minPrice = req.body['minPrice'];
-    let maxPrice = req.body['maxPrice'];
-    let quantity = req.body['quantity'];
+    const minPrice = req.body['minPrice'];
+    const maxPrice = req.body['maxPrice'];
+    const quantity = req.body['quantity'];
     let search = req.body['search'];
 
     // Check type
@@ -57,12 +57,12 @@ export async function handleSearch(req:Request,res:Response) {
     }
 
     if (search.length == 0) {
-        let searchedDocs = await getRandomProducts(minPrice,maxPrice,quantity);
+        const searchedDocs = await getRandomProducts(minPrice,maxPrice,quantity);
         sendSuccessData(res,200,searchedDocs);
         return;
     }
 
-    let searchedDocs = await getRandomProductsWithSearch(search,minPrice,maxPrice,quantity);
+    const searchedDocs = await getRandomProductsWithSearch(search,minPrice,maxPrice,quantity);
     sendSuccessData(res,200,searchedDocs);
     return;
 }

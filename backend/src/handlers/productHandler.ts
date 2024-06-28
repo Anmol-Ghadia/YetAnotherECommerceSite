@@ -18,7 +18,7 @@ import {
 // Handles requests related to single product, based on product id
 export async function handleSingleProductRequest(req:Request,res:Response) {
     // Check all params
-    let productId = parseInt(req.params['productId']);
+    const productId = parseInt(req.params['productId']);
     
     // Check type
     if (isNaN(productId) || typeof productId !== 'number') {
@@ -32,7 +32,7 @@ export async function handleSingleProductRequest(req:Request,res:Response) {
         return;
     }
 
-    let productJson = await getProductByID(productId);
+    const productJson = await getProductByID(productId);
     sendSuccessData(res,200,productJson);
     return;
 }
@@ -40,8 +40,8 @@ export async function handleSingleProductRequest(req:Request,res:Response) {
 // Handles requests related to range of products, based on product id
 export async function handleRangeProductRequest(req:Request,res:Response) {
     // Check all params
-    let startId = parseInt(req.params['startProductId']);
-    let endId = parseInt(req.params['endProductId']);
+    const startId = parseInt(req.params['startProductId']);
+    const endId = parseInt(req.params['endProductId']);
     
     // Check type
     if (isNaN(startId) || typeof startId !== 'number' ||
@@ -56,7 +56,7 @@ export async function handleRangeProductRequest(req:Request,res:Response) {
         return;
     }
     
-    let productJson = await getProductByIDRange(startId,endId);
+    const productJson = await getProductByIDRange(startId,endId);
     sendSuccessData(res,200,productJson);
     return;
 }
@@ -64,11 +64,11 @@ export async function handleRangeProductRequest(req:Request,res:Response) {
 // Handles request to create new product
 export async function handleCreateNewProductRequest(req:Request,res:Response) {
     // Check all params
-    let name = req.body['name'];
-    let username = req.headers.username;
-    let description = req.body['description'];
-    let price = req.body['price'];
-    let images = req.body['images'];
+    const name = req.body['name'];
+    const username = req.headers.username;
+    const description = req.body['description'];
+    const price = req.body['price'];
+    const images = req.body['images'];
     
     // Check type
     if (typeof username !== 'string') {
@@ -102,12 +102,12 @@ export async function handleCreateNewProductRequest(req:Request,res:Response) {
 // Handles request to update a product
 export async function handleUpdateProductRequest(req:Request,res:Response) {
     // Check all params
-    let productId = parseInt(req.params['productId']);
-    let username = req.headers.username;
-    let name = req.body['name'];
-    let description = req.body['description'];
-    let price = req.body['price'];
-    let images = req.body['images'];
+    const productId = parseInt(req.params['productId']);
+    const username = req.headers.username;
+    const name = req.body['name'];
+    const description = req.body['description'];
+    const price = req.body['price'];
+    const images = req.body['images'];
     
     // Check type
     if (typeof username !== 'string') {
@@ -149,8 +149,8 @@ export async function handleUpdateProductRequest(req:Request,res:Response) {
 // Handles request to delete a product listing
 export async function handleRemoveProductRequest(req:Request,res:Response) {
     // Check all params
-    let productId = parseInt(req.params['productId']);
-    let username = req.headers.username;
+    const productId = parseInt(req.params['productId']);
+    const username = req.headers.username;
     
     // Check type
     if (typeof username !== 'string') {
@@ -184,8 +184,8 @@ export async function handleRemoveProductRequest(req:Request,res:Response) {
 // Handles request to check ownership of product
 export async function handleOwnershipRequest(req:Request,res:Response) {
     // Check all params
-    let productId = parseInt(req.params['productId']);
-    let username = req.headers.username;
+    const productId = parseInt(req.params['productId']);
+    const username = req.headers.username;
     
     // Check type
     if (typeof username !== 'string') {

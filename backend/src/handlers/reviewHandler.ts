@@ -19,7 +19,7 @@ import {
 
 export async function handleAllReviewsForProduct(req:Request,res:Response) {
         // Check all params
-        let productId = parseInt(req.params['productId']);
+        const productId = parseInt(req.params['productId']);
     
         // Check type
         if (isNaN(productId) || productId === null) {
@@ -33,14 +33,14 @@ export async function handleAllReviewsForProduct(req:Request,res:Response) {
             return;
         }
     
-        let reviewsCollection = await getReviewsByProduct(productId);
+        const reviewsCollection = await getReviewsByProduct(productId);
         sendSuccessData(res,200,reviewsCollection);
         return;
 }
 
 export async function handleReviewStats(req:Request,res:Response) {
     // Check all params
-    let productId = parseInt(req.params['productId']);
+    const productId = parseInt(req.params['productId']);
 
     // Check type
     if (isNaN(productId) || productId === null) {
@@ -62,7 +62,7 @@ export async function handleReviewStats(req:Request,res:Response) {
 
 export async function handleSingleAllReview(req:Request,res:Response) {
     // Check all params
-    let username = req.headers.username;
+    const username = req.headers.username;
 
     // Check type
     if (typeof username !== 'string') {
@@ -70,18 +70,18 @@ export async function handleSingleAllReview(req:Request,res:Response) {
         return;
     }
 
-    let reviewsJson = await getUserReviews(username);
+    const reviewsJson = await getUserReviews(username);
     sendSuccessData(res,200,reviewsJson)
 }
 
 export async function handleCreateReview(req:Request,res:Response) {
 
     // Check all params
-    let username = req.headers.username;
-    let productId = parseInt(req.params['productId']);
-    let title = req.body.title;
-    let description = req.body.description;
-    let rating = req.body.rating;
+    const username = req.headers.username;
+    const productId = parseInt(req.params['productId']);
+    const title = req.body.title;
+    const description = req.body.description;
+    const rating = req.body.rating;
 
     // Check type
     if (typeof username !== 'string') {
@@ -118,7 +118,7 @@ export async function handleCreateReview(req:Request,res:Response) {
 // Helper function to compute stats and return an object
 function computeStats(docs: Review[]) {
     let total = 0;
-    let size = docs.length
+    const size = docs.length
     for (let index = 0; index < size ; index++) {
         total += docs[index].rating;
     }
@@ -135,11 +135,11 @@ function computeStats(docs: Review[]) {
 // Handles update for a review
 export async function handleReviewUpdate(req:Request,res:Response) {
     
-    let username = req.headers.username;
-    let productId = parseInt(req.params['productId']);
-    let title = req.body.title;
-    let description = req.body.description;
-    let rating = req.body.rating;
+    const username = req.headers.username;
+    const productId = parseInt(req.params['productId']);
+    const title = req.body.title;
+    const description = req.body.description;
+    const rating = req.body.rating;
 
     // Check type
     if (typeof username !== 'string') {
@@ -175,8 +175,8 @@ export async function handleReviewUpdate(req:Request,res:Response) {
 
 export async function handleDeleteReview(req:Request,res:Response) {
     
-    let username = req.headers.username;
-    let productId = parseInt(req.params['productId']);
+    const username = req.headers.username;
+    const productId = parseInt(req.params['productId']);
 
     // Check type
     if (typeof username !== 'string') {
