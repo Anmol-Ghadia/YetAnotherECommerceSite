@@ -37,7 +37,7 @@ function App() {
         <Route element={headerLayout}>
           <Route index element={<LandingPage />} />
           <Route path="browse" element={<BrowsePage />} />
-          <Route path="browse/product/:id"
+          <Route path="browse/product/:productId"
             element={<ProductPage />} />
           <Route path="user" element={<UserPage />} />
           <Route path="user/cart" element={<CartPage />} />

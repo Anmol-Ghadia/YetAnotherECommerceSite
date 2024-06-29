@@ -1,18 +1,80 @@
-import { deleteAllCarts, deleteAllProducts, deleteAllReviews, deleteAllUsers, makeProductListing, saveUser } from "./database";
+import { createReview, deleteAllCarts, deleteAllProducts, deleteAllReviews, deleteAllUsers, makeProductListing, saveUser } from "./database";
 import { log } from "./logger";
-import { Product, User } from "./schema";
+import { Product, Review, User } from "./schema";
 
 export async function initialize() {
-    const user:User = {
-        username:'server_initial',
-        hash:'',
-        firstName: 'server',
-        lastName: 'initial',
-        address: 'Vancouver, Canada',
-        phone: 7788614550,
-        email: 'me@aghadia.com',
-        profilePhoto: 'https://cdn.pixabay.com/photo/2023/07/15/11/54/vulture-8128674_1280.png'
-    }
+    const users:User[] = [
+        {
+            username:'server_initial',
+            hash:'',
+            firstName: 'server',
+            lastName: 'initial',
+            address: 'Vancouver, Canada',
+            phone: 7788614550,
+            email: 'me@aghadia.com',
+            profilePhoto: 'https://cdn.pixabay.com/photo/2023/07/15/11/54/vulture-8128674_1280.png'
+        },
+        {
+            username:'Alice_1',
+            hash:'',
+            firstName: 'Alice',
+            lastName: 'Smith',
+            address: 'Toronto, Canada',
+            phone: 7788652350,
+            email: 'alice@example.com',
+            profilePhoto: 'https://cdn.pixabay.com/photo/2023/07/15/11/54/vulture-8128674_1280.png'
+        },
+        {
+            username: "Hattie_82",
+            hash: "",
+            firstName: "Sofia",
+            lastName: "Williams",
+            address: "South Ozone Park, Solomon Islands",
+            phone: 987456123,
+            email: "Sofia_Williams@example.com",
+            profilePhoto: "https://cdn.pixabay.com/photo/2023/07/15/11/54/vulture-8128674_1280.png"
+          },
+          {
+            username: "Barbara_19",
+            hash: "",
+            firstName: "Timothy",
+            lastName: "Garcia",
+            address: "Port Lavadia, Latvia",
+            phone: 987452123,
+            email: "Timothy_Garcia@example.com",
+            profilePhoto: "https://cdn.pixabay.com/photo/2023/07/15/11/54/vulture-8128674_1280.png"
+          },
+          {
+            username: "Emily_72",
+            hash: "",
+            firstName: "Ella",
+            lastName: "Rodriguez",
+            address: "West Sylvan, Mayotte",
+            phone: 987452198,
+            email: "Ella_Rodriguez@example.com",
+            profilePhoto: "https://cdn.pixabay.com/photo/2023/07/15/11/54/vulture-8128674_1280.png"
+          },
+          {
+            username: "Eddie99",
+            hash: "",
+            firstName: "Travis",
+            lastName: "Allen",
+            address: "East Rikkita, Ghana",
+            phone: 127452120,
+            email: "Travis_Allen@example.com",
+            profilePhoto: "https://cdn.pixabay.com/photo/2023/07/15/11/54/vulture-8128674_1280.png"
+          },
+          {
+            username: "William_26",
+            hash: "",
+            firstName: "Nora",
+            lastName: "Scott",
+            address: "North Perry, Slovakia",
+            phone: 727452121,
+            email: "Nora_Scott@example.com",
+            profilePhoto: "https://cdn.pixabay.com/photo/2023/07/15/11/54/vulture-8128674_1280.png"
+          }
+    ]
     const products: Product[] = [
         {
             productId: 0,
@@ -136,6 +198,51 @@ export async function initialize() {
         }
     ];
 
+    const reviews: Review[] = [
+        {
+            title: "Great product, highly recommend!",
+            description: "This product exceeded my expectations. It's well-built and offers great value for money. I would definitely recommend it to anyone looking for a reliable product.",
+            rating: 5,
+            username: "William_26",
+            productId: 0
+          },
+          {
+            title: "Solid performance and quality build",
+            description: "I've been using this product for a while now, and I'm impressed with its performance and build quality. It's sturdy and does exactly what it's supposed to do.",
+            rating: 4,
+            username: "Eddie99",
+            productId: 0
+          },
+          {
+            title: "Excellent value for money",
+            description: "For the price, this product is unbeatable. It's packed with features and functions smoothly. I'm glad I made this purchase.",
+            rating: 5,
+            username: "Emily_72",
+            productId: 0
+          },
+          {
+            title: "Good product, meets expectations",
+            description: "The product does what it promises. It's reliable and works well for my needs. Overall, I'm satisfied with its performance.",
+            rating: 4,
+            username: "Barbara_19",
+            productId: 1
+          },
+          {
+            title: "Impressed with the features",
+            description: "I'm pleasantly surprised by the features this product offers. It's user-friendly and has everything I was looking for. Definitely a great buy.",
+            rating: 5,
+            username: "Hattie_82",
+            productId: 1
+          },
+          {
+            title: "Could be better, but overall satisfied",
+            description: "While the product has its shortcomings, it still manages to deliver. There are areas for improvement, but I'm satisfied with its performance so far.",
+            rating: 3,
+            username: "Alice_1",
+            productId: 2
+          }
+    ]
+
     await deleteAllUsers();
     log(0,'INITIALIZE','deleted all users');
     await deleteAllProducts();
@@ -144,9 +251,19 @@ export async function initialize() {
     log(0,'INITIALIZE','deleted all reviews');
     await deleteAllCarts();
     log(0,'INITIALIZE','deleted all carts');
-    await saveUser(user)
+
+    for (let index = 0; index < users.length; index++) {
+        const user = users[index];
+        await saveUser(user)
+    }
+    
     for (let index = 0; index < products.length; index++) {
         const product = products[index];
         await makeProductListing(product.username,product.name,product.description,product.price,[]);
+    }
+
+    for (let index = 0; index < reviews.length; index++) {
+        const review = reviews[index];
+        await createReview(review.title,review.description,review.rating,review.username,review.productId);        
     }
 }

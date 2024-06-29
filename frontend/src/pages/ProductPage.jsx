@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CartItemDisplay } from "../components/general/CartItemDisplay";
 import ProductBuyButton from "../components/specific/ProductBuyButton";
+import { ReviewDisplay } from "../components/general/ReviewDisplay";
+import { ReviewSummary } from "../components/general/ReviewSummary";
 
 export default function ProductPage() {
     let params = useParams();
-    let productId = params.id;
+    let productId = params.productId;
 
     let [prod , setProd] = useState(null);
     let [isLoaded, setIsLoaded] = useState(false);
@@ -49,6 +51,8 @@ export default function ProductPage() {
             }
             <hr />
             <CartItemDisplay update={update} />
+            <ReviewDisplay productId={productId} />
+            <ReviewSummary productId={productId} />
         </>
     )
 }

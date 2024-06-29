@@ -10,7 +10,6 @@ import {
     Product,Review
 } from './schema';
 import { log } from './logger';
-import e from 'express';
 
 // Globals
 dotenv.config();

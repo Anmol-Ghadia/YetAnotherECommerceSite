@@ -118,12 +118,15 @@ export async function handleCreateReview(req:Request,res:Response) {
 // Helper function to compute stats and return an object
 function computeStats(docs: Review[]) {
     let total = 0;
-    const size = docs.length
+    let rating = 0;
+    const size = docs.length;
     for (let index = 0; index < size ; index++) {
         total += docs[index].rating;
     }
 
-    const rating = (total/size) - (total/size)%0.5;
+    if (size != 0) {
+        rating = (total/size) - (total/size)%0.5;
+    }
 
     const outObject = {
         'rating': rating,
