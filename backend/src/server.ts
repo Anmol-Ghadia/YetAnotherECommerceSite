@@ -7,6 +7,7 @@ import { isEnvironmentVariableSet } from './helpers.js';
 import makeApp from './app.js';
 import { Express } from 'express';
 import { log } from './logger.js';
+import { initialize } from './initializeDatabase.js';
 
 dotenv.config();
 let isDBConnected: boolean= false;
@@ -37,6 +38,7 @@ async function endRoutine() {
 const server = app.listen(port, async () => {
   log(0,`SERVER`,`listening at (http://localhost:${port})`);
   isDBConnected = doDBConnect();
+  if (process.env.RESET_DB=='true') initialize();
 if (!isDBConnected) endRoutine;
 });
 

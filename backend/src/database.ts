@@ -10,6 +10,7 @@ import {
     Product,Review
 } from './schema';
 import { log } from './logger';
+import e from 'express';
 
 // Globals
 dotenv.config();
@@ -474,4 +475,20 @@ export async function getUserHash(username:string):Promise<string> {
     const document = await DB.collection(USER_COLLECTION).findOne(query);
     log(1,'DATABASE','DB Query QID:5');
     return (document != null) ? document['hash'] : '';
+}
+
+export async function deleteAllUsers() {
+    await DB.collection(USER_COLLECTION).deleteMany();
+}
+
+export async function deleteAllProducts() {
+    await DB.collection(PRODUCT_COLLECTION).deleteMany();
+}
+
+export async function deleteAllReviews() {
+    await DB.collection(REVIEW_COLLECTION).deleteMany();
+}
+
+export async function deleteAllCarts() {
+    await DB.collection(CART_COLLECTION).deleteMany();
 }

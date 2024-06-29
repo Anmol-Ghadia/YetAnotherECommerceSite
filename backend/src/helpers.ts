@@ -12,7 +12,7 @@ export function isEnvironmentVariableSet():boolean {
         'REVIEW_COLLECTION_NAME',
         'CART_COLLECTION_NAME',
         'JWT_PRIVATE_KEY', 'JWT_SESSION_TIME',
-        'LOGGING_LEVEL'
+        'LOGGING_LEVEL','RESET_DB'
     ];
 
     for (let index = 0; index < env_vars.length; index++) {
