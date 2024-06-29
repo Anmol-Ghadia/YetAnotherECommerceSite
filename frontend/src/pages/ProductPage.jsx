@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ProductBuyDisplay from "../components/specific/ProductBuyDisplay";
+import { CartItemDisplay } from "../components/general/CartItemDisplay";
+import ProductBuyButton from "../components/specific/ProductBuyButton";
 
 export default function ProductPage() {
     let params = useParams();
@@ -8,6 +9,7 @@ export default function ProductPage() {
 
     let [prod , setProd] = useState(null);
     let [isLoaded, setIsLoaded] = useState(false);
+    const [update, setUpdate] = useState(1);
 
     useEffect(()=>{
 
@@ -42,10 +44,11 @@ export default function ProductPage() {
                 <h1>Image Here</h1>
                 <p>{prod.description}</p>
                 <p>Price: ${prod.price}</p>
-                <ProductBuyDisplay prod={prod} />
+                <ProductBuyButton prod={prod} setUpdate={setUpdate} />
             </> : "Loading..."
             }
             <hr />
+            <CartItemDisplay update={update} />
         </>
     )
 }

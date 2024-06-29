@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 export default function Header() {
 
     let username = window.localStorage.getItem('username');
+    let firstName = window.localStorage.getItem('firstName');
 
     let isloggedin = typeof Cookies.get('token') === 'string';
 
@@ -21,7 +22,7 @@ export default function Header() {
 
     const loggedInContent = (
         <>
-            <p>Logged in as {username}</p>
+            <p>Welcome {firstName}!</p>
             <span onClick={doLogout}>Logout</span>
         </>
     )

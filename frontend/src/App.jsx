@@ -13,51 +13,43 @@ import AuthPage from "./pages/AuthPage";
 import Footer from "./components/general/Footer";
 import Header from "./components/general/Header";
 
-const UserContext = React.createContext();
 function App() {
 
-  const [state, setState] = React.useState({
-    username: null,
-    currentPageState: 0
-  })
-
-  const user = [state,setState];
-  const generalLayout = (
+  const alwaysOnLayout = (
     <>
-      <Header />
       <Outlet />
       <Footer />
     </>
   )
-  const authLayout = (
+
+  const headerLayout = (
     <>
+      <Header />
       <Outlet />
-      <Footer />
     </>
   )
 
   return (
-    <UserContext.Provider value={user}>
-      <Routes>
-        <Route element={generalLayout}>
+    <Routes>
+      {/* All have Footer */}
+      <Route element={alwaysOnLayout}>
+        {/* With Header */}
+        <Route element={headerLayout}>
           <Route index element={<LandingPage />} />
           <Route path="browse" element={<BrowsePage />} />
           <Route path="browse/product/:id"
-            
             element={<ProductPage />} />
           <Route path="user" element={<UserPage />} />
           <Route path="user/cart" element={<CartPage />} />
         </Route>
-        <Route element={authLayout}>
-          <Route path="auth" element={<AuthPage />}>
-            <Route index element={<LoginPage />} />
-            <Route path="register" element={<RegisterPage />} />
-          </Route>
+        {/* Without Header */}
+        <Route path="auth" element={<AuthPage />}>
+          <Route index element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
         </Route>
-      </Routes>
-    </UserContext.Provider>
+      </Route>
+    </Routes>
   );
 }
 
 export default App;
-export {UserContext};

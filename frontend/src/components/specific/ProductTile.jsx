@@ -1,6 +1,6 @@
 import React from "react";
 
-
+// Represents an individual product being displayed as a tile
 export default function ProductTile({item}) {
     return (
         <>

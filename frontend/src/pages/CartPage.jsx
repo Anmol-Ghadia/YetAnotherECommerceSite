@@ -1,5 +1,6 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Cookies from 'js-cookie';
+import { CartItemDisplay } from "../components/general/CartItemDisplay";
 
 export default function CartPage() {
 
@@ -7,7 +8,7 @@ export default function CartPage() {
     const goToLogin = ()=>{
         window.location.href = '/auth';
     }
-
+    
     useEffect(()=>{
         const currentToken = Cookies.get('token');
         
@@ -37,6 +38,9 @@ export default function CartPage() {
     },[]);
 
     return (
-        <h1>View Cart Page</h1>
+        <>
+            <h1>View Cart Page</h1>
+            <CartItemDisplay />
+        </>
     )
 }

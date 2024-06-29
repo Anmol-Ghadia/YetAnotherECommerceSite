@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductTileDisplay from "../components/specific/ProductTileDisplay";
+import { CartItemDisplay } from "../components/general/CartItemDisplay";
 
 
 export default function BrowsePage() {
@@ -56,7 +57,7 @@ export default function BrowsePage() {
             <h1>Browse Page</h1>
             Search:
             <input 
-                type="text"
+                type="text" 
                 name="search" 
                 id="search-box"
                 value={searchText}

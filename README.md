@@ -68,6 +68,7 @@ Routes requiring authentication have to go through auth middleware
     JWT_PRIVATE_KEY=#use long and random string
     JWT_SESSION_TIME=#time in seconds for user sessions
     LOGGING_LEVEL=#0 for critical and 1 for general notifications
+    RESET_DB=#true or false
     ```
 1) Start server
     ```BASH
@@ -87,6 +88,7 @@ Routes requiring authentication have to go through auth middleware
 1) Set Cookie paramaeter `secure: true` in Login.jsx
 
 ## TODO
+1) Modify user/cart route to respond with product details instead of just id and quantity
 1) Modify search api route to ignore max price if it is 0
 1) Refactor database connector
 1) Add sample data to db

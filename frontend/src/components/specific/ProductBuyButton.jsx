@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Cookie from 'js-cookie';
 
-export default function ProductBuyDisplay({prod}) {
+// Represents the buy button with ability to 
+//      increase or decrease quantity
+export default function ProductBuyButton({prod, setUpdate}) {
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [qty, setQty] = useState(0);
@@ -43,6 +45,7 @@ export default function ProductBuyDisplay({prod}) {
         };
 
         fetch(`/api-v1/user/cart/product/${prod.productId}`,requestOptions)
+        .then(setUpdate(qty))
         .catch(error=>{
             console.log(error);
         })
