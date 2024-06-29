@@ -42,7 +42,7 @@ export default function ProductPage() {
             {isLoaded ?
             <>
                 <h2>{prod.name}</h2>
-                <img src={link1} alt="Image"/>
+                <img src={link1} alt=""/>
                 <h1>Image Here</h1>
                 <p>{prod.description}</p>
                 <p>Price: ${prod.price}</p>

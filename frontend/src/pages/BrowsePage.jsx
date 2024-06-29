@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ProductTileDisplay from "../components/specific/ProductTileDisplay";
-import { CartItemDisplay } from "../components/general/CartItemDisplay";
 
 
 export default function BrowsePage() {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [items, setItems] = useState(null);
+    const [items, setItems] = useState([]);
+    const [pageCount, setPageCount] = useState(0);
+    const [showLoadMore, setShowLoadMore] = useState(false);
     
     const [searchText, setSearchText] = useState('');
     const [quantity, setQuantity] = useState('25');
@@ -18,11 +19,16 @@ export default function BrowsePage() {
     };
 
     // Search Function
-    const doSubmit = ()=> {
-        fetchProducts();
+    function doSubmit() {
+        fetchProducts(true);
     }
 
-    function fetchProducts() {
+    function addMoreData() {
+        fetchProducts(false);
+    }
+
+    // True for newQuery if calling to remove old products
+    function fetchProducts(newQuery) {
         const parameters = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -40,14 +46,26 @@ export default function BrowsePage() {
                 console.log(body);
                 return
             }
-            setIsLoaded(true);
-            setItems(body['payload']);
+            if (newQuery) {
+                setIsLoaded(true);
+                setPageCount(0);
+                setItems(body['payload']);
+            } else {
+                setIsLoaded(true);
+                setPageCount(count=>count+1);
+                setItems(combineArrays(items,body['payload']));
+            }
+            if (searchText.length===0) {
+                setShowLoadMore(true);
+            } else {
+                setShowLoadMore(false);
+            }
         })
         .catch(err=>console.log(err));
     }
 
     useEffect(()=>{
-        fetchProducts();
+        fetchProducts(true);
     },[])
 
 
@@ -104,8 +122,26 @@ export default function BrowsePage() {
             <br />
             <button onClick={doSubmit}>Search</button>
             <br />
-            <ProductTileDisplay isLoaded={isLoaded} items={items} />
+            <ProductTileDisplay isLoaded={isLoaded} items={items} pageCount={pageCount} />
+            {showLoadMore? 
+            <button onClick={addMoreData}>Load more</button> :
+            <></>}
             <hr />
         </>
     )
+}
+
+function combineArrays(arr1, arr2) {
+    let out = [];
+    if (arr1 != null) {
+        arr1.forEach(element => {
+            out.push(element);
+        });
+    }
+    if (arr2 != null) {
+        arr2.forEach(element => {
+            out.push(element);
+        });
+    }
+    return out;
 }
