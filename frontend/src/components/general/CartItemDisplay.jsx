@@ -8,6 +8,15 @@ export function CartItemDisplay() {
     const [items, setItems] = useState(null);
 
 
+    function computeTotal(data) {
+        let total = 0;
+        for (let index = 0; index < data.length; index++) {
+            const cartItem = data[index];
+            total += cartItem.price * cartItem.quantity;
+        }
+        return total;
+    }
+
     useEffect(()=>{
         const requestOptions = {
             headers: { 'Authorization': Cookies.get('token') },
@@ -26,12 +35,22 @@ export function CartItemDisplay() {
         })
     },[]);
 
+    function getItemsDisplay() {
+        let total = computeTotal(items);
+        return (
+            <>
+                <h2>Total Amount: ${total}</h2>
+                {items.map((item)=> {
+                    return <CartItem key={item.productId} item={item}/>
+                })}
+            </>
+        )
+            
+    }
+
     return (
         <>
-        {isLoaded? items.map((item)=> {
-               return <CartItem key={item.productId} item={item}/>
-            }): 
-            "Please log in"}
+        {isLoaded? getItemsDisplay() : "Please log in"}
         </>   
     );
 }

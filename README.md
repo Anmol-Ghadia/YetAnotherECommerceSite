@@ -89,8 +89,7 @@ Routes requiring authentication have to go through auth middleware
 
 ## TODO
 1) Refactor database connector
-1) Display total in the cart page
-1) Add a order now option on the cart page
+1) Add an order now option on the cart page
 1) Allow user maximum of 1 review per product
 1) allow user to edit reviews
 1) Add Date to db for Reviews
@@ -102,6 +101,7 @@ Routes requiring authentication have to go through auth middleware
 1) Add support for displaying multiple images on product page
 1) Add support for fetching and rendering images on search page
 1) Use SASS for styling
+1) ~~Display total in the cart page~~
 1) ~~Modify search api route to ignore max price if it is 0~~
 1) ~~Modify user/cart route to respond with product details instead of just id and quantity~~
 1) ~~Add more user info on Register page~~
