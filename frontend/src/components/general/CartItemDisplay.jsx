@@ -3,7 +3,7 @@ import { CartItem } from "../specific/CartItem";
 import Cookies from 'js-cookie';
 
 // Represents the entire cart, with all the items
-export function CartItemDisplay({update}) {
+export function CartItemDisplay() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState(null);
 
@@ -24,7 +24,7 @@ export function CartItemDisplay({update}) {
         .catch((error)=>{
             console.log(error);
         })
-    },[update]);
+    },[]);
 
     return (
         <>

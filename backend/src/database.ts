@@ -7,7 +7,8 @@ import {
 } from 'mongodb';
 import {
     User,CartItem,
-    Product,Review
+    Product,Review,
+    cartItemProduct
 } from './schema';
 import { log } from './logger';
 
@@ -195,12 +196,33 @@ export async function getProductQuery(qty:number,minPrice:number,maxPrice:number
 
 
 // Returns all cart items of the given user
+// Along with proudct details
 export async function getUserCart(username:string) {
-    const query={ 'username': { $eq:username }};
-    const filter:FindOptions<CartItem>={projection: { _id: 0, username: 0 } };
-    const filteredDocs = await DB.collection(CART_COLLECTION).find(query,filter).toArray();
+    const cartQuery={ 'username': { $eq:username }};
+    const cartFilter:FindOptions<CartItem>={projection: { _id: 0, username: 0 } };
+    const cartFilteredDocs = await DB.collection<CartItem>(CART_COLLECTION).find(cartQuery,cartFilter).toArray();
+    const cartItemsWithDetails: cartItemProduct[] = [];
+    for (let index = 0; index < cartFilteredDocs.length; index++) {
+        const cartItem = cartFilteredDocs[index];
+        
+        const product = await getProductByID(cartItem.productId);
+        if (product == null) {
+            continue;
+        }
+
+        const newItem:cartItemProduct = {
+            productId: product.productId,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            images: product.images,
+            quantity: cartItem.quantity
+        }
+        cartItemsWithDetails.push(newItem);
+    }
+
     log(1,'DATABASE','DB Query  QID:15');
-    return filteredDocs;
+    return cartItemsWithDetails;
 }
 
 // Returns the specific cart item associated with the given username and product id

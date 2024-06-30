@@ -11,7 +11,6 @@ export default function ProductPage() {
 
     let [prod , setProd] = useState(null);
     let [isLoaded, setIsLoaded] = useState(false);
-    const [update, setUpdate] = useState(1);
 
     useEffect(()=>{
 
@@ -46,11 +45,10 @@ export default function ProductPage() {
                 <h1>Image Here</h1>
                 <p>{prod.description}</p>
                 <p>Price: ${prod.price}</p>
-                <ProductBuyButton prod={prod} setUpdate={setUpdate} />
+                <ProductBuyButton prod={prod} />
             </> : "Loading..."
             }
             <hr />
-            <CartItemDisplay update={update} />
             <ReviewDisplay productId={productId} />
             <ReviewSummary productId={productId} />
         </>

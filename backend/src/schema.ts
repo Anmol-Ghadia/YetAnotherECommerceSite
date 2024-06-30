@@ -34,6 +34,15 @@ export interface Review {
     productId: number
 }
 
+export interface cartItemProduct {
+    productId: number;
+    name: string;
+    description: string;
+    price: number;
+    images: string[],
+    quantity: number
+}
+
 export function checkUsername(input:string) {
     const check1 = checkStringSize(input,5,25);
     const check2 = checkStrictChars(input);

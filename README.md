@@ -88,7 +88,6 @@ Routes requiring authentication have to go through auth middleware
 1) Set Cookie paramaeter `secure: true` in Login.jsx
 
 ## TODO
-1) Modify user/cart route to respond with product details instead of just id and quantity
 1) Modify search api route to ignore max price if it is 0
 1) Refactor database connector
 1) Display total in the cart page
@@ -104,6 +103,7 @@ Routes requiring authentication have to go through auth middleware
 1) Add support for displaying multiple images on product page
 1) Add support for fetching and rendering images on search page
 1) Use SASS for styling
+1) ~~Modify user/cart route to respond with product details instead of just id and quantity~~
 1) ~~Add more user info on Register page~~
 1) ~~Show cumulative rating of product~~
 1) ~~Fetch and display reviews on product page~~
@@ -436,18 +436,28 @@ errorResponse.body = {
         "METHOD" : "GET"
     }
     ```
-    returns the list of product and corresponding quantity
+    returns the list of product, quantity and corresponding details
     ```js
     response.body = {
         "success" : "boolean",
         "payload": {
             {
                 "productId": "number",
-                "quantity" : "number"
+                "quantity" : "number",
+                "name": "string",
+                "description": "string",
+                "price": "number",
+                "images": "string[]",
+                "username": "string"
             },
             {
                 "productId": "number",
-                "quantity" : "number"
+                "quantity" : "number",
+                "name": "string",
+                "description": "string",
+                "price": "number",
+                "images": "string[]",
+                "username": "string"
             },
             .
             .

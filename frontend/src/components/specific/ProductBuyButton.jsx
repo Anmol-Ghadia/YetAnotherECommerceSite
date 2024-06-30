@@ -3,7 +3,7 @@ import Cookie from 'js-cookie';
 
 // Represents the buy button with ability to 
 //      increase or decrease quantity
-export default function ProductBuyButton({prod, setUpdate}) {
+export default function ProductBuyButton({prod}) {
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [qty, setQty] = useState(0);
@@ -45,7 +45,7 @@ export default function ProductBuyButton({prod, setUpdate}) {
         };
 
         fetch(`/api-v1/user/cart/product/${prod.productId}`,requestOptions)
-        .then(setUpdate(qty))
+        .then(console.log('quantity updated'))
         .catch(error=>{
             console.log(error);
         })
