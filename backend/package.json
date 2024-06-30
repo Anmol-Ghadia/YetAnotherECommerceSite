@@ -20,7 +20,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@typescript-eslint/eslint-plugin": "^7.14.1",
     "@typescript-eslint/parser": "^7.14.1",
-    "eslint": "^9.5.0",
+    "eslint": "^8.57.0",
     "globals": "^15.6.0",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.14.1"
