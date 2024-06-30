@@ -11,7 +11,7 @@ export default function BrowsePage() {
     const [searchText, setSearchText] = useState('');
     const [quantity, setQuantity] = useState('25');
     const [minPriceText, setMinPriceText] = useState(0);
-    const [maxPriceText, setMaxPriceText] = useState(1000);
+    const [maxPriceText, setMaxPriceText] = useState(0);
 
     // radio buttons for quantity
     const handleOptionChange = (event) => {
@@ -67,7 +67,6 @@ export default function BrowsePage() {
     useEffect(()=>{
         fetchProducts(true);
     },[])
-
 
     return (
         <>

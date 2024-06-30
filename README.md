@@ -88,7 +88,6 @@ Routes requiring authentication have to go through auth middleware
 1) Set Cookie paramaeter `secure: true` in Login.jsx
 
 ## TODO
-1) Modify search api route to ignore max price if it is 0
 1) Refactor database connector
 1) Display total in the cart page
 1) Add a order now option on the cart page
@@ -103,6 +102,7 @@ Routes requiring authentication have to go through auth middleware
 1) Add support for displaying multiple images on product page
 1) Add support for fetching and rendering images on search page
 1) Use SASS for styling
+1) ~~Modify search api route to ignore max price if it is 0~~
 1) ~~Modify user/cart route to respond with product details instead of just id and quantity~~
 1) ~~Add more user info on Register page~~
 1) ~~Show cumulative rating of product~~
@@ -735,6 +735,8 @@ errorResponse.body = {
     1. `Type Error`, username is of incorrect type
     1. `Bound Error`, username does not adhere to constraints
 1) get items based on search
+
+    maxPrice is ignored if it is equal to 0
     ```json
     {
         "URL": "/misc/search",

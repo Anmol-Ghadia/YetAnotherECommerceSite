@@ -89,10 +89,19 @@ export async function getReviewStats(productId:number) {
     return filteredDocs;
 }
 
+// Ignores max price if it is 0
 export async function getRandomProductsWithSearch(search:string, minPrice: number, maxPrice:number, quantity: number) {
-    const filter: Filter<Product> = {
-        $text: {$search:search},
-        'price' : { $gte: minPrice, $lte : maxPrice }
+    let filter: Filter<Product>;
+    if (maxPrice == 0) {
+        filter = {
+            $text: {$search:search},
+            'price' : { $gte: minPrice, $lte : maxPrice }
+        }
+    } else {
+        filter = {
+            $text: {$search:search},
+            'price' : { $gte: minPrice, $lte : maxPrice }
+        }
     }
 
     // Execute search query
@@ -103,9 +112,17 @@ export async function getRandomProductsWithSearch(search:string, minPrice: numbe
 }
 
 // Returns random set of products, that fall under the specification
+//   ignores maxPrice if it is 0
 export async function getRandomProducts(minPrice: number, maxPrice:number,qunatity:number) {
-    const filter: Filter<Product> = {
-        'price' : { $gte: minPrice, $lte : maxPrice }
+    let filter: Filter<Product>;
+    if (maxPrice==0) {
+        filter = {
+            'price' : { $gte: minPrice }
+        }
+    } else {
+        filter = {
+            'price' : { $gte: minPrice, $lte : maxPrice }
+        }
     }
     const pipeline = [
         { $match: filter },
