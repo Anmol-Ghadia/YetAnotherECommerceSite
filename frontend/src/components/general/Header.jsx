@@ -1,5 +1,6 @@
 import React from "react";
 import Cookies from 'js-cookie';
+import Logo from "./Logo";
 
 export default function Header() {
 
@@ -29,7 +30,8 @@ export default function Header() {
  
     return (
         <>
-            <h1>Header</h1>
+            <span><Logo size='30px' doAnimate={false} /></span>
+            <span>Ordinary E-commerce Site</span>
             {isloggedin? 
                 loggedInContent:
                 loggedOutContent       

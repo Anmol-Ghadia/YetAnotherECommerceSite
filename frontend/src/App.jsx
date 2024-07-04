@@ -34,7 +34,6 @@ function App() {
       <Route element={alwaysOnLayout}>
         {/* With Header */}
         <Route element={headerLayout}>
-          <Route index element={<LandingPage />} />
           <Route path="browse" element={<BrowsePage />} />
           <Route path="browse/product/:productId"
             element={<ProductPage />} />
@@ -42,6 +41,7 @@ function App() {
           <Route path="user/cart" element={<CartPage />} />
         </Route>
         {/* Without Header */}
+        <Route index element={<LandingPage />} />
         <Route path="auth" element={<AuthPage />}>
           <Route index element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
