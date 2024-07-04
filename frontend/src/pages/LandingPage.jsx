@@ -6,7 +6,7 @@ export default function LandingPage() {
     return (
         <>
             <h1>Landing Page</h1>
-            <Logo size='30px' doAnimate={false} />
+            <Logo size='500px' doAnimate={true} />
         </>
     )
 }

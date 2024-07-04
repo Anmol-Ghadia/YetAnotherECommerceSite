@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Cookies from 'js-cookie';
-import Logo from "./Logo";
+import SiteNameLogo from "./Header/SiteNameLogo";
+import '../../scss/components/general/Header.scss';
+import DropDown from "./Header/DropDown";
 
 export default function Header() {
 
@@ -27,16 +29,20 @@ export default function Header() {
             <span onClick={doLogout}>Logout</span>
         </>
     )
+
  
     return (
-        <>
-            <span><Logo size='30px' doAnimate={false} /></span>
-            <span>Ordinary E-commerce Site</span>
-            {isloggedin? 
-                loggedInContent:
-                loggedOutContent       
-            }
-            <hr />
-        </>
+        <div id='header-container'>
+            <span id="header-left-container">
+                <DropDown />
+                <SiteNameLogo />
+            </span>
+            <span id="header-right-container">
+                {isloggedin? 
+                    loggedInContent:
+                    loggedOutContent       
+                }
+            </span>
+        </div>
     )
 }
