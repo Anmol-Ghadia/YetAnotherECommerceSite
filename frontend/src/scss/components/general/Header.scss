@@ -2,10 +2,17 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    border-bottom: 2px solid black;
 }
 
 #header-left-container {
     display: flex;
     flex-direction: row;
     cursor: pointer;
+}
+
+#header-right-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
