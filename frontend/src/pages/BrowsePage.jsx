@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductTileDisplay from "../components/specific/ProductTileDisplay";
+import '../scss/pages/BrowsePage.scss';
 
 
 export default function BrowsePage() {
@@ -70,62 +71,66 @@ export default function BrowsePage() {
 
     return (
         <>
-            <hr />
-            <h1>Browse Page</h1>
-            Search:
-            <input 
-                type="text" 
-                name="search" 
-                id="search-box"
-                value={searchText}
-                onChange={(e)=>{setSearchText(e.target.value)}}/>
-            <br />
-            Quantity:
-            10<input 
-                type="radio"
-                name="quantity"
-                id="quantity-10"
-                value="10"
-                onChange={handleOptionChange}
-                checked={quantity === "10"} />
-            25<input 
-                type="radio"
-                name="quantity"
-                id="quantity-25"
-                value="25"
-                onChange={handleOptionChange}
-                checked={quantity === "25"} />
-            50<input 
-                type="radio"
-                name="quantity"
-                id="quantity-50"
-                value="50"
-                onChange={handleOptionChange}
-                checked={quantity === "50"} />
-            <br />
-            Min Price amount:
-            <input 
-                type="number"
-                name="price-range-min"
-                id="price-range-min"
-                value={minPriceText}
-                onChange={(e)=>{setMinPriceText(e.target.value)}} />
-            <br />
-            Max Price amount:
-            <input 
-                type="number"
-                name="price-range-max"
-                id="price-range-max"
-                value={maxPriceText}
-                onChange={(e)=>{setMaxPriceText(e.target.value)}} />
-            <br />
-            <button onClick={doSubmit}>Search</button>
-            <br />
-            <ProductTileDisplay isLoaded={isLoaded} items={items} pageCount={pageCount} />
-            {showLoadMore? 
-            <button onClick={addMoreData}>Load more</button> :
-            <></>}
-            <hr />
+            <div id='search-header'>
+                Search:
+                <input 
+                    type="text" 
+                    name="search" 
+                    id="search-box"
+                    value={searchText}
+                    onChange={(e)=>{setSearchText(e.target.value)}}/>
+                <button onClick={doSubmit}>Search</button>
+            </div>
+            <div id='display-area-with-filter-panel'>
+                <div id='filter-panel-container'>
+                    <div id='filter-panel'>
+                        Quantity:
+                        10<input 
+                            type="radio"
+                            name="quantity"
+                            id="quantity-10"
+                            value="10"
+                            onChange={handleOptionChange}
+                            checked={quantity === "10"} />
+                        25<input 
+                            type="radio"
+                            name="quantity"
+                            id="quantity-25"
+                            value="25"
+                            onChange={handleOptionChange}
+                            checked={quantity === "25"} />
+                        50<input 
+                            type="radio"
+                            name="quantity"
+                            id="quantity-50"
+                            value="50"
+                            onChange={handleOptionChange}
+                            checked={quantity === "50"} />
+                        <br />
+                        Min Price amount:
+                        <input 
+                            type="number"
+                            name="price-range-min"
+                            id="price-range-min"
+                            value={minPriceText}
+                            onChange={(e)=>{setMinPriceText(e.target.value)}} />
+                        <br />
+                        Max Price amount:
+                        <input 
+                            type="number"
+                            name="price-range-max"
+                            id="price-range-max"
+                            value={maxPriceText}
+                            onChange={(e)=>{setMaxPriceText(e.target.value)}} />
+                    </div>
+                </div>
+                <div id='display-area'>
+                    <ProductTileDisplay isLoaded={isLoaded} items={items} pageCount={pageCount} />
+                    {showLoadMore? 
+                    <button onClick={addMoreData}>Load more</button> :
+                    <></>}
+                </div>
+            </div>
         </>
     )
 }

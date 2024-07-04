@@ -95,7 +95,7 @@ export async function getRandomProductsWithSearch(search:string, minPrice: numbe
     if (maxPrice == 0) {
         filter = {
             $text: {$search:search},
-            'price' : { $gte: minPrice, $lte : maxPrice }
+            'price' : { $gte: minPrice }
         }
     } else {
         filter = {

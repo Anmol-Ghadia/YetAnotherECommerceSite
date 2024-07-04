@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { CartItemDisplay } from "../components/general/CartItemDisplay";
 import ProductBuyButton from "../components/specific/ProductBuyButton";
 import { ReviewDisplay } from "../components/general/ReviewDisplay";
 import { ReviewSummary } from "../components/general/ReviewSummary";
@@ -41,7 +40,7 @@ export default function ProductPage() {
             {isLoaded ?
             <>
                 <h2>{prod.name}</h2>
-                <img src={link1} alt=""/>
+                <img src={prod.images[0]?prod.images[0]:link1} alt=""/>
                 <h1>Image Here</h1>
                 <p>{prod.description}</p>
                 <p>Price: ${prod.price}</p>

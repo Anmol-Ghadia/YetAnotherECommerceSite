@@ -1,0 +1,107 @@
+@keyframes tileLoad {
+    from {
+        transform: scale(0%);
+    }
+
+    to {
+        transform: scale(100%);
+    }
+}
+
+#tile-with-space {
+    padding: 10px 25px;
+    animation: tileLoad 150ms ease-in-out;
+}
+
+#tile {
+    width: 225px;
+    height: 250px;
+    border: 2px solid black;
+    overflow: hidden;
+    border-radius: 10px;
+    position: relative;
+}
+
+@keyframes tileImageLoad {
+    0% {
+        filter: blur(10px)  grayscale(100%);
+    }
+    20% {
+        filter: blur(8px)  grayscale(80%);
+    }
+    40% {
+        filter: blur(6px)  grayscale(60%);
+    }
+    60% {
+        filter: blur(4px)  grayscale(40%);
+    }
+    80% {
+        filter: blur(2px)  grayscale(20%);
+    }
+    100% {
+        filter: blur(0px) grayscale(0%);
+    }
+}
+
+#tile-image-container {
+    width: 250px;
+    height: auto;
+    // bottom: 0px;
+    left: -12.5px;
+    padding-top: 10px;
+    // border: 2px solid white;
+    display: flex;
+    background-color: cadetblue;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: -1;
+}
+
+#tile-image {
+    // border: 2px solid orange;
+    height: 250px;
+    width: auto;
+    z-index: -1;
+    animation: tileImageLoad 1250ms cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: all 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#tile-title {
+    color: #ffffff;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    text-align: center;
+    border-radius: 0px 0px 5px 5px;
+    opacity: 0.7;
+    z-index: 1;
+    transition: all 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#tile-price {
+    z-index: 1;
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+    opacity: 0.6;
+    background-color: rgba($color: #ffffff, $alpha: 0.7);
+    transition: all 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
+    border-radius: 5px 0px 0px 0px;
+}
+
+//  Hover
+
+#tile:hover #tile-image {
+    transform: scale(110%,110%);
+}
+
+#tile:hover #tile-title {
+    opacity: 1;
+    background-color: rgba($color: #000000, $alpha: 0.9);
+    border-radius: 0px 0px 10px 10px;
+}
+
+#tile:hover #tile-price {
+    opacity: 1;
+    background-color: rgba($color: #ffffff, $alpha: 1);
+    transform: scale(110%,110%) translate(-5%,-5%);
+}

@@ -1,0 +1,39 @@
+#search-header {
+    border: 2px solid black;
+}
+
+#display-area-with-filter-panel {
+    border: 2px solid orange;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+
+#filter-panel-container {
+    border: 2px solid brown;
+    // width: 20vw;
+    input[type=number] {
+        width: 10vw;
+    }
+}
+
+#filter-panel {
+    position: sticky;
+    top: 20px;
+    border: 2px solid red;
+}
+
+#display-area {
+    // width: 80vw;
+    border: 2px solid greenyellow;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (orientation: landscape) {
+    #display-area-with-filter-panel {
+        flex-direction: row;
+    }
+}
