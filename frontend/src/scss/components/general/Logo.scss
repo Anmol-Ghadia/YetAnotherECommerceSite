@@ -1,7 +1,9 @@
+@import '../../styles/variables';
+
 $size : 25%;
 $timing-function : ease-in-out;
-$leaf-color: #444;
-$leaf-color-complement: #999;
+$leaf-color: $color-secondary;
+$leaf-color-complement: $color-highlight;
 
 #logo {
     width: 500px;
@@ -25,6 +27,7 @@ $leaf-color-complement: #999;
     animation-duration: 3s;
     animation-direction: normal;
     animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
 }
 
 #first-petal {

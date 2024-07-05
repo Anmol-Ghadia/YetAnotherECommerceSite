@@ -6,14 +6,17 @@ import UserIcon from "./Header/UserIcon";
 export default function Header() {
  
     return (
-        <div id='header-container'>
-            <span id="header-left-container">
-                <DropDown />
-                <SiteNameLogo />
-            </span>
-            <span id="header-right-container">
-            <UserIcon />
-            </span>
-        </div>
+        <>
+            <div id='header-container'>
+                <span id="header-left-container">
+                    <DropDown />
+                    <SiteNameLogo />
+                </span>
+                <span id="header-right-container">
+                <UserIcon />
+                </span>
+            </div>
+            <div id="header-separator"></div>
+        </>
     )
 }

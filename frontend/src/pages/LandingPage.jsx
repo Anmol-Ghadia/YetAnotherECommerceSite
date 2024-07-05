@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import '../scss/pages/LandingPage.scss';
-import Logo from "../components/general/Logo";
+import Logo from '../components/general/Logo';
 
 export default function LandingPage() {
+    let [isLogoHovered,setIsLogoHovered] = useState(false);
+
+    const toggleIsLogoHovered = ()=>{
+        setIsLogoHovered(!isLogoHovered);
+    }
+
     return (
         <>
-            <h1>Landing Page</h1>
-            <Logo size='500px' doAnimate={true} />
+            <div id='page-1'>
+                <div id='logo-container' onMouseEnter={toggleIsLogoHovered} onMouseLeave={toggleIsLogoHovered}>
+                    <Logo size={'30vh'} doAnimate={isLogoHovered} />
+                </div>
+                <div id='gradient'>E-Commerce Site</div>
+            </div>           
         </>
     )
 }

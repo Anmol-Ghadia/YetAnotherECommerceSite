@@ -23,10 +23,9 @@ export default function UserIcon() {
         setUserPanelVisible(!userPanelVisible);
     }
 
-
     const miniDisplay = (
         <div id='mini-display'>
-            <div>{savedFirstName} {savedLastName.length>1?savedLastName.substring(0,1):''}</div>
+            <div>{savedFirstName?savedFirstName:null} {savedLastName?savedLastName.length>1?savedLastName.substring(0,1):null:null}</div>
             <div id='mini-display-username'>{savedUsername}</div>
         </div>
     )

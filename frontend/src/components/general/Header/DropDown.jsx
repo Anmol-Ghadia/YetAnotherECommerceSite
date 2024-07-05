@@ -23,7 +23,7 @@ export default function DropDown() {
 
     return (
         <>
-            <div id="dropdown-burger" onClick={toggleDropDown}>
+            <div id="dropdown-burger" onClick={toggleDropDown} onMouseEnter={toggleDropDown}>
                 <div id='burger-top'></div>
                 <div id='burger-middle'></div>
                 <div id='burger-bottom'></div>

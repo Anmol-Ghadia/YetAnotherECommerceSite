@@ -15,7 +15,7 @@ export default function SiteNameLogo() {
             onClick={()=>{window.location.href="/"}}
             onMouseEnter={toggleAnimate}
             onMouseLeave={toggleAnimate}>
-            <span>E-commerce</span>
+            <span id='site-name'>E-commerce</span>
             <span><Logo size='6vh' doAnimate={animate} /></span>
         </span>
     )
