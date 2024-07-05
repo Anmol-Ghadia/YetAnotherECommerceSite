@@ -164,6 +164,7 @@ export async function getUserFirstLastName(username:string) {
     } else {
         filteredDocs = await DB.collection<User>(USER_COLLECTION)
                                     .findOne(query,filter);
+        if (filteredDocs != null) USER_CACHE.push(filteredDocs);
         log(1,'DATABASE','DB Query QID: 40');
     }
     return filteredDocs

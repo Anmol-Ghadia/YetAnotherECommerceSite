@@ -12,6 +12,7 @@ export default function Header() {
                     <DropDown />
                     <SiteNameLogo />
                 </span>
+                <div></div>
                 <span id="header-right-container">
                 <UserIcon />
                 </span>

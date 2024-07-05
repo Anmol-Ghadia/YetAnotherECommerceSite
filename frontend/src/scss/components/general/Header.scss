@@ -1,11 +1,11 @@
 @import '../../styles/variables';
 
 #header-container {
-    // display: flex;
-    // flex-direction: row;
-    // justify-content: space-between;
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    // display: grid;
+    // grid-template-columns: auto auto auto;
     background-color: $color-white;
     height: $height-header;
     width: 100vw;

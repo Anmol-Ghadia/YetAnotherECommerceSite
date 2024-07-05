@@ -1,16 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import '../../../scss/components/general/Header/UserIcon.scss';
 
 export default function UserIcon() {
 
-    let isloggedin = typeof Cookies.get('token') === 'string';
+    const removeUserDetails = ()=> {
+        Cookies.remove('token');
+        window.localStorage.removeItem('username');
+        window.localStorage.removeItem('firstName');
+        window.localStorage.removeItem('lastName');
+        window.localStorage.removeItem('profilePhoto');
+
+    }
+
+    useEffect(()=>{
+        const currentToken = Cookies.get('token');
+        
+        // If token exists then continue
+        if (typeof currentToken !== 'string') {
+            removeUserDetails();
+            return;
+        }
+
+    },[]);
 
     const doLogout = ()=>{
-        window.localStorage.removeItem('username');
-        Cookies.remove('token');
+        removeUserDetails();
         window.location.href = '/';
     }
+
+    let isloggedin = typeof Cookies.get('token') === 'string';
 
     let savedUsername = window.localStorage.getItem('username');
     let savedFirstName = window.localStorage.getItem('firstName');
@@ -42,7 +61,7 @@ export default function UserIcon() {
             <div onClick={doLogout}>Logout</div>
         </div>
     )
-    const defaultProfilePhoto = 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png';
+    const defaultProfilePhoto = '/user.png';
 
     return (
         <div id='user-container' onClick={toggleUserPanel}>

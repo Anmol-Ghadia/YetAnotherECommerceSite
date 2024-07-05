@@ -93,7 +93,7 @@ Routes requiring authentication have to go through auth middleware
 
 ## TODO
 1) Do not fetch the cart if no token is present (on frontend) QID15,16
-1) integrate cache for Cart, review, Users in database connector
+1) integrate cache for Cart, review, ~~Users~~ in database connector
 1) Refactor database connector
 1) Add an order now option on the cart page
 1) Allow user maximum of 1 review per product
@@ -785,3 +785,7 @@ errorResponse.body = {
     Can raise:
     1. `Type Error`, any parameter are of incorrect type
     1. `Bound Error`, any parameter does not adhere to constraints
+
+## Attributions
+I would highly recommend cehcking out the following links
+1) Default User Icon by [flaticon-user](https://www.flaticon.com/free-icons/user)

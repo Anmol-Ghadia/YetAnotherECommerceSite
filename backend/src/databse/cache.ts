@@ -51,9 +51,11 @@ export default class Cache<T> {
 
     // Returns the matching item
     get(item: T): T {
-        this.list.forEach((ele)=>{
+        for (let index = 0; index < this.list.length; index++) {
+            const ele = this.list[index];
             if (this.isEqual(item,ele)) return ele;
-        })
+            
+        }
         return item;
     }
 
