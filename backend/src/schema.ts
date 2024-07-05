@@ -1,5 +1,7 @@
 import { log } from './logger';
 
+// ======== Interfaces ========
+
 export interface User {
     username:string,
     hash:string,
@@ -18,10 +20,10 @@ export interface CartItem {
 }
 
 export interface Product {
-    productId: number;
-    name: string;
-    description: string;
-    price: number;
+    productId: number,
+    name: string,
+    description: string,
+    price: number,
     images: string[],
     username: string
 }
@@ -34,19 +36,44 @@ export interface Review {
     productId: number
 }
 
+// ======== Helper Interface ========
+
 export interface cartItemProduct {
-    productId: number;
-    name: string;
-    description: string;
-    price: number;
+    productId: number,
+    name: string,
+    description: string,
+    price: number,
     images: string[],
     quantity: number
 }
 
+// ======== Interface helpers ========
+
+// Returns true if the first and second Users are same
+export function compareUser(first:User,second:User) {
+    return (first.username == second.username);
+}
+
+// Returns a sample user with given username
+export function generateUserWithUsername(username:string) {
+    return {
+        username: username,
+        hash: '',
+        firstName: '',
+        lastName: '',
+        address: '',
+        phone: 0,
+        email: '',
+        profilePhoto: ''
+    }
+}
+
+// Returns true if first and second Products are same
 export function compareProduct(first:Product,second: Product) {
     return (first.productId == second.productId);
 }
 
+// Returns a sample product with the provided id
 export function generateProductWithId(id: number): Product {
     return {
         productId: id,
@@ -58,6 +85,9 @@ export function generateProductWithId(id: number): Product {
     };
 }
 
+// ======== field helpers ========
+
+// Checks if the string can be a valid username
 export function checkUsername(input:string) {
     const check1 = checkStringSize(input,5,25);
     const check2 = checkStrictChars(input);
@@ -152,7 +182,7 @@ export function checkSearchString(search: string) {
     return check1 && check2;
 }
 
-// HELPERS BELOW THIS
+// ======== helpers for Field Helpers ========
 
 // Returns true if all characters are defined in schema
 function checkGeneralChars(inputString: string):boolean {

@@ -10,7 +10,9 @@ import {
     Product,Review,
     cartItemProduct,
     compareProduct,
-    generateProductWithId
+    generateProductWithId,
+    compareUser,
+    generateUserWithUsername
 } from './schema';
 import { log } from './logger';
 import Cache from './databse/cache';
@@ -24,6 +26,9 @@ let USER_COLLECTION: string;
 let CART_COLLECTION: string;
 let REVIEW_COLLECTION: string;
 let PRODUCT_CACHE: Cache<Product>;
+// let CART_CACHE: Cache<CartItem>;
+let USER_CACHE: Cache<User>;
+// let REVIEW_CACHE: Cache<Review>;
 
 // Helpers
 const removeObjectID:FindOptions<Product> = {
@@ -47,6 +52,9 @@ export function doDBConnect():boolean {
         CART_COLLECTION = process.env.CART_COLLECTION_NAME as string;
         REVIEW_COLLECTION = process.env.REVIEW_COLLECTION_NAME as string;
         PRODUCT_CACHE = new Cache(compareProduct);
+        // CART_CACHE  = new Cache();
+        USER_CACHE  = new Cache(compareUser);
+        // REVIEW_CACHE = new Cache();
         pingDB();
         return true;
     } catch (err) {
@@ -149,9 +157,15 @@ export async function getUserFirstLastName(username:string) {
     const filter:FindOptions<User> = {
         projection: { _id: 0, firstName: 1, lastName: 1 }
     };
-    const filteredDocs = await DB.collection<User>(USER_COLLECTION)
-                                .findOne(query,filter);
-    log(1,'DATABASE','DB Query QID: 40');
+    let filteredDocs;
+    if (USER_CACHE.has(generateUserWithUsername(username))) {
+        filteredDocs = USER_CACHE.get(generateUserWithUsername(username));
+        log(1,'CACHE','cache has user for QID: 40');
+    } else {
+        filteredDocs = await DB.collection<User>(USER_COLLECTION)
+                                    .findOne(query,filter);
+        log(1,'DATABASE','DB Query QID: 40');
+    }
     return filteredDocs
 }
 
@@ -182,9 +196,10 @@ export async function getProductByID(id: number): Promise<WithId<Product> | Prod
     let filteredDocs;
     if (PRODUCT_CACHE.has(generateProductWithId(id))) {
         filteredDocs = PRODUCT_CACHE.get(generateProductWithId(id));
-        log(1,'DATABSE','cache found QID:1 item');
+        log(1,'CACHE','cache has product for QID:1');
     } else {
         filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).findOne(query,removeObjectID );
+        if (filteredDocs != null) PRODUCT_CACHE.push(filteredDocs);
         log(1,'DATABASE','DB Query QID:1');
     }
     log(1,'DATABASE',`found ${filteredDocs==null? '0':'1'} documents`);    
@@ -337,20 +352,34 @@ export async function updateUserCart(username:string,productId:number,quantity:n
 // Returns true if the given username exists in the database
 export async function userExists(testUsername:string) :Promise<boolean> {
     const query={'username': {$eq:testUsername}};
-    const exists = await DB.collection(USER_COLLECTION).find(query).hasNext();
-    log(1,'DATABASE','DB Query QID:3');
+    
+    let exists;
+    if (USER_CACHE.has(generateUserWithUsername(testUsername))) {
+        exists = true;
+        log(1,'CACHE','cache has user for QID:100');
+    } else {
+        exists = await DB.collection(USER_COLLECTION).find(query).hasNext();
+        log(1,'DATABASE','DB Query QID:100');
+    }
     return exists;
 }
 
 // Returns user document if the given username exists in the database
-export async function getUserDetails(username:string) : Promise<WithId<User>> {
+export async function getUserDetails(username:string) : Promise<User | null> {
     const query={'username': {$eq:username}};
     const filter:FindOptions<Product> = {
         projection: { _id: 0, hash: 0 }
     };
-    const user = await DB.collection<User>(USER_COLLECTION).find(query,filter).toArray();
-    log(1,'DATABASE','DB Query QID:3');
-    return user[0];
+    let user;
+    if (USER_CACHE.has(generateUserWithUsername(username))) {
+        user = USER_CACHE.get(generateUserWithUsername(username));
+        log(1,'CACHE','cache has User for QID:3');
+    } else {
+        user = await DB.collection<User>(USER_COLLECTION).findOne(query,filter);
+        if (user != null) USER_CACHE.push(user);
+        log(1,'DATABASE','DB Query QID:3');
+    }
+    return user;
 }
 
 export async function deleteReview(username:string,productId:number) {
@@ -437,6 +466,7 @@ export async function updateProductListing(productId: number, username: string,
 // deletes a user from the database
 export async function deleteUser(username: string) {
     const filter: Filter<User> = { username: username };
+    USER_CACHE.pop(generateUserWithUsername(username));
     await DB.collection<User>(USER_COLLECTION).deleteOne(filter);
 }
 
@@ -501,32 +531,35 @@ export async function updateUser(username:string,firstName:string,lastName:strin
     } 
     log(1,'DATABASE','DB Query QID:30');
     log(1,'DATABASE',`updated user details for (${username})`);
+    USER_CACHE.pop(generateUserWithUsername(username));
+    USER_CACHE.push(newUser);
     await DB.collection<User>(USER_COLLECTION).insertOne(newUser);
 }
 
-// OLD !!!
-// Saves the given username and hash in database
-// REQUIRES: username is not already in the database
-export async function saveUserAndHash(username: string, hash:string) {
-    const document:User = {
-        username:username,
-        hash:hash,
-        firstName: 'PlaceHolder !!!',
-        lastName: 'PlaceHolder !!!',
-        address: 'PlaceHolder !!!',
-        phone: 9876543210,
-        email: 'PlaceHolder !!!',
-        profilePhoto: 'URL HERE'
+// // OLD !!!
+// // Saves the given username and hash in database
+// // REQUIRES: username is not already in the database
+// export async function saveUserAndHash(username: string, hash:string) {
+//     const document:User = {
+//         username:username,
+//         hash:hash,
+//         firstName: 'PlaceHolder !!!',
+//         lastName: 'PlaceHolder !!!',
+//         address: 'PlaceHolder !!!',
+//         phone: 9876543210,
+//         email: 'PlaceHolder !!!',
+//         profilePhoto: 'URL HERE'
 
-    }
-    log(1,'DATABASE','DB Query QID:4');
-    await DB.collection(USER_COLLECTION).insertOne(document);
-}
+//     }
+//     log(1,'DATABASE','DB Query QID:4');
+//     await DB.collection(USER_COLLECTION).insertOne(document);
+// }
 
 // Saves the username and hash in database
 // REQUIRES: username is not already in the database
 export async function saveUser(user: User) {
     log(1,'DATABASE','DB Query QID:10');
+    USER_CACHE.push(user);
     await DB.collection(USER_COLLECTION).insertOne(user);
 }
 
@@ -534,12 +567,20 @@ export async function saveUser(user: User) {
 // REQUIRES: such a username exists in database
 export async function getUserHash(username:string):Promise<string> {
     const query={'username': {$eq:username}};
-    const document = await DB.collection(USER_COLLECTION).findOne(query);
-    log(1,'DATABASE','DB Query QID:5');
+    let document;
+    if (USER_CACHE.has(generateUserWithUsername(username))) {
+        document = USER_CACHE.get(generateUserWithUsername(username));
+        log(1,'CACHE','cache has user for QID:5');
+    } else {
+        document = await DB.collection<User>(USER_COLLECTION).findOne(query,removeObjectID);
+        if (document!= null) USER_CACHE.push(document);
+        log(1,'DATABASE','DB Query QID:5');
+    }
     return (document != null) ? document['hash'] : '';
 }
 
 export async function deleteAllUsers() {
+    USER_CACHE.drop();
     await DB.collection(USER_COLLECTION).deleteMany();
 }
 
