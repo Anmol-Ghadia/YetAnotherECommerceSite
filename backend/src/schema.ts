@@ -43,6 +43,21 @@ export interface cartItemProduct {
     quantity: number
 }
 
+export function compareProduct(first:Product,second: Product) {
+    return (first.productId == second.productId);
+}
+
+export function generateProductWithId(id: number): Product {
+    return {
+        productId: id,
+        name: '',
+        description: '',
+        price: 0,
+        images: [],
+        username: ''
+    };
+}
+
 export function checkUsername(input:string) {
     const check1 = checkStringSize(input,5,25);
     const check2 = checkStrictChars(input);

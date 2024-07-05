@@ -10,6 +10,9 @@ Allows user to view and update profile
 
 Seller's are also users with special status who can create a product listing
 
+## Caching database queries
+Most DB queries that can be predicted based on previous results are stored on the backend's memory in a `Cache` class. This cache is queried first to see if it contains the required items, hence reducing the expensive DB call. The cache has configurable parameter such as `CACHE_SIZE` described in the environment variables section below.
+
 ## Search Logic (BrowsePage)
 1) When no keywords are supplied
     When no preferences are set, the backend server selects random products that satisfy the criteria for retrieval.
@@ -67,6 +70,7 @@ Routes requiring authentication have to go through auth middleware
     CART_COLLECTION_NAME=
     JWT_PRIVATE_KEY=#use long and random string
     JWT_SESSION_TIME=#time in seconds for user sessions
+    CACHE_SIZE=# number of documents to store in memory for each CACHE. use 50 if not sure
     LOGGING_LEVEL=#0 for critical and 1 for general notifications
     RESET_DB=#true or false
     ```
@@ -88,6 +92,8 @@ Routes requiring authentication have to go through auth middleware
 1) Set Cookie paramaeter `secure: true` in Login.jsx
 
 ## TODO
+1) Do not fetch the cart if no token is present (on frontend) QID15,16
+1) integrate cache for Cart, review, Users in database connector
 1) Refactor database connector
 1) Add an order now option on the cart page
 1) Allow user maximum of 1 review per product

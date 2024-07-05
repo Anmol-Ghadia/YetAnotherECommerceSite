@@ -8,9 +8,12 @@ import {
 import {
     User,CartItem,
     Product,Review,
-    cartItemProduct
+    cartItemProduct,
+    compareProduct,
+    generateProductWithId
 } from './schema';
 import { log } from './logger';
+import Cache from './databse/cache';
 
 // Globals
 dotenv.config();
@@ -20,6 +23,7 @@ let PRODUCT_COLLECTION: string;
 let USER_COLLECTION: string;
 let CART_COLLECTION: string;
 let REVIEW_COLLECTION: string;
+let PRODUCT_CACHE: Cache<Product>;
 
 // Helpers
 const removeObjectID:FindOptions<Product> = {
@@ -42,6 +46,7 @@ export function doDBConnect():boolean {
         USER_COLLECTION = process.env.USER_COLLECTION_NAME as string;
         CART_COLLECTION = process.env.CART_COLLECTION_NAME as string;
         REVIEW_COLLECTION = process.env.REVIEW_COLLECTION_NAME as string;
+        PRODUCT_CACHE = new Cache(compareProduct);
         pingDB();
         return true;
     } catch (err) {
@@ -106,6 +111,7 @@ export async function getRandomProductsWithSearch(search:string, minPrice: numbe
 
     // Execute search query
     const filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).find(filter).limit(quantity).toArray();
+    PRODUCT_CACHE.pushAll(filteredDocs);
     log(1,'DATABASE','DB Query QID:50');
     log(1,'DATABASE',`found ${filteredDocs.length} documents`);
     return filteredDocs;
@@ -128,7 +134,8 @@ export async function getRandomProducts(minPrice: number, maxPrice:number,qunati
         { $match: filter },
         { $sample: { size: qunatity } }
     ];
-    const filteredDocs = await DB.collection(PRODUCT_COLLECTION).aggregate(pipeline).toArray();
+    const filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).aggregate<Product>(pipeline).toArray();
+    PRODUCT_CACHE.pushAll(filteredDocs);
     log(1,'DATABASE','DB Query QID:41');
     log(1,'DATABASE',`found ${filteredDocs.length} documents`);
     return filteredDocs;
@@ -167,13 +174,19 @@ export async function isOwnerOfProduct(productId: number, username: string): Pro
 }
 
 // gets the document with given product id
-export async function getProductByID(id: number): Promise<WithId<Product> | null> {
+export async function getProductByID(id: number): Promise<WithId<Product> | Product | null> {
     const query= {
         'productId': { $eq: id }
     };
     
-    const filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).findOne(query,removeObjectID );
-    log(1,'DATABASE','DB Query QID:1');
+    let filteredDocs;
+    if (PRODUCT_CACHE.has(generateProductWithId(id))) {
+        filteredDocs = PRODUCT_CACHE.get(generateProductWithId(id));
+        log(1,'DATABSE','cache found QID:1 item');
+    } else {
+        filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).findOne(query,removeObjectID );
+        log(1,'DATABASE','DB Query QID:1');
+    }
     log(1,'DATABASE',`found ${filteredDocs==null? '0':'1'} documents`);    
     return filteredDocs;
 }
@@ -182,6 +195,7 @@ export async function getProductByID(id: number): Promise<WithId<Product> | null
 export async function getProductByIDRange(startId: number,endId:number): Promise<WithId<Product>[] | null> {
     const query={ 'productId': { $gte: startId, $lte:endId } };
     const filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).find(query, removeObjectID).toArray();
+    PRODUCT_CACHE.pushAll(filteredDocs);
     log(1,'DATABASE',`found ${filteredDocs.length} documents`);
     log(1,'DATABASE','DB Query  QID:2');
     return filteredDocs;
@@ -192,6 +206,7 @@ export async function getProductByIDRange(startId: number,endId:number): Promise
 //    minPrice: minimum price of each item
 //    maxPrice: maximum price of each item
 //  Note: Omits maxPrice if 0
+// TODO !!! sort and return a limited result. add upperbound on returned documents
 export async function getProductQuery(qty:number,minPrice:number,maxPrice:number): Promise<WithId<Product>[]> {
     let query;
     if (maxPrice==0) {
@@ -205,7 +220,9 @@ export async function getProductQuery(qty:number,minPrice:number,maxPrice:number
             _id: 0
         }
     };
-    const filteredDocs = await DB.collection(PRODUCT_COLLECTION).find(query,options).toArray();
+    
+    const filteredDocs = await DB.collection<Product>(PRODUCT_COLLECTION).find(query,options).toArray();
+    PRODUCT_CACHE.pushAll(filteredDocs);
     log(1,'DATABASE','DB Query  QID:6');
     return filteredDocs as WithId<Product>[];
 }
@@ -259,6 +276,8 @@ export async function removeProduct(productId: number) {
 
     log(1,'DATABASE','DB Query QID:22');
     log(1,'DATABASE',`deleted product with id (${productId})`);
+    
+    PRODUCT_CACHE.pop(generateProductWithId(productId));
     await DB.collection<Product>(PRODUCT_COLLECTION)
                 .deleteOne(filter);
 }
@@ -387,6 +406,8 @@ export async function makeProductListing(username: string, name: string,
     }
     log(1,'DATABASE','DB Query QID:20');
     log(1,'DATABASE',`created new product with id (${productId})`);
+    log(1,'DATABASE',`adding to cache id:${productId}`);
+    PRODUCT_CACHE.push(document);
     await DB.collection<Product>(PRODUCT_COLLECTION).insertOne(document);
 }
 
@@ -408,6 +429,9 @@ export async function updateProductListing(productId: number, username: string,
     }
     log(1,'DATABASE','DB Query QID:21');
     log(1,'DATABASE',`updated product with id (${productId})`);
+    PRODUCT_CACHE.pop(generateProductWithId(productId));
+    log(1,'DATABASE',`adding to cache id:${productId}`);
+    PRODUCT_CACHE.push(document);
     await DB.collection<Product>(PRODUCT_COLLECTION).insertOne(document);
 }
 // deletes a user from the database
@@ -520,6 +544,7 @@ export async function deleteAllUsers() {
 }
 
 export async function deleteAllProducts() {
+    PRODUCT_CACHE.drop();
     await DB.collection(PRODUCT_COLLECTION).deleteMany();
 }
 
