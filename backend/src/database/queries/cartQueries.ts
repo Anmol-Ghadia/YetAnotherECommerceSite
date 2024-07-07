@@ -1,5 +1,6 @@
 import { 
     Db, Filter, FindOptions,
+    UpdateFilter,
     WithoutId
 } from 'mongodb';
 import { CartItem, cartItemProduct, generateCartItemWithUsernameAndProductId } from '../schema';
@@ -80,9 +81,15 @@ export async function queryUpdateSingleCartItem(username:string,productId: numbe
         quantity: newQuantity,
     };
 
+    const updateFilter: UpdateFilter<CartItem> = {
+        $set : {
+            quantity: newQuantity
+        }
+    }
+
     DB
     .collection<CartItem>(CART_COLLECTION)
-    .updateOne(filter, updatedCartItem)
+    .updateOne(filter, updateFilter)
     .then(()=>{
         CART_CACHE.update(updatedCartItem)
         log(2,'DB-CART',`QID:2, Updated single cart item of: (${username}) for (${productId})`);
@@ -129,6 +136,19 @@ export async function queryReadCartByUser(username:string):Promise<WithoutId<car
 
     log(2,'DB-CART',`QID:3, Read products in user: (${username})'s cart`);
     return cartItemsWithDetails;
+}
+
+// !!! CAUTION !!!
+// Deletes a all cart items from db
+export async function queryDeleteAllCartItems():Promise<void> {
+    
+    const filter:Filter<CartItem> = {};
+
+    await DB
+        .collection<CartItem>(CART_COLLECTION)
+        .deleteOne(filter);
+
+    log(2,`DB-CART`,`QID:4, Deleted all cart items`);
 }
 
 // ===== HELPERS =====

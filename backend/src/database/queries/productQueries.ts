@@ -236,6 +236,19 @@ export async function queryReadProductsBySearchString(search:string, minPrice: n
     return filteredDocs;
 }
 
+// !!! CAUTION !!!
+// Delete a product
+export async function queryDeleteAllProducts():Promise<void> {
+    
+    const filter:Filter<Product> = {};
+
+    await DB
+        .collection<Product>(PRODUCT_COLLECTION)
+        .deleteOne(filter)
+
+    log(1,'DB-PRODUCT',`QID:10, deleted all products`);
+}
+
 // ====== HELPERS ======
 
 // returns the products that are cached in the given range with

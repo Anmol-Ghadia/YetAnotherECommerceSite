@@ -1,4 +1,4 @@
-import { Db, Filter, FindOptions, WithoutId } from "mongodb";
+import { Db, Filter, FindOptions, UpdateFilter, WithoutId } from "mongodb";
 import { Review } from "../schema";
 import { log } from "../../logger";
 
@@ -71,9 +71,17 @@ export async function queryUpdateReview(updatedReview: Review): Promise<void> {
         'productId': {$eq: updatedReview.productId}
     }
 
+    const updateFilter: UpdateFilter<Review> = {
+        $set : {
+            title: updatedReview.title,
+            description: updatedReview.description,
+            ratign: updatedReview.rating
+        }
+    }
+
     DB
     .collection<Review>(REVIEW_COLLECTION)
-    .updateOne(filter,updatedReview)
+    .updateOne(filter,updateFilter)
     .then(()=>{
         
         log(2,'DB-REVIEW',`QID:4, Updated a review by: (${updatedReview.username}) for (${updatedReview.productId})`);   
@@ -149,4 +157,17 @@ export async function queryDeleteReviewsByProduct(productId:number): Promise<voi
         log(2,'DB-REVIEW',`QID:8, Deleted all reviews for product: (${productId})`);
 
     });
+}
+
+// !!! CAUTION !!!
+// Deletes all reviews in db
+export async function queryDeleteALLReviews(): Promise<void> {
+    
+    const filter:Filter<Review> = {};
+
+    await DB
+        .collection<Review>(REVIEW_COLLECTION)
+        .deleteOne(filter)
+    
+    log(1,'DB-REVIEW',`QID:9, Deleted all reviews`);
 }

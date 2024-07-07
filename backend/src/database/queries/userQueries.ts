@@ -107,3 +107,15 @@ export async function queryCreateUser(newUser: User):Promise<void> {
         USER_CACHE.push(newUser);
     })
 }
+
+// !! CAUTION !!!
+// Deletes all users
+export async function queryDeleteAllUsers():Promise<void> {
+    const filter: Filter<User> = {}; 
+
+    await DB
+        .collection<User>(USER_COLLECTION)
+        .deleteOne(filter)
+    
+    log(1,'DB-USER',`QID:5, Deleted all users`);
+}

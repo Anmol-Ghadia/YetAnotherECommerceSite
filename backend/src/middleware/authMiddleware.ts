@@ -1,8 +1,8 @@
 import { Request,Response, NextFunction } from 'express';
 import { sendAuthError, sendSessionError } from '../handlers/handlerHelpers';
-import { userExists } from '../database';
 import { verifyToken } from './middlewareHelper';
 import { log } from '../logger';
+import { queryExistsUser } from '../database/queries/userQueries';
 
 export async function authMiddleware (req:Request, res:Response, next:NextFunction) {    
     const header = req.headers.authorization;
@@ -21,7 +21,7 @@ export async function authMiddleware (req:Request, res:Response, next:NextFuncti
         return;
     }
 
-    const exists = await userExists(username);
+    const exists = await queryExistsUser(username);
     if (!exists) {
         log(1,'CHECK',`username (${username}) is not valid`);
         sendSessionError(res);

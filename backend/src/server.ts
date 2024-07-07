@@ -1,13 +1,11 @@
-import { 
-    doDBClose,
-    doDBConnect
-} from './database.js'
+
 import dotenv from 'dotenv';
 import { isEnvironmentVariableSet } from './helpers.js';
 import makeApp from './app.js';
 import { Express } from 'express';
 import { log } from './logger.js';
-import { initialize } from './database/initialize.js';
+import { initialize } from './database/exampleData.js';
+import { doDBClose, doDBConnect } from './database/Initialize.js';
 
 dotenv.config();
 let isDBConnected: boolean= false;
