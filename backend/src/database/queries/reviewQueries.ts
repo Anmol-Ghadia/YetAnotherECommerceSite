@@ -1,15 +1,12 @@
 import { Db, Filter, FindOptions, WithoutId } from "mongodb";
-import Cache from "../cache";
 import { Review } from "../schema";
 import { log } from "../../logger";
 
 let REVIEW_COLLECTION:string;
-// let REVIEW_CACHE: Cache<Review>;
 let DB: Db;
 
-export function initializeReviewQueries(REVIEW_COLLECTION_NAME:string, givenREVIEW_CACHE:Cache<Review>, givenDB:Db) {
+export function initializeReviewQueries(REVIEW_COLLECTION_NAME:string, givenDB:Db) {
     REVIEW_COLLECTION = REVIEW_COLLECTION_NAME;
-    // REVIEW_CACHE = givenREVIEW_CACHE;
     DB = givenDB;
 }
 
@@ -25,8 +22,7 @@ export async function queryReadAllReviewsForProduct(productId:number): Promise<W
         .find(query)
         .toArray();
 
-    // REVIEW_CACHE.pushAll(dbReviews);
-    log(2,'DB-REVIEW',`QID:1, found ${dbReviews.length} reviews`);
+    log(2,'DB-REVIEW',`QID:1, found (${dbReviews.length}) reviews for pID: (${productId})`);
     
     return dbReviews;
 }
@@ -47,60 +43,60 @@ export async function queryReadReviewsForUser(username:string): Promise<WithoutI
         .find(filter,findOptions)
         .toArray();
 
-    // REVIEW_CACHE.pushAll(dbReviews);
-
-    log(2,'DB-REVIEW',`QID:2, found ${dbReviews.length} reviews`);
+    log(2,'DB-REVIEW',`QID:2, found (${dbReviews.length}) reviews for user: (${username})`);
 
     return dbReviews;
 }
 
 // REQUIRES: no review 'r' exists such that compareReview(newReview,r) is true
 // Create Review in db
-export async function queryCreateReview(newReview:Review) {
+export async function queryCreateReview(newReview:Review):Promise<void> {
     
-    await DB
-        .collection<Review>(REVIEW_COLLECTION)
-        .insertOne(newReview);
-
-    // REVIEW_CACHE.push(newReview);
+    DB
+    .collection<Review>(REVIEW_COLLECTION)
+    .insertOne(newReview)
+    .then(()=>{
+        
+        log(2,'DB-REVIEW',`QID:3, Created new review by: (${newReview.username}) for (${newReview.productId})`);
     
-    log(2,'DB-REVIEW',`QID:3, Created new review`);
+    })
 }
 
 // REQURES: review 'r' exists such that compareReview(updatedReview,r) is true
 // Updates review
-export async function queryUpdateReview(updatedReview: Review) {
+export async function queryUpdateReview(updatedReview: Review): Promise<void> {
     
     const filter:Filter<Review> = {
         'username': {$eq: updatedReview.username},
         'productId': {$eq: updatedReview.productId}
     }
 
-    await DB
-        .collection<Review>(REVIEW_COLLECTION)
-        .updateOne(filter,updatedReview);
-    
-    // REVIEW_CACHE.update(updatedReview);
-
-    log(2,'DB-REVIEW',`QID:4, Updated a review`);   
+    DB
+    .collection<Review>(REVIEW_COLLECTION)
+    .updateOne(filter,updatedReview)
+    .then(()=>{
+        
+        log(2,'DB-REVIEW',`QID:4, Updated a review by: (${updatedReview.username}) for (${updatedReview.productId})`);   
+    });
 }
 
 // REQURES: review 'r' exists such that compareReview(updatedReview,r) is true
 // Deletes review
-export async function queryDeleteReview(username:string,productId:number) {
+export async function queryDeleteReview(username:string,productId:number): Promise<void> {
     
     const filter:Filter<Review> = {
         'username': {$eq: username},
         'productId': {$eq: productId}
     }
 
-    await  DB
-        .collection<Review>(REVIEW_COLLECTION)
-        .deleteOne(filter);
-    
-    // REVIEW_CACHE.pop(generateReviewWithUsernameAndProductId(username,productId));
+    DB
+    .collection<Review>(REVIEW_COLLECTION)
+    .deleteOne(filter)
+    .then(()=>{
+        
+        log(2,'DB-REVIEW',`QID:5, Deleted a review by: (${username}) for (${productId})`);
 
-    log(2,'DB-REVIEW',`QID:5, Deleted a review`);
+    });
 }
 
 // Returns true if such a review exists
@@ -115,5 +111,42 @@ export async function queryReviewExists(username:string,productId:number):Promis
         .collection<Review>(REVIEW_COLLECTION)
         .findOne(filter);
     
+    log(2,'DB-REVIEW',`QID:6, Checked if review exists by: (${username}) for (${productId})`);
     return (review != null);
+}
+
+// REQURES: review 'r' exists such that compareReview(updatedReview,r) is true
+// Deletes all reviews by the user
+export async function queryDeleteReviewsByUser(username:string): Promise<void> {
+    
+    const filter:Filter<Review> = {
+        'username': {$eq: username}
+    }
+
+    DB
+    .collection<Review>(REVIEW_COLLECTION)
+    .deleteOne(filter)
+    .then(()=>{
+        
+        log(2,'DB-REVIEW',`QID:7, Deleted all reviews by user: (${username})`);
+
+    });
+}
+
+// REQURES: review 'r' exists such that compareReview(updatedReview,r) is true
+// Deletes all reviews of a product
+export async function queryDeleteReviewsByProduct(productId:number): Promise<void> {
+    
+    const filter:Filter<Review> = {
+        'productId': {$eq: productId}
+    }
+
+    DB
+    .collection<Review>(REVIEW_COLLECTION)
+    .deleteOne(filter)
+    .then(()=>{
+        
+        log(2,'DB-REVIEW',`QID:8, Deleted all reviews for product: (${productId})`);
+
+    });
 }

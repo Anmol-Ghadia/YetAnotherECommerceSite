@@ -7,16 +7,12 @@ import {
 import { 
     checkEmail, checkId, checkLongString,
     checkMediumString, checkPhoneNumber,
-    checkTinyString, checkURL
+    checkTinyString, checkURL,
+    User
 } from '../database/schema';
-import { 
-    getUserCart,
-    updateUser,
-    userExists, deleteUser,
-    deleteUserDetails
-} from '../database';
 import { log } from '../logger';
-import { queryGetSingleCartItem, queryUpdateSingleCartItem } from '../database/queries/cartQueries';
+import { queryGetSingleCartItem, queryReadCartByUser, queryUpdateSingleCartItem } from '../database/queries/cartQueries';
+import { queryDeleteUser, queryUpdateUser, queryExistsUser } from '../database/queries/userQueries';
 
 
 // Handles request related to all items in a user's cart
@@ -31,7 +27,7 @@ export async function handleUserCartQuery(req:Request,res:Response) {
         return;
     }
 
-    const cartItemsJson = await getUserCart(username);
+    const cartItemsJson = await queryReadCartByUser(username);
     sendSuccessData(res,200,cartItemsJson)
 }
 
@@ -138,7 +134,18 @@ export async function handleUpdateUserDetails(req:Request,res:Response) {
         return;
     }
 
-    await updateUser(username,firstName,lastName,address,phone,email,profilePhoto);
+    const updatedUser:User = {
+        username:username,
+        hash:'',
+        firstName:firstName,
+        lastName:lastName,
+        address:address,
+        phone:phone,
+        email:email,
+        profilePhoto:profilePhoto
+    } 
+
+    await queryUpdateUser(updatedUser);
     log(2,'UPDATE',`updated User details: ${username}`);
     sendSuccessData(res,200,{});
     return;
@@ -165,13 +172,12 @@ export async function handleDeleteUser(req:Request,res:Response) {
         return;
     }
 
-    if (!(await userExists(username))) {
+    if (!(await queryExistsUser(username))) {
         sendGeneralError(res,'username already deleted');
         return;
     }
 
-    deleteUser(username);
+    await queryDeleteUser(username);
     sendSuccessData(res,200,{});
-    deleteUserDetails(username);
     return;
 }

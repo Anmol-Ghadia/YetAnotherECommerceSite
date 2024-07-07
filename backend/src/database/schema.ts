@@ -47,6 +47,8 @@ export interface cartItemProduct {
     quantity: number
 }
 
+export type UserWithoutHash = Omit<User, 'hash'>;
+
 // ======== Interface helpers ========
 
 // Returns true if the first and second Users are same
@@ -74,9 +76,9 @@ export function compareProduct(first:Product,second: Product) {
 }
 
 // Returns a sample product with the provided id
-export function generateProductWithId(id: number): Product {
+export function generateProductWithId(productId: number): Product {
     return {
-        productId: id,
+        productId: productId,
         name: '',
         description: '',
         price: 0,
@@ -85,23 +87,40 @@ export function generateProductWithId(id: number): Product {
     };
 }
 
-// Returns true if first and second Reviews are same
-export function compareReview(first:Review,second:Review): boolean {
-    const cond_1 = first.username == second.username;
-    const cond_2 = first.productId == second.productId;
+// // Returns true if first and second Reviews are same
+// export function compareReview(first:Review,second:Review): boolean {
+//     const cond_1 = first.username == second.username;
+//     const cond_2 = first.productId == second.productId;
+//     return (cond_1 && cond_2);
+// }
+
+// // Returns a sample Review with given username and productId
+// export function generateReviewWithUsernameAndProductId(username:string,productId:number): Review {
+//     return {
+//         title: '',
+//         description: '',
+//         rating: 0,
+//         username: username,
+//         productId: productId
+//     };
+// }
+// Returns true if both the cartItems are same
+export function compareCartItem(first:CartItem,second: CartItem) {
+    const cond_1 = (first.productId == second.productId);
+    const cond_2 = (first.username == second.username);
     return (cond_1 && cond_2);
 }
 
-// Returns a sample Review with given username and productId
-export function generateReviewWithUsernameAndProductId(username:string,productId:number): Review {
+// Returns a sample CartItem with the provided id and username
+export function generateCartItemWithUsernameAndProductId(username: string, productId:number): CartItem {
     return {
-        title: '',
-        description: '',
-        rating: 0,
         username: username,
-        productId: productId
+        productId: productId,
+        quantity: 0
     };
 }
+
+
 // ======== field helpers ========
 
 // Checks if the string can be a valid username

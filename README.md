@@ -92,7 +92,6 @@ Routes requiring authentication have to go through auth middleware
 1) Set Cookie paramaeter `secure: true` in Login.jsx
 
 ## TODO
-1) CREATE product should return product id of the newly created product
 1) Do not fetch the cart if no token is present (on frontend) QID15,16
 1) integrate cache for Cart, review, ~~Users~~ in database connector
 1) Refactor database connector
@@ -107,7 +106,8 @@ Routes requiring authentication have to go through auth middleware
 1) Add notification system for successfull logins and registrations
 1) Add support for displaying multiple images on product page
 1) Add support for fetching and rendering images on search page
-1) Use SASS for styling
+1) ~~Use SASS for styling~~
+1) ~~CREATE product should return product id of the newly created product~~
 1) ~~Display total in the cart page~~
 1) ~~Modify search api route to ignore max price if it is 0~~
 1) ~~Modify user/cart route to respond with product details instead of just id and quantity~~
@@ -292,7 +292,15 @@ errorResponse.body = {
         }
     }
     ```
-    returns `status code: 201` if success
+    returns `status code: 201` and the product id of the newly created product
+    ```js
+    response.body = {
+        "success": "boolean",
+        "payload": {
+            "productId" : "number"
+        }
+    }
+    ```
 
     the user creating the listing is the owner (which cannot be changed later)
     returns success if product is listed

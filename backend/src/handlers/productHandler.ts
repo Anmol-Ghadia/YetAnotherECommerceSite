@@ -4,9 +4,6 @@ import {
     checkMediumString, checkURLArray,
     Product
 } from '../database/schema';
-import {
-    removeCartItemsByProductId
-} from '../database';
 import { 
     sendBoundError,sendServerError,
     sendSuccessData,sendTypeError,
@@ -20,6 +17,7 @@ import {
     queryReadProductByIdRange,
     queryUpdateProduct
 } from '../database/queries/productQueries';
+import { queryDeleteCartItemByProduct } from '../database/queries/cartQueries';
 
 // Handles requests related to single product, based on product id
 export async function handleSingleProductRequest(req:Request,res:Response) {
@@ -117,8 +115,8 @@ export async function handleCreateNewProductRequest(req:Request,res:Response) {
         username:username
     }
 
-    await queryCreateProduct(newProduct);
-    sendSuccessData(res,201,{});
+    const generatedId = await queryCreateProduct(newProduct);
+    sendSuccessData(res,201,{productId:generatedId});
     return;
 }
     
@@ -209,7 +207,7 @@ export async function handleRemoveProductRequest(req:Request,res:Response) {
     await queryDeleteProduct(productId);
     sendSuccessData(res,200,{});
 
-    removeCartItemsByProductId(productId);
+    queryDeleteCartItemByProduct(productId);
     return;
 }
 

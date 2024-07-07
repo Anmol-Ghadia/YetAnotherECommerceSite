@@ -1,10 +1,8 @@
 import { Request,Response } from 'express'
 import { checkSearchString, checkUsername } from '../database/schema';
 import { sendBoundError, sendSuccessData, sendTypeError } from './handlerHelpers';
-import {
-    getUserFirstLastName, getRandomProducts,
-    getRandomProductsWithSearch
-} from '../database';
+import { queryReadUser } from '../database/queries/userQueries';
+import { queryReadProductsBySearchString, queryReadRandomProducts } from '../database/queries/productQueries';
 
 export async function handleUserNameInformation(req:Request, res:Response) {
     // Check all params
@@ -22,12 +20,16 @@ export async function handleUserNameInformation(req:Request, res:Response) {
         return;
     }
 
-    const userDetails = await getUserFirstLastName(username);
+    const userDetails = await queryReadUser(username);
     if (userDetails == null) {
         sendSuccessData(res,202,{});
         return;
     }
-    sendSuccessData(res,202,userDetails);
+
+    sendSuccessData(res,202,{
+        firstName:userDetails.firstName,
+        lastName:userDetails.lastName
+    });
     return;
 }
 
@@ -61,12 +63,12 @@ export async function handleSearch(req:Request,res:Response) {
     }
 
     if (search.length == 0) {
-        const searchedDocs = await getRandomProducts(minPrice,maxPrice,quantity);
+        const searchedDocs = await queryReadRandomProducts(minPrice,maxPrice,quantity);
         sendSuccessData(res,200,searchedDocs);
         return;
     }
 
-    const searchedDocs = await getRandomProductsWithSearch(search,minPrice,maxPrice,quantity);
+    const searchedDocs = await queryReadProductsBySearchString(search,minPrice,maxPrice,quantity);
     sendSuccessData(res,200,searchedDocs);
     return;
 }

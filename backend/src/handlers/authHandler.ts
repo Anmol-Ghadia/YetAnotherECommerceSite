@@ -1,21 +1,18 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { 
-    getUserHash, userExists, 
-    getUserDetails, saveUser
-} from '../database';
-import { 
     sendBoundError, sendTypeError,
     sendGeneralError, sendSuccessData,
     generateJWT, sendServerError
 } from './handlerHelpers';
 import { 
-    User, checkEmail, checkLongString,
+    User, UserWithoutHash, checkEmail, checkLongString,
     checkMediumString, checkPhoneNumber,
     checkTinyString, checkURL,
     checkUsername
 } from '../database/schema';
 import { log } from '../logger';
+import { queryCreateUser, queryExistsUser, queryReadUser } from '../database/queries/userQueries';
 
 export async function handleLogin(req:Request,res:Response) {
     // Check all params
@@ -36,14 +33,18 @@ export async function handleLogin(req:Request,res:Response) {
         return;
     }
 
-    if (!(await userExists(username))) {
+    if (!(await queryExistsUser(username))) {
         sendGeneralError(res,'invalid username');
         return;
     }
 
-    const savedHash = await getUserHash(username);
+    const userWithHash = await queryReadUser(username);
+    if (userWithHash == null) {
+        sendServerError(res,'authHandler1');
+        return;
+    }
 
-    if (!(await bcrypt.compare(password, savedHash))) {
+    if (!(await bcrypt.compare(password, userWithHash.hash))) {
         sendGeneralError(res,'invalid password');
         return;
     }
@@ -51,18 +52,17 @@ export async function handleLogin(req:Request,res:Response) {
     const validTime = parseInt(process.env.JWT_SESSION_TIME as string);
     const token = generateJWT(username,validTime);
     if (token == null) {
-        sendServerError(res,'authHandler1');
+        sendServerError(res,'authHandler2');
         return;
     }
 
-    
-    const userInfo = await getUserDetails(username);
+    const user:UserWithoutHash = userWithHash;
 
     log(2,'LOGIN',`logged in by username (${username})`);
     const data = {
         token: token,
         validity: validTime,
-        user: userInfo
+        user: user
     }
     sendSuccessData(res,202,data);
     return;
@@ -107,14 +107,14 @@ export async function handleRegister(req:Request,res:Response) {
         return;
     }
 
-    if (await userExists(username)) {
+    if (await queryExistsUser(username)) {
         sendGeneralError(res,'username taken');
         return;
     }
 
     const hash = await bcrypt.hash(password, 10);
     if (typeof hash !== 'string' || hash.length == 0) {
-        sendServerError(res,'authHandler2');
+        sendServerError(res,'authHandler3');
         return;
     }
     
@@ -129,7 +129,7 @@ export async function handleRegister(req:Request,res:Response) {
         profilePhoto: profilePhoto
     }
     
-    await saveUser(newUser);
+    await queryCreateUser(newUser);
     log(2,'SAVE',`Saved new User: ${username}`);
     sendSuccessData(res,201,{});
     return;

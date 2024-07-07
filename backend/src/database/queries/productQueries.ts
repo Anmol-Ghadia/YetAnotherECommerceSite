@@ -2,6 +2,8 @@ import { Db, Filter, UpdateFilter, WithoutId } from "mongodb";
 import { generateProductWithId, Product } from "../schema";
 import Cache from "../cache";
 import { log } from "../../logger";
+import { queryDeleteCartItemByProduct } from "./cartQueries";
+import { queryDeleteReviewsByProduct } from "./reviewQueries";
 
 let PRODUCT_COLLECTION:string;
 let PRODUCT_CACHE: Cache<Product>;
@@ -14,19 +16,19 @@ export function initializeProductQueries(PRODUCT_COLLECTION_NAME:string, givenPR
 }
 
 // Reads the product from database
-export async function queryReadProductById(id: number): Promise<WithoutId<Product> | null> {
+export async function queryReadProductById(productId: number): Promise<WithoutId<Product> | null> {
     
     // Query the cache first
-    if (PRODUCT_CACHE.has(generateProductWithId(id))) {
+    if (PRODUCT_CACHE.has(generateProductWithId(productId))) {
         
-        const cacheProduct = PRODUCT_CACHE.get(generateProductWithId(id));
+        const cacheProduct = PRODUCT_CACHE.get(generateProductWithId(productId));
 
-        log(2,'CACHE-PRODUCT','QID:1, got a hit for product');
+        log(2,'CACHE-PRODUCT',`QID:1, got a hit for product: (${productId})`);
         return cacheProduct;
     }
 
     const filter:Filter<Product> = {
-        'productId': { $eq: id }
+        'productId': { $eq: productId }
     };
 
     const dbProduct:WithoutId<Product>|null = await DB
@@ -35,7 +37,7 @@ export async function queryReadProductById(id: number): Promise<WithoutId<Produc
 
     // Update Cache
     if (dbProduct != null) PRODUCT_CACHE.push(dbProduct);
-    log(2,'DB-PRODUCT','QID:1, Read a product');
+    log(2,'DB-PRODUCT',`QID:1, Read a product: (${productId})`);
 
     return dbProduct;
 }
@@ -44,27 +46,27 @@ export async function queryReadProductById(id: number): Promise<WithoutId<Produc
 export async function queryReadProductByIdRange(startId: number,endId:number): Promise<WithoutId<Product>[] | null> {
     
     const {missingIds,cacheProducts} = queryCachedProductsByIdRange(startId,endId);
-    log(2,'DB-CACHE',`QID:2, got hits for ${cacheProducts.length} products`);
+    log(2,'DB-CACHE',`QID:2, got hits for (${cacheProducts.length}) products`);
 
-    if (missingIds.length != 0) {
-        const filter:Filter<Product> = {
-            'productId': { $in: missingIds }
-        };
-    
-        const dbProducts:WithoutId<Product>[] = await DB
-            .collection<Product>(PRODUCT_COLLECTION)
-            .find(filter)
-            .toArray();
-    
-        // Update Cache
-        PRODUCT_CACHE.pushAll(dbProducts);
-        
-        log(2,'DB-PRODUCT',`QID:2, Read ${dbProducts.length} documents`);
-
-        return [...cacheProducts,...dbProducts];
+    if (missingIds.length == 0) {
+        return cacheProducts;
     }
 
-    return cacheProducts;
+    const filter:Filter<Product> = {
+        'productId': { $in: missingIds }
+    };
+
+    const dbProducts:WithoutId<Product>[] = await DB
+        .collection<Product>(PRODUCT_COLLECTION)
+        .find(filter)
+        .toArray();
+
+    // Update Cache
+    PRODUCT_CACHE.pushAll(dbProducts);
+    
+    log(2,'DB-PRODUCT',`QID:2, Read (${dbProducts.length}) documents`);
+
+    return [...cacheProducts,...dbProducts];
 }
 
 // Creates a new product
@@ -85,11 +87,13 @@ export async function queryCreateProduct(newProduct:Product):Promise<number> {
 
     PRODUCT_CACHE.push(newProduct);
     
-    await DB
-        .collection<Product>(PRODUCT_COLLECTION)
-        .insertOne(newProduct);
+    DB
+    .collection<Product>(PRODUCT_COLLECTION)
+    .insertOne(newProduct)
+    .then(()=>{
+        log(2,'DB-PRODUCT',`QID:3, Created a new product: (${productId})`);
+    })
 
-    log(2,'DB-PRODUCT',`QID:3, Created a new product`);
     return productId;
 }
 
@@ -113,11 +117,12 @@ export async function queryUpdateProduct(updatedProduct:Product):Promise<void> {
         }
     };
 
-    await DB
-        .collection<Product>(PRODUCT_COLLECTION)
-        .updateOne(filter,updateFilter);
-        
-    log(2,'DB-PRODUCT',`QID:4, Updated a product`);
+    DB
+    .collection<Product>(PRODUCT_COLLECTION)
+    .updateOne(filter,updateFilter)
+    .then(()=>{
+        log(2,'DB-PRODUCT',`QID:4, Updated a product: (${updatedProduct.productId})`);
+    })
 }
 
 // REQUIRES: product 'p' exists such that 
@@ -131,11 +136,15 @@ export async function queryDeleteProduct(productId: number):Promise<void> {
 
     PRODUCT_CACHE.pop(generateProductWithId(productId));
 
-    await DB
-        .collection<Product>(PRODUCT_COLLECTION)
-        .deleteOne(filter);
-        
-    log(2,'DB-PRODUCT',`QID:5, deleted a product`);
+    queryDeleteCartItemByProduct(productId);
+    queryDeleteReviewsByProduct(productId);
+    
+    DB
+    .collection<Product>(PRODUCT_COLLECTION)
+    .deleteOne(filter)
+    .then(()=>{
+        log(2,'DB-PRODUCT',`QID:5, deleted a product: (${productId})`);
+    })
 }
 
 // Returns true if owner of product
@@ -146,9 +155,85 @@ export async function queryOwnershipOfProduct(productId: number, username: strin
     if (prod == null) return false;
     if (prod.username == null) return false;
     
-    log(2,'DB-PRODUCT',`QID:6, tested ownership of a product`);
-    return prod.username === username;
+    log(2,'DB-PRODUCT',`QID:6, tested ownership of product: (${productId}) for (${username})`);
+    return (prod.username === username);
+
+}
+
+// Deletes all products created by this user
+export async function queryDeleteProductsByUser(username:string) {
+    const filter:Filter<Product> = { 
+        'username': { $eq:username }
+    };
     
+    const products:WithoutId<Product>[] = await DB
+        .collection<Product>(PRODUCT_COLLECTION)
+        .find(filter)
+        .toArray();
+    
+    products.forEach((product)=>{
+        queryDeleteProduct(product.productId);
+    })
+    
+    log(2,'DB-PRODUCT',`QID:7, Deleted all products by user: (${username})`);
+}
+
+// Returns random set of products, that fall under the specification
+//   ignores maxPrice if it is 0
+export async function queryReadRandomProducts(minPrice: number, maxPrice:number,qunatity:number): Promise<WithoutId<Product>[]> {
+    const filter: Filter<Product> = {};
+
+    if (maxPrice==0) {
+        filter.price = { $gte: minPrice }
+    } else {
+        filter.price = { $gte: minPrice, $lte : maxPrice }
+    }
+
+    const pipeline = [
+        { $match: filter },
+        { $sample: { size: qunatity } }
+    ];
+
+    const filteredDocs = await DB
+        .collection<Product>(PRODUCT_COLLECTION)
+        .aggregate<Product>(pipeline)
+        .toArray();
+    
+    PRODUCT_CACHE.pushAll(filteredDocs);
+    
+    log(2,'DB-PRODUCT',`QID:8, Read (${qunatity}) random products in price range ([${minPrice},${maxPrice}])`);
+    return filteredDocs;
+}
+
+// Returns products that match the search string
+//      Ignores max price if it is 0
+export async function queryReadProductsBySearchString(search:string, minPrice: number, maxPrice:number, quantity: number): Promise<WithoutId<Product>[]> {
+    
+    let filter: Filter<Product>;
+    if (maxPrice == 0) {
+        filter = {
+            $text: {$search:search},
+            'price' : { $gte: minPrice }
+        }
+    } else {
+        filter = {
+            $text: {$search:search},
+            'price' : { $gte: minPrice, $lte : maxPrice }
+        }
+    }
+
+    // Execute search query
+    const filteredDocs = await DB
+        .collection<Product>(PRODUCT_COLLECTION)
+        .find(filter)
+        .limit(quantity)
+        .toArray();
+
+    PRODUCT_CACHE.pushAll(filteredDocs);
+
+    log(2,'DB-PRODUCT',`QID:9, Read products based on Search string in price range ([${minPrice},${maxPrice}])`);
+
+    return filteredDocs;
 }
 
 // ====== HELPERS ======

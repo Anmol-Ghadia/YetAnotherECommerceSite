@@ -13,13 +13,14 @@ import {
     generateProductWithId,
     compareUser,
     generateUserWithUsername,
-    compareReview
+    compareCartItem,
 } from './database/schema';
 import { log } from './logger';
 import Cache from './database/cache';
-import { initializeUserQueries } from './database/queries/cartQueries';
 import { initializeProductQueries } from './database/queries/productQueries';
 import { initializeReviewQueries } from './database/queries/reviewQueries';
+import { initializeCartQueries } from './database/queries/cartQueries';
+import { initializeUserQueries } from './database/queries/userQueries';
 
 // Globals
 dotenv.config();
@@ -30,9 +31,8 @@ let USER_COLLECTION: string;
 let CART_COLLECTION: string;
 let REVIEW_COLLECTION: string;
 let PRODUCT_CACHE: Cache<Product>;
-// let CART_CACHE: Cache<CartItem>;
+let CART_CACHE: Cache<CartItem>;
 let USER_CACHE: Cache<User>;
-let REVIEW_CACHE: Cache<Review>;
 
 // Helpers
 const removeObjectID:FindOptions<Product> = {
@@ -58,14 +58,15 @@ export function doDBConnect():boolean {
 
         // CACHES
         PRODUCT_CACHE = new Cache(compareProduct);
-        // CART_CACHE  = new Cache();
+        CART_CACHE  = new Cache(compareCartItem);
         USER_CACHE  = new Cache(compareUser);
-        REVIEW_CACHE = new Cache(compareReview);
         
         // Initialize helper files
-        initializeUserQueries(CART_COLLECTION,DB);
+        initializeCartQueries(CART_COLLECTION,CART_CACHE,DB);
         initializeProductQueries(PRODUCT_COLLECTION,PRODUCT_CACHE,DB);
-        initializeReviewQueries(REVIEW_COLLECTION,REVIEW_CACHE,DB);
+        initializeReviewQueries(REVIEW_COLLECTION,DB);
+        initializeUserQueries(USER_COLLECTION,USER_CACHE,DB);
+
         pingDB();
         return true;
     } catch (err) {
