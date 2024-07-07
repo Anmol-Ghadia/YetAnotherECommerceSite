@@ -1,5 +1,5 @@
-import { createReview, deleteAllCarts, deleteAllProducts, deleteAllReviews, deleteAllUsers, makeProductListing, saveUser } from "./database";
-import { log } from "./logger";
+import { createReview, deleteAllCarts, deleteAllProducts, deleteAllReviews, deleteAllUsers, makeProductListing, saveUser } from "../database";
+import { log } from "../logger";
 import { Product, Review, User } from "./schema";
 
 export async function initialize() {

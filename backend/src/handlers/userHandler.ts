@@ -8,14 +8,15 @@ import {
     checkEmail, checkId, checkLongString,
     checkMediumString, checkPhoneNumber,
     checkTinyString, checkURL
-} from '../schema';
+} from '../databse/schema';
 import { 
-    getUserCart,getUserCartForProduct,
-    updateUserCart,updateUser,
+    getUserCart,
+    updateUser,
     userExists, deleteUser,
     deleteUserDetails
 } from '../database';
 import { log } from '../logger';
+import { queryGetSingleCartItem, queryUpdateSingleCartItem } from '../databse/queries/userQueries';
 
 
 // Handles request related to all items in a user's cart
@@ -57,7 +58,7 @@ export async function handleUserCartSpecificQuery(req: Request, res:Response) {
         return;
     }
 
-    const productJson = await getUserCartForProduct(username,productId);
+    const productJson = await queryGetSingleCartItem(username,productId);
     if (productJson === null) {
         sendSuccessData(res,200,{'quantity':0});
     } else {
@@ -93,7 +94,7 @@ export async function handleUserCartSpecificUpdate(req: Request, res: Response) 
         return;
     }
 
-    await updateUserCart(username,productId,quantity);
+    await queryUpdateSingleCartItem(username,productId,quantity);
     sendSuccessData(res,201,{});
     return;
 }

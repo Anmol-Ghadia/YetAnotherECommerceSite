@@ -2,7 +2,7 @@ import { Request,Response } from 'express';
 import { 
     checkId, checkLongString,
     checkMediumString, checkURLArray
-} from '../schema';
+} from '../databse/schema';
 import { 
     getProductByID, getProductByIDRange,
     makeProductListing, updateProductListing,

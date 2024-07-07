@@ -13,9 +13,10 @@ import {
     generateProductWithId,
     compareUser,
     generateUserWithUsername
-} from './schema';
+} from './databse/schema';
 import { log } from './logger';
 import Cache from './databse/cache';
+import { initializeUserQueries } from './databse/queries/userQueries';
 
 // Globals
 dotenv.config();
@@ -51,10 +52,15 @@ export function doDBConnect():boolean {
         USER_COLLECTION = process.env.USER_COLLECTION_NAME as string;
         CART_COLLECTION = process.env.CART_COLLECTION_NAME as string;
         REVIEW_COLLECTION = process.env.REVIEW_COLLECTION_NAME as string;
+
+        // CACHES
         PRODUCT_CACHE = new Cache(compareProduct);
         // CART_CACHE  = new Cache();
         USER_CACHE  = new Cache(compareUser);
         // REVIEW_CACHE = new Cache();
+        
+        // Initialize helper files
+        initializeUserQueries(CART_COLLECTION,DB);
         pingDB();
         return true;
     } catch (err) {

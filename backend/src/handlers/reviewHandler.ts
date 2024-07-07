@@ -4,7 +4,7 @@ import {
     checkLongString,
     checkMediumString,
     checkRating
-} from '../schema';
+} from '../databse/schema';
 import { 
     getReviewsByProduct, getReviewStats,
     getUserReviews, createReview,

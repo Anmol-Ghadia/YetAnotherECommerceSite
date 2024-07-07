@@ -7,7 +7,7 @@ import { isEnvironmentVariableSet } from './helpers.js';
 import makeApp from './app.js';
 import { Express } from 'express';
 import { log } from './logger.js';
-import { initialize } from './initializeDatabase.js';
+import { initialize } from './databse/initialize.js';
 
 dotenv.config();
 let isDBConnected: boolean= false;
