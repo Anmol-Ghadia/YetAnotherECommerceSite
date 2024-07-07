@@ -85,6 +85,23 @@ export function generateProductWithId(id: number): Product {
     };
 }
 
+// Returns true if first and second Reviews are same
+export function compareReview(first:Review,second:Review): boolean {
+    const cond_1 = first.username == second.username;
+    const cond_2 = first.productId == second.productId;
+    return (cond_1 && cond_2);
+}
+
+// Returns a sample Review with given username and productId
+export function generateReviewWithUsernameAndProductId(username:string,productId:number): Review {
+    return {
+        title: '',
+        description: '',
+        rating: 0,
+        username: username,
+        productId: productId
+    };
+}
 // ======== field helpers ========
 
 // Checks if the string can be a valid username

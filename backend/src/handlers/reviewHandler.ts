@@ -4,18 +4,13 @@ import {
     checkLongString,
     checkMediumString,
     checkRating
-} from '../databse/schema';
-import { 
-    getReviewsByProduct, getReviewStats,
-    getUserReviews, createReview,
-    updateReview, reviewExists,
-    deleteReview
-} from '../database';
+} from '../database/schema';
 import { 
     sendBoundError,sendGeneralError,
     sendServerError,sendSuccessData,
     sendTypeError
 } from './handlerHelpers';
+import { queryCreateReview, queryDeleteReview, queryReadAllReviewsForProduct, queryReadReviewsForUser, queryReviewExists, queryUpdateReview } from '../database/queries/reviewQueries';
 
 export async function handleAllReviewsForProduct(req:Request,res:Response) {
         // Check all params
@@ -33,7 +28,7 @@ export async function handleAllReviewsForProduct(req:Request,res:Response) {
             return;
         }
     
-        const reviewsCollection = await getReviewsByProduct(productId);
+        const reviewsCollection = await queryReadAllReviewsForProduct(productId);
         sendSuccessData(res,200,reviewsCollection);
         return;
 }
@@ -54,8 +49,15 @@ export async function handleReviewStats(req:Request,res:Response) {
         return;
     }
 
-    const statsSummaryDocuments = await getReviewStats(productId);
-    const statsSummary = computeStats(statsSummaryDocuments);
+    const reviews = await queryReadAllReviewsForProduct(productId);
+    if (reviews == null) {
+        sendSuccessData(res,200,{
+            'rating': 0,
+            'count': 0
+        });
+        return;
+    }
+    const statsSummary = computeStats(reviews);
     sendSuccessData(res,200,statsSummary);
     return;
 }
@@ -70,7 +72,7 @@ export async function handleSingleAllReview(req:Request,res:Response) {
         return;
     }
 
-    const reviewsJson = await getUserReviews(username);
+    const reviewsJson = await queryReadReviewsForUser(username);
     sendSuccessData(res,200,reviewsJson)
 }
 
@@ -105,34 +107,22 @@ export async function handleCreateReview(req:Request,res:Response) {
         return;
     }
 
-    if (await reviewExists(username,productId)) {
+    if (await queryReviewExists(username,productId)) {
         sendGeneralError(res,'Review already exists for this product');
         return;
     }
 
-    await createReview(title,description,rating,username,productId);
+    const newReview: Review = {
+        title:title,
+        description:description,
+        rating:rating,
+        username:username,
+        productId:productId
+    }
+
+    await queryCreateReview(newReview);
     sendSuccessData(res,201,{});
     return;
-}
-
-// Helper function to compute stats and return an object
-function computeStats(docs: Review[]) {
-    let total = 0;
-    let rating = 0;
-    const size = docs.length;
-    for (let index = 0; index < size ; index++) {
-        total += docs[index].rating;
-    }
-
-    if (size != 0) {
-        rating = (total/size) - (total/size)%0.5;
-    }
-
-    const outObject = {
-        'rating': rating,
-        'count': size
-    }
-    return outObject;
 }
 
 // Handles update for a review
@@ -166,12 +156,19 @@ export async function handleReviewUpdate(req:Request,res:Response) {
         return;
     }
 
-    if (! await reviewExists(username,productId)) {
+    if (! await queryReviewExists(username,productId)) {
         sendGeneralError(res,'Review does not exist');
         return;
     }
 
-    await updateReview(username,productId,title,description,rating);
+    const updatedReview:Review = {
+        username:username,
+        productId:productId,
+        title:title,
+        description:description,
+        rating:rating
+    }
+    await queryUpdateReview(updatedReview);
     sendSuccessData(res,200,{});
     return;
 }
@@ -197,12 +194,34 @@ export async function handleDeleteReview(req:Request,res:Response) {
         return;
     }
 
-    if (! await reviewExists(username,productId)) {
+    if (! await queryReviewExists(username,productId)) {
         sendGeneralError(res,'Review does not exist');
         return;
     }
 
-    await deleteReview(username,productId);
+    await queryDeleteReview(username,productId);
     sendSuccessData(res,200,{});
     return;
+}
+
+// ====== HELPERS ======
+
+// Helper function to compute stats and return an object
+function computeStats(docs: Review[]) {
+    let total = 0;
+    let rating = 0;
+    const size = docs.length;
+    for (let index = 0; index < size ; index++) {
+        total += docs[index].rating;
+    }
+
+    if (size != 0) {
+        rating = (total/size) - (total/size)%0.5;
+    }
+
+    const outObject = {
+        'rating': rating,
+        'count': size
+    }
+    return outObject;
 }

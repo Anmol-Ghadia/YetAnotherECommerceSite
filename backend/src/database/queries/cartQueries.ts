@@ -27,8 +27,9 @@ export async function queryGetSingleCartItem(username: string, productId: number
         }
     };
 
-    const filteredDocs:WithoutId<CartItem>|null = await DB.collection<CartItem>(CART_COLLECTION)
-    .findOne(filter,options);
+    const filteredDocs:WithoutId<CartItem>|null = await DB
+        .collection<CartItem>(CART_COLLECTION)
+        .findOne(filter,options);
     
     log(2,'DB-USER',`QID:1, Read single cart item`);
     return filteredDocs;
@@ -68,8 +69,9 @@ export async function queryUpdateSingleCartItem(username:string,productId: numbe
         }
     };
 
-    await DB.collection<CartItem>(CART_COLLECTION)
-    .updateOne(filter, updateFilter);
+    await DB
+        .collection<CartItem>(CART_COLLECTION)
+        .updateOne(filter, updateFilter);
 
     log(2,'DB-USER','QID:2, Updated single cart item');
 }
@@ -78,26 +80,31 @@ export async function queryUpdateSingleCartItem(username:string,productId: numbe
 
 // Creates a new cartItem document in the database
 async function queryCreateSingleCartItem(username: string,productId:number,newQuantity:number):Promise<void> {
+    
     const newDocument:CartItem = {
         username: username,
         productId: productId,
         quantity: newQuantity
     }
 
-    await DB.collection<CartItem>(CART_COLLECTION).insertOne(newDocument);
+    await DB
+        .collection<CartItem>(CART_COLLECTION)
+        .insertOne(newDocument);
 
     log(2,`DB-USER`,`QID:100, Created single cart item`);
 }
 
 // Deletes a cartItem document from the database
 async function queryDeleteSingleCartItem(username: string,productId:number):Promise<void> {
+    
     const filter:Filter<CartItem> = { 
         'username': { $eq:username },
         'productId': { $eq:productId }
     };
 
-    await DB.collection<CartItem>(CART_COLLECTION)
-    .deleteOne(filter);
+    await DB
+        .collection<CartItem>(CART_COLLECTION)
+        .deleteOne(filter);
 
     log(2,`DB-USER`,`QID:101, Deleted single cart item`);
 }

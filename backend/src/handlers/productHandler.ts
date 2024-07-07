@@ -3,7 +3,7 @@ import {
     checkId, checkLongString,
     checkMediumString, checkURLArray,
     Product
-} from '../databse/schema';
+} from '../database/schema';
 import {
     removeCartItemsByProductId
 } from '../database';
@@ -19,7 +19,7 @@ import {
     queryReadProductById,
     queryReadProductByIdRange,
     queryUpdateProduct
-} from '../databse/queries/productQueries';
+} from '../database/queries/productQueries';
 
 // Handles requests related to single product, based on product id
 export async function handleSingleProductRequest(req:Request,res:Response) {

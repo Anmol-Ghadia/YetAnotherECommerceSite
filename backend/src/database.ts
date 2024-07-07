@@ -12,12 +12,14 @@ import {
     compareProduct,
     generateProductWithId,
     compareUser,
-    generateUserWithUsername
-} from './databse/schema';
+    generateUserWithUsername,
+    compareReview
+} from './database/schema';
 import { log } from './logger';
-import Cache from './databse/cache';
-import { initializeUserQueries } from './databse/queries/userQueries';
-import { initializeProductQueries } from './databse/queries/productQueries';
+import Cache from './database/cache';
+import { initializeUserQueries } from './database/queries/cartQueries';
+import { initializeProductQueries } from './database/queries/productQueries';
+import { initializeReviewQueries } from './database/queries/reviewQueries';
 
 // Globals
 dotenv.config();
@@ -30,7 +32,7 @@ let REVIEW_COLLECTION: string;
 let PRODUCT_CACHE: Cache<Product>;
 // let CART_CACHE: Cache<CartItem>;
 let USER_CACHE: Cache<User>;
-// let REVIEW_CACHE: Cache<Review>;
+let REVIEW_CACHE: Cache<Review>;
 
 // Helpers
 const removeObjectID:FindOptions<Product> = {
@@ -58,11 +60,12 @@ export function doDBConnect():boolean {
         PRODUCT_CACHE = new Cache(compareProduct);
         // CART_CACHE  = new Cache();
         USER_CACHE  = new Cache(compareUser);
-        // REVIEW_CACHE = new Cache();
+        REVIEW_CACHE = new Cache(compareReview);
         
         // Initialize helper files
         initializeUserQueries(CART_COLLECTION,DB);
         initializeProductQueries(PRODUCT_COLLECTION,PRODUCT_CACHE,DB);
+        initializeReviewQueries(REVIEW_COLLECTION,REVIEW_CACHE,DB);
         pingDB();
         return true;
     } catch (err) {

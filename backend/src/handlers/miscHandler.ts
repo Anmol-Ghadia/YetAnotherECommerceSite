@@ -1,5 +1,5 @@
 import { Request,Response } from 'express'
-import { checkSearchString, checkUsername } from '../databse/schema';
+import { checkSearchString, checkUsername } from '../database/schema';
 import { sendBoundError, sendSuccessData, sendTypeError } from './handlerHelpers';
 import {
     getUserFirstLastName, getRandomProducts,

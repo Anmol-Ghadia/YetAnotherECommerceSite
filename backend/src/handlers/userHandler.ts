@@ -8,7 +8,7 @@ import {
     checkEmail, checkId, checkLongString,
     checkMediumString, checkPhoneNumber,
     checkTinyString, checkURL
-} from '../databse/schema';
+} from '../database/schema';
 import { 
     getUserCart,
     updateUser,
@@ -16,7 +16,7 @@ import {
     deleteUserDetails
 } from '../database';
 import { log } from '../logger';
-import { queryGetSingleCartItem, queryUpdateSingleCartItem } from '../databse/queries/userQueries';
+import { queryGetSingleCartItem, queryUpdateSingleCartItem } from '../database/queries/cartQueries';
 
 
 // Handles request related to all items in a user's cart

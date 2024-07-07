@@ -29,7 +29,7 @@ export async function queryReadProductById(id: number): Promise<WithoutId<Produc
         'productId': { $eq: id }
     };
 
-    const dbProduct = await DB
+    const dbProduct:WithoutId<Product>|null = await DB
         .collection<Product>(PRODUCT_COLLECTION)
         .findOne(filter);
 
@@ -51,7 +51,7 @@ export async function queryReadProductByIdRange(startId: number,endId:number): P
             'productId': { $in: missingIds }
         };
     
-        const dbProducts = await DB
+        const dbProducts:WithoutId<Product>[] = await DB
             .collection<Product>(PRODUCT_COLLECTION)
             .find(filter)
             .toArray();
@@ -68,7 +68,8 @@ export async function queryReadProductByIdRange(startId: number,endId:number): P
 }
 
 // Creates a new product
-export async function queryCreateProduct(newProduct:Product):Promise<void> {
+// Returns the generated product id
+export async function queryCreateProduct(newProduct:Product):Promise<number> {
 
     const maxProductIdDoc = await DB
         .collection<Product>(PRODUCT_COLLECTION)
@@ -89,11 +90,12 @@ export async function queryCreateProduct(newProduct:Product):Promise<void> {
         .insertOne(newProduct);
 
     log(2,'DB-PRODUCT',`QID:3, Created a new product`);
+    return productId;
 }
 
+// REQUIRES: product 'p' exists such that compareProduct(updatedProduct,p) is true
 // Updates a product listing
 export async function queryUpdateProduct(updatedProduct:Product):Promise<void> {
-    
     // Update cache
     PRODUCT_CACHE.update(updatedProduct);
 
@@ -118,6 +120,8 @@ export async function queryUpdateProduct(updatedProduct:Product):Promise<void> {
     log(2,'DB-PRODUCT',`QID:4, Updated a product`);
 }
 
+// REQUIRES: product 'p' exists such that 
+//           compareProduct(generateProductWithId(productId),p) is true
 // Delete a product
 export async function queryDeleteProduct(productId: number):Promise<void> {
     

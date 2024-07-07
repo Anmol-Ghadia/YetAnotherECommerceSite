@@ -14,7 +14,7 @@ import {
     checkMediumString, checkPhoneNumber,
     checkTinyString, checkURL,
     checkUsername
-} from '../databse/schema';
+} from '../database/schema';
 import { log } from '../logger';
 
 export async function handleLogin(req:Request,res:Response) {
