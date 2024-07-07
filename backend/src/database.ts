@@ -17,6 +17,7 @@ import {
 import { log } from './logger';
 import Cache from './databse/cache';
 import { initializeUserQueries } from './databse/queries/userQueries';
+import { initializeProductQueries } from './databse/queries/productQueries';
 
 // Globals
 dotenv.config();
@@ -61,6 +62,7 @@ export function doDBConnect():boolean {
         
         // Initialize helper files
         initializeUserQueries(CART_COLLECTION,DB);
+        initializeProductQueries(PRODUCT_COLLECTION,PRODUCT_CACHE,DB);
         pingDB();
         return true;
     } catch (err) {

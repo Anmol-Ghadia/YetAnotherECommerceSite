@@ -49,6 +49,16 @@ export default class Cache<T> {
         }
     }
 
+    // Keeps the item in cache as it is, but modifies it to new value
+    update(item: T) {
+        this.list = this.list.map((old)=>{
+            if (this.isEqual(old,item)) {
+                return item;
+            }
+            return old;
+        })
+    }
+
     // Returns the matching item
     get(item: T): T {
         for (let index = 0; index < this.list.length; index++) {

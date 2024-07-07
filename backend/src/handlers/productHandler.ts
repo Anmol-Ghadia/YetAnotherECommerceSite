@@ -1,12 +1,10 @@
 import { Request,Response } from 'express';
 import { 
     checkId, checkLongString,
-    checkMediumString, checkURLArray
+    checkMediumString, checkURLArray,
+    Product
 } from '../databse/schema';
-import { 
-    getProductByID, getProductByIDRange,
-    makeProductListing, updateProductListing,
-    isOwnerOfProduct,removeProduct,
+import {
     removeCartItemsByProductId
 } from '../database';
 import { 
@@ -14,6 +12,14 @@ import {
     sendSuccessData,sendTypeError,
     sendPermissionError
 } from './handlerHelpers';
+import {
+    queryCreateProduct,
+    queryDeleteProduct,
+    queryOwnershipOfProduct,
+    queryReadProductById,
+    queryReadProductByIdRange,
+    queryUpdateProduct
+} from '../databse/queries/productQueries';
 
 // Handles requests related to single product, based on product id
 export async function handleSingleProductRequest(req:Request,res:Response) {
@@ -32,7 +38,7 @@ export async function handleSingleProductRequest(req:Request,res:Response) {
         return;
     }
 
-    const productJson = await getProductByID(productId);
+    const productJson = await queryReadProductById(productId);
     if (productJson != null) {
         sendSuccessData(res,200,productJson);
         return;
@@ -60,7 +66,7 @@ export async function handleRangeProductRequest(req:Request,res:Response) {
         return;
     }
     
-    const productJson = await getProductByIDRange(startId,endId);
+    const productJson = await queryReadProductByIdRange(startId,endId);
     if (productJson != null) {
         sendSuccessData(res,200,productJson);
         return;
@@ -102,7 +108,16 @@ export async function handleCreateNewProductRequest(req:Request,res:Response) {
         return;
     }
 
-    await makeProductListing(username,name,description,price,images);
+    const newProduct:Product = {
+        productId: 0,
+        name:name,
+        description:description,
+        price:price,
+        images:images,
+        username:username
+    }
+
+    await queryCreateProduct(newProduct);
     sendSuccessData(res,201,{});
     return;
 }
@@ -144,12 +159,21 @@ export async function handleUpdateProductRequest(req:Request,res:Response) {
     }
 
     // Check user is the owner of this product
-    if (! await isOwnerOfProduct(productId,username)) {
+    if (! await queryOwnershipOfProduct(productId,username)) {
         sendPermissionError(res);
         return;
     }
-    
-    await updateProductListing(productId,username,name,description,price,images);
+
+    const newProduct:Product = {
+        productId: productId,
+        name: name,
+        description: description,
+        price: price,
+        images: images,
+        username: username
+    }
+
+    await queryUpdateProduct(newProduct);
     sendSuccessData(res,201,{});
     return;
 }
@@ -177,12 +201,12 @@ export async function handleRemoveProductRequest(req:Request,res:Response) {
     }
 
     // check user is owner of product
-    if (! await isOwnerOfProduct(productId,username)) {
+    if (! await queryOwnershipOfProduct(productId,username)) {
         sendPermissionError(res);
         return;
     }
 
-    await removeProduct(productId);
+    await queryDeleteProduct(productId);
     sendSuccessData(res,200,{});
 
     removeCartItemsByProductId(productId);
@@ -212,7 +236,7 @@ export async function handleOwnershipRequest(req:Request,res:Response) {
     }
 
     // check user is owner of product
-    if (! await isOwnerOfProduct(productId,username)) {
+    if (! await queryOwnershipOfProduct(productId,username)) {
         sendPermissionError(res);
         return;
     }

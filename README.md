@@ -92,6 +92,7 @@ Routes requiring authentication have to go through auth middleware
 1) Set Cookie paramaeter `secure: true` in Login.jsx
 
 ## TODO
+1) CREATE product should return product id of the newly created product
 1) Do not fetch the cart if no token is present (on frontend) QID15,16
 1) integrate cache for Cart, review, ~~Users~~ in database connector
 1) Refactor database connector

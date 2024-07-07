@@ -23,7 +23,6 @@ export async function queryGetSingleCartItem(username: string, productId: number
 
     const options:FindOptions<CartItem>={
         projection: {
-            _id: 0,
             quantity: 1
         }
     };
