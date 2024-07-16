@@ -1,15 +1,14 @@
 
 import dotenv from 'dotenv';
-import { isEnvironmentVariableSet } from './helpers.js';
-import makeApp from './app.js';
+import { isEnvironmentVariableSet } from './helpers';
+import makeApp from './app';
 import { Express } from 'express';
-import { log } from './logger.js';
-import { initialize } from './database/exampleData.js';
-import { doDBClose, doDBConnect } from './database/Initialize.js';
+import { log } from './logger';
+import { initialize } from './database/exampleData';
+import { doDBClose, doDBConnect } from './database/initialize';
 
 dotenv.config();
 let isDBConnected: boolean= false;
-
 
 // Perform checks before starting the server
 if (isEnvironmentVariableSet()) {
@@ -35,7 +34,7 @@ async function endRoutine() {
 // Start Process
 const server = app.listen(port, async () => {
   log(0,`SERVER`,`listening at (http://localhost:${port})`);
-  isDBConnected = doDBConnect();
+  isDBConnected = await doDBConnect();
   if (process.env.RESET_DB=='true') initialize();
 if (!isDBConnected) endRoutine;
 });

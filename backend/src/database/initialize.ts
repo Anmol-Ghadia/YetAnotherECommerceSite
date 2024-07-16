@@ -24,7 +24,7 @@ let CART_CACHE: Cache<CartItem>;
 let USER_CACHE: Cache<User>;
 
 // Returns true upon successfull connection to database
-export function doDBConnect():boolean {
+export async function doDBConnect():Promise<boolean> {
     try {
         CLIENT = new MongoClient(
             process.env.DB_URI as string, {
@@ -52,17 +52,17 @@ export function doDBConnect():boolean {
         initializeReviewQueries(REVIEW_COLLECTION,DB);
         initializeUserQueries(USER_COLLECTION,USER_CACHE,DB);
 
-        pingDB();
+        await pingDB();
         return true;
     } catch (err) {
-        doDBClose();
+        await doDBClose();
         return false;
     }
 }
 
 // Closes database connection
 export async function doDBClose() {
-    await CLIENT.close();
+    if (CLIENT != null) await CLIENT.close();
 }
 
 // Pings the DB and prints the message
