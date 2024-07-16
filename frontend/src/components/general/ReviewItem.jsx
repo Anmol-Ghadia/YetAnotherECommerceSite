@@ -1,12 +1,18 @@
 import { ReviewStars } from "./ReviewStars"
+import '../../scss/components/general/ReviewItem.scss';
 
+// An individual review, loads the first,last name if possible
 export function ReviewItem({review}) {
     return (
-        <>
-        <h2>{review.title}</h2>
-        {/* <h3>Stars: {review.rating}</h3> */}
-        <ReviewStars stars={review.rating} />
-        <p>{review.description}</p>
-        </>
+        <div id="reveiw-container">
+            <div class="review-user-bar">
+                <p class="review-user">{review.username}</p>
+                <div class="star-container">
+                    <ReviewStars stars={review.rating} />
+                </div>
+            </div>
+            <p id="review-title">{review.title}</p>
+            <p>{review.description}</p>
+        </div>
     )
 }

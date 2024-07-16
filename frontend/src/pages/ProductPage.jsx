@@ -89,30 +89,11 @@ export default function ProductPage() {
                 <div className="description-container">
                     <p>{prod.description}</p>
                 </div>
+                <h2>Reviews</h2>
+                <ReviewDisplay productId={productId} />
+            
             </>
             :''}
-            
-
-            {/* <hr />
-            <h3>old</h3>
-            <hr /> */}
-            
-            
-            {/* <h1>Single Product Page</h1>
-            <p>Current product {productId}</p>
-            {isLoaded ?
-            <>
-                <h2>{prod.name}</h2>
-                <img src={prod.images[0]?prod.images[0]:link1} alt=""/>
-                <h1>Image Here</h1>
-                <p>{prod.description}</p>
-                <p>Price: ${prod.price}</p>
-                <ProductBuyButton prod={prod} />
-            </> : "Loading..."
-            }
-            <hr /> */}
-            <ReviewDisplay productId={productId} />
-            
         </>
     )
 }

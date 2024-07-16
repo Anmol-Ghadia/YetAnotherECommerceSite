@@ -24,12 +24,10 @@ export function ReviewDisplay({productId}) {
 
     return (
         <>
-            <hr />
             {isLoaded? reviews.map((review)=> {
                return <ReviewItem key={review.username} review={review}/>
             }): 
             "Loading Reviews"}
-            <hr />
         </>
     )
 }
