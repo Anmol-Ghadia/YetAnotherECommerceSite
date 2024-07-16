@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductBuyButton from "../components/specific/ProductBuyButton";
 import { ReviewDisplay } from "../components/general/ReviewDisplay";
-import { ReviewSummary } from "../components/general/ReviewSummary";
+import { ProductReviewSummary } from "../components/specific/ProductReviewSummary";
 import '../scss/pages/ProductPage.scss';
 
 export default function ProductPage() {
@@ -71,7 +71,7 @@ export default function ProductPage() {
                     </div>
                     <div id="price-review-container">
                         <span id="price-display">${prod.price}</span>
-                        <ReviewSummary productId={productId} />
+                        <ProductReviewSummary productId={productId} />
                     </div>
                 </div>
                 <div id="product-main-description">
