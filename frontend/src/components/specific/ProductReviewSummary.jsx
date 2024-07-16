@@ -26,7 +26,7 @@ export function ProductReviewSummary({productId}) {
     
     return (
         <>
-        <div id="temp">
+        <div id="stars-container">
             <ReviewStars stars={stars}/>
             <div id="star-description">
                 from {reviewCount} ratings
