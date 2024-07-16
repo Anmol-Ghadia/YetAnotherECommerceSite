@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cookie from 'js-cookie';
+import '../../scss/components/specific/ProductBuyButton.scss';
 
 // Represents the buy button with ability to 
 //      increase or decrease quantity
@@ -68,20 +69,20 @@ export default function ProductBuyButton({prod}) {
         }
     }
 
-    const buyButton = <button onClick={addQty}>Add to Cart</button>
+    const buyButton = <button id="add-to-cart-button" onClick={addQty}>Add to Cart</button>
     const decideQuantity = (
         <>
-            <button onClick={subQty}>Sub one</button>
-            <span>{qty}</span>
-            <button onClick={addQty}>Add one</button>
+            <button id="sub-button" onClick={subQty}>Sub one</button>
+            <div id="quantity-display">{qty}</div>
+            <button id="add-button" onClick={addQty}>Add one</button>
         </>
     )
 
     return (
-        <>
+        <div id="buy-button-container">
         {isLoaded?
             (qty===0? buyButton:decideQuantity)
         :"loading"}    
-        </>
+        </div>
     )
 }
