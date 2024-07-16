@@ -50,12 +50,17 @@
     height: 100%;
 }
 
-.description-container {
+.description-container,
+.sold-by-container {
     width: 100%;
     margin-bottom: 2vh;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.sold-by-container {
+    font-size: larger;
 }
 
 .description-container p {

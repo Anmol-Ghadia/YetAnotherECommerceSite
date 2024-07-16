@@ -89,6 +89,9 @@ export default function ProductPage() {
                 <div className="description-container">
                     <p>{prod.description}</p>
                 </div>
+                <div className="sold-by-container">
+                    <p>Sold by <i><b>{prod.username}</b></i></p>
+                </div>
                 <h2>Reviews</h2>
                 <ReviewDisplay productId={productId} />
             
