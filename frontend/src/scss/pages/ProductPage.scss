@@ -10,8 +10,7 @@
     align-items: center;
 }
 
-#product-main-description p,
-#main-description {
+#product-main-description p {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -174,6 +173,12 @@
         justify-content: space-evenly;
         flex-direction: column;
 
+    }
+
+    #main-description {
+        font-size: x-large;
+        text-align: center;
+        font-weight: bold;
     }
 
     #right-panel-below,

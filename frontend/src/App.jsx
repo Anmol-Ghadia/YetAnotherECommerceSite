@@ -6,11 +6,11 @@ import BrowsePage from "./pages/BrowsePage"
 import ProductPage from "./pages/ProductPage"
 import UserPage from "./pages/UserPage"
 import CartPage from "./pages/CartPage"
-import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPage"
 import AuthPage from "./pages/AuthPage";
 import Footer from "./components/general/Footer";
 import Header from "./components/general/Header";
+import LoginPanel from "./components/specific/LoginPanel";
 
 function App() {
 
@@ -43,7 +43,7 @@ function App() {
         {/* Without Header */}
         <Route index element={<LandingPage />} />
         <Route path="auth" element={<AuthPage />}>
-          <Route index element={<LoginPage />} />
+          <Route index element={<LoginPanel />} />
           <Route path="register" element={<RegisterPage />} />
         </Route>
       </Route>

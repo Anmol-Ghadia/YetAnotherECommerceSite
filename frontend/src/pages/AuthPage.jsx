@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Cookies from 'js-cookie';
+import '../scss/pages/AuthPage.scss';
 
 export default function AuthPage() {
 
@@ -31,12 +32,11 @@ export default function AuthPage() {
         })
     },[]);
 
-
     return (
-        <>
-            <h1>Authentication Page</h1>
-            <Outlet />
-            <h1>end of auth page</h1>
-        </>
+        <div id='main'>
+            <div id="auth-container">
+                <Outlet />
+            </div>
+        </div>
     )
 }
