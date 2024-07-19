@@ -1,0 +1,28 @@
+@import '../../styles/variables';
+@import '../../styles/fonts';
+
+.theme-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid $color-primary;
+    background-color: $color-primary;
+    color: $color-secondary;
+    font-weight: 600;
+    outline: none;
+    height: 50px;
+    width: fit-content;
+    padding: 0px 50px;
+    cursor: pointer;
+    border-radius: 25px;
+    margin: 5px;
+    font-size: 1.25em;
+    transition: border-color 150ms ease-in-out;
+    user-select: none;
+    font-family: 'Ubuntu', 'Courier New', Courier, monospace;
+}
+
+.theme-button:hover,
+.theme-button:focus {
+    border-color:  $color-highlight;
+}

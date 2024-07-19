@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Cookies from 'js-cookie';
 import '../../scss/components/specific/LoginPanel.scss';
 import Logo from "../general/Logo";
+import Button from '../basic/Button';
 
 export default function LoginPanel() {
     const [inputUsername, setInputUsername] = useState('');
@@ -179,12 +180,9 @@ export default function LoginPanel() {
             </div>
 
             <div id="panel-error">{errorMessage}</div>
-            <button
-                id="panel-submit"
-                className="panel-input-field"
-                onClick={doSubmit}>
-                Login
-            </button>
+            <Button
+                onClick={doSubmit}
+                content={'Login'}/>
             <span id='register-now-container'>
                 Don't have an account?
             <a href="/auth/register">Click to Resgister</a>

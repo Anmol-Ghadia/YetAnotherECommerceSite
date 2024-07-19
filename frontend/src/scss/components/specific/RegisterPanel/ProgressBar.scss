@@ -1,0 +1,36 @@
+@import '../../../styles/variables';
+
+#page-progress-container {
+    width: 100%;
+    display: grid;
+    height: 100%;
+    column-gap: 1vw;
+    padding: 0px 1vw;
+}
+
+#page-progress-container div {
+    // outline: 1px solid pink;
+    border: 1px solid $color-contrast;
+    
+}
+
+.completed-bar {
+    background-color: $color-contrast;
+}
+
+.current-bar {
+    background-color: $color-contrast;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0% {
+        background-color: $color-contrast;
+    }
+    50% {
+        background-color: transparent;
+    }
+    100% {
+        background-color: $color-contrast;
+    }
+  }

@@ -1,0 +1,15 @@
+@import '../../styles/variables';
+
+#register-container {
+    height: 50vh;
+    width: 30vw;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+#progress-container {
+    height: 3%;
+    width: 100%;
+}
