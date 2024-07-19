@@ -1,7 +1,12 @@
+@import '../styles/variables';
+
 #main {
     width: 100%;
     height: 100vh;
-    background-color: #eee;
+    background-color: $color-secondary;
+    background-image: 
+        radial-gradient(ellipse at top left, $color-primary, transparent),
+        radial-gradient(ellipse at bottom right, $color-highlight 25%, transparent);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,7 +14,8 @@
 
 #auth-container {
     padding: 20px;
-    border: 1px solid black;
+    background-color: $color-white;
+    border: 2px solid black;
     border-radius: min(2.5vw,2.5vh);
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
 }

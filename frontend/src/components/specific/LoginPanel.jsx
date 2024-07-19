@@ -126,8 +126,8 @@ export default function LoginPanel() {
 
     return (
         <div id="login-contianer">
-            <div id="panel-header">
-                <Logo size={'20%'} />
+            <div id="panel-header" onClick={()=>{window.location.href = '/'}}>
+                    <Logo size={'20%'} />
                 Log In
             </div>
 
@@ -185,9 +185,9 @@ export default function LoginPanel() {
                 onClick={doSubmit}>
                 Login
             </button>
-            <span 
-                onClick={()=>{window.location.href='/auth/register'}}>
-                Register now
+            <span id='register-now-container'>
+                Don't have an account?
+            <a href="/auth/register">Click to Resgister</a>
             </span>
             </div>
         </div>

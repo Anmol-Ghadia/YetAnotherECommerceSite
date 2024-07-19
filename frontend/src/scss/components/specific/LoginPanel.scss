@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 #login-contianer {
     width: 70vw;
     height: 45vh;
@@ -11,13 +13,14 @@
     align-items: center;
     flex-direction: column;
     height: 30%;
+    cursor: pointer;
+    user-select: none;
 }
 
 #panel-body {
     height: 70%;
     display: flex;
     justify-content: space-evenly;
-    // padding-top: 15%;
     align-items: center;
     flex-direction: column;
 }
@@ -27,12 +30,16 @@
     width: 85%;
     border-radius: 200px;
     height: 15%;
-    border: 1px solid gray;
+    border: 2px solid gray;
     display: grid;
     grid-template-columns: 0% 15% auto;
     overflow: hidden;
-    transition: box-shadow,grid-template-columns  250ms linear;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    transition: grid-template-columns  250ms linear;
+}
+
+.panel-input-field:has(input:focus),
+.panel-input-field:has(input:hover) {
+    border-color: $color-contrast;
 }
 
 .panel-input-field-expand-cover {
@@ -49,21 +56,22 @@
 }
 
 .success {
-    background-color: #00a8e8;
+    background-color: #4472ca;
 }
 
 .fail {
-    background-color: #dc2f02;
+    background-color: #ff9f1c;
 }
 
 .panel-input-field .image {
-    // border: 1px solid orange;
     border-right: 1px solid gray;
     padding-left: 10%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: white;
+    user-select: none;
 }
 
 .panel-input-field .image img {
@@ -71,6 +79,7 @@
 }
 
 .panel-input-field input {
+    outline: none;
     width: 100%;
     border: none;
     outline: none;
@@ -79,12 +88,9 @@
     padding-left: 5%;
 }
 
-.panel-input-field:hover {
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-}
-
 #panel-error {
     height: 10%;
+    color: red;
 }
 
 #panel-submit {
@@ -94,6 +100,13 @@
     font-size: 1.2em;
     color: black;
     width: 60%;
+    user-select: none;
+    background-color: transparent;
+    outline: none;
+}
+
+#panel-submit:hover {
+    border-color: $color-contrast;
 }
 
 #password-eye-symbol {
@@ -105,11 +118,27 @@
     padding-right: 2.5%;
     padding-left: 2.5%;
     background-color: white;
+    user-select: none;
 }
 
 #password-eye-symbol img {
     width: 100%;
     height: 100%;
+}
+
+#register-now-container {
+    color: #555;
+    user-select: none;
+}
+
+#register-now-container a {
+    padding-left: 10px;
+    color: $color-secondary;
+    text-decoration: none;
+}
+
+#register-now-container a:hover {
+    color: #ff9f1c
 }
 
 @media (orientation: landscape) {
