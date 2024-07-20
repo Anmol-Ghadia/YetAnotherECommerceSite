@@ -5,9 +5,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 4px solid $color-primary;
-    background-color: $color-primary;
     color: $color-secondary;
+    border: 4px solid $color-primary;
     font-weight: 600;
     outline: none;
     height: 50px;
@@ -17,12 +16,20 @@
     border-radius: 25px;
     margin: 5px;
     font-size: 1.25em;
-    transition: border-color 150ms ease-in-out;
+    transition: border-color $time-hover ease-in-out;
     user-select: none;
-    font-family: 'Ubuntu', 'Courier New', Courier, monospace;
+    font-family: $font-primary;
 }
 
 .theme-button:hover,
 .theme-button:focus {
     border-color:  $color-highlight;
+}
+
+.theme-button-no-fill {
+    background-color: $color-white;
+}
+
+.theme-button-fill {
+    background-color: $color-primary;
 }

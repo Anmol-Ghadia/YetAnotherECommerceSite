@@ -8,10 +8,11 @@
     font-size: 1.15em;
     background-color: $color-white;
     border: 4px solid $color-primary;
+    color: $color-secondary;
     padding: 0px 10px;
     border-radius: 10px;
-    transition: border-radius 100ms ease-out;
-    font-family: 'Ubuntu', 'Courier New', Courier, monospace;
+    transition: border-radius,border-color $time-hover ease-out;
+    font-family: $font-primary;
 }
 
 .theme-text-input-label {
@@ -22,21 +23,38 @@
     cursor: text;
 }
 
+.theme-text-input:focus,
+.theme-text-input[data-has-value='1'],
+.theme-text-input:active {
+    border-radius: 15px;
+}
+
+.theme-text-input:focus,
+.theme-text-input:hover,
+.theme-text-input:active {
+    border-color: $color-highlight;
+}
+
+
+.theme-text-input:not(:valid) {
+    border-color: $color-failure;
+}
+
 .theme-text-input-label div {
     position: absolute;
     top: 50%;
     left: 2.5%;
     font-size: 1.15em;
     transform: translateY(-50%);
-    transition: all 100ms ease-out;
+    transition: all $time-hover ease-out;
     background-color: $color-white;
     color: $color-primary;
     padding: 0px 4px;
-    font-family: 'Ubuntu', 'Courier New', Courier, monospace;
+    font-family: $font-primary;
 }
 
 .theme-text-input:focus ~ div,
-.theme-text-input:valid ~ div,
+.theme-text-input[data-has-value='1'] ~ div,
 .theme-text-input:active ~ div {
     font-size: 1em;
     top: 0%;
@@ -45,10 +63,4 @@
     border-radius: 50px;
     transform: translateY(-40%);
     font-weight: 600;
-}
-
-.theme-text-input:focus,
-.theme-text-input:valid,
-.theme-text-input:active {
-    border-radius: 15px;
 }

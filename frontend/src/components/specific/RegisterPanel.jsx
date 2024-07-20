@@ -3,6 +3,7 @@ import '../../scss/components/specific/RegisterPanel.scss';
 import ProgressBar from './RegisterPanel/ProgressBar';
 import Button from '../basic/Button';
 import TextInput from "../basic/TextInput";
+import LeftButton from "../basic/LeftButton";
 
 export default function RegisterPanel() {
     const [inputUsername, setInputUsername] = useState('');
@@ -115,24 +116,32 @@ export default function RegisterPanel() {
     return (
         <div id="register-container">
             <div id="progress-container">
-                {header}
+                {/* {header} */}
             </div>
-            {currentSubPanel==0?
+            {/* {currentSubPanel==0?
             pageOne
             :currentSubPanel==1?
             pageTwo
             :currentSubPanel==2?
             pageThree
-            :pageFour}
+            :pageFour} */}
             <Button 
                 onClick={()=>{setCurrentSubPanel(currentSubPanel-1)}}
-                content={"back"}/>
+                content={"back"}
+                fill={true}/>
             <Button 
                 onClick={()=>{setCurrentSubPanel(currentSubPanel+1)}}
                 content={"continue"}/>
             <TextInput
                 placeholder={"First Name"}
                 />
+            <TextInput
+                placeholder={"Password"}
+                type={"password"}/>
+            <TextInput
+                placeholder={"Email"}
+                type={"email"}/>
+            <LeftButton rotation={180}/>
         </div>
     )
 }

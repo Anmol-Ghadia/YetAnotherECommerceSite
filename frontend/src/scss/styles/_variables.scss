@@ -1,9 +1,21 @@
 $color-primary: #abc4ff;
 $color-secondary: #03045e;
-$color-contrast: #ff9f1c;
+$color-contrast: #ffe6ab;
 $color-highlight: #4472ca;
 $color-white: #f8f7ff;
 $color-black: #333232;
+
+// Non essential
+$color-success: #abffae;
+$color-failure: #f26f6f;
+
+$time-hover: 100ms;
+$font-primary: 'Ubuntu', 'Courier New', Courier, monospace;
+// Primary is the color used by default and in initial state
+// highlight is used to focus user attention for example a text input
+// Secondary is used as a darker font
+// contrast is used sparingly to add color
+
 
 
 
