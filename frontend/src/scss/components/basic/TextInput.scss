@@ -41,7 +41,7 @@
 }
 
 .theme-text-input[data-invalid='1'] {
-    animation: shakeInput 1s ease-in-out infinite;
+    animation: shakeInput 750ms ease-in-out infinite;
 }
 
 @keyframes shakeInput {
@@ -87,7 +87,7 @@
 }
 
 .theme-text-input[data-invalid='1']~div {
-    animation: shakePlaceholder 0.5s ease-in-out infinite;
+    animation: shakePlaceholder 750ms ease-in-out infinite;
 }
 
 @keyframes shakePlaceholder {
@@ -99,10 +99,10 @@
 
     25%,
     75% {
-        left: 10%;
+        left: 9%;
     }
 
     50% {
-        left: 5%;
+        left: 6%;
     }
 }
