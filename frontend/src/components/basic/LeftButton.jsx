@@ -5,14 +5,14 @@ import '../../scss/components/basic/LeftButton.scss';
 // {rotation} is a number in degrees for direction of button,
 //            clockwise from left
 export default function LeftButton({ onClick, rotation }) {
-    
-    const buttonRotation = rotation==null?0:rotation;
+
+    const buttonRotation = rotation == null ? 0 : rotation;
 
     return (
-        <div style={{rotate:`${buttonRotation}deg`}}
+        <div style={{ rotate: `${buttonRotation}deg` }}
             class='theme-left-button'
             onClick={onClick}>
-                <div className="theme-left-button-image"></div>
+            <div className="theme-left-button-image"></div>
         </div>
     )
 }

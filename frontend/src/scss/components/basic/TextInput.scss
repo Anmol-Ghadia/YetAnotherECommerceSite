@@ -11,7 +11,7 @@
     color: $color-secondary;
     padding: 0px 10px;
     border-radius: 10px;
-    transition: border-radius,border-color $time-hover ease-out;
+    transition: border-radius, border-color $time-hover ease-out;
     font-family: $font-primary;
 }
 
@@ -40,6 +40,27 @@
     border-color: $color-failure;
 }
 
+.theme-text-input[data-invalid='1'] {
+    animation: shakeInput 1s ease-in-out infinite;
+}
+
+@keyframes shakeInput {
+
+    0%,
+    100% {
+        border-color: $color-primary;
+    }
+
+    25%,
+    75% {
+        border-color: $color-failure;
+    }
+
+    50% {
+        border-color: $color-primary;
+    }
+}
+
 .theme-text-input-label div {
     position: absolute;
     top: 50%;
@@ -53,9 +74,9 @@
     font-family: $font-primary;
 }
 
-.theme-text-input:focus ~ div,
-.theme-text-input[data-has-value='1'] ~ div,
-.theme-text-input:active ~ div {
+.theme-text-input:focus~div,
+.theme-text-input[data-has-value='1']~div,
+.theme-text-input:active~div {
     font-size: 1em;
     top: 0%;
     left: 7.5%;
@@ -63,4 +84,25 @@
     border-radius: 50px;
     transform: translateY(-40%);
     font-weight: 600;
+}
+
+.theme-text-input[data-invalid='1']~div {
+    animation: shakePlaceholder 0.5s ease-in-out infinite;
+}
+
+@keyframes shakePlaceholder {
+
+    0%,
+    100% {
+        left: 7.5%;
+    }
+
+    25%,
+    75% {
+        left: 10%;
+    }
+
+    50% {
+        left: 5%;
+    }
 }
