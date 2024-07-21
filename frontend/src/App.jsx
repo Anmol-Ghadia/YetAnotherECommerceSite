@@ -11,6 +11,7 @@ import Footer from "./components/general/Footer";
 import Header from "./components/general/Header";
 import LoginPanel from "./components/specific/LoginPanel";
 import RegisterPanel from "./components/specific/RegisterPanel";
+import LoginPanelNew from "./components/specific/LoginPanelNew";
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
         <Route path="auth" element={<AuthPage />}>
           <Route index element={<LoginPanel />} />
           <Route path="register" element={<RegisterPanel />} />
+          <Route path="login-new" element={<LoginPanelNew />} />
         </Route>
       </Route>
     </Routes>
