@@ -5,17 +5,22 @@ import TextInput from '../basic/TextInput';
 import Logo from "../general/Logo";
 import Button from '../basic/Button';
 import Label from '../basic/Label';
+import Cookies from 'js-cookie';
 
 export default function LoginPanelNew() {
 
+    let [isLogoHovered,setIsLogoHovered] = useState(false);
+    
     let [username, setUsername] = useState('');
     let [usernameInvalid, setUsernameInvalid] = useState(false);
 
     let [password, setPassword] = useState('');
     let [passwordInvalid, setPasswordInvalid] = useState(false);
-    let [errorMessage, setErrorMessage] = useState('');
-    let [isLogoHovered,setIsLogoHovered] = useState(false);
 
+    let [formSuccess, setFormSuccess] = useState(false);
+    let [errorMessage, setErrorMessage] = useState('');
+
+    // clears all user notifications after certain delay
     const waitAndResetState = async()=>{
         setTimeout(()=>{
             setUsernameInvalid(false);
@@ -26,20 +31,62 @@ export default function LoginPanelNew() {
         },6000);
     }
 
+    // notifies user of invalid username
     const notifyUsernameInvalid = ()=>{
         setUsernameInvalid(true)
         setErrorMessage('Invalid Username');
         waitAndResetState();
     }
+
+    // notifies user of invalid password
     const notifyPasswordInvalid = ()=>{
         setPasswordInvalid(true)
         setErrorMessage('Invalid Password');
         waitAndResetState();
     }
 
+    // Interprets the response for type of error and notifies the user
+    const interpretErrorMessageAndNotify = (str)=>{
+        const usernameRegex = /username/
+        if (usernameRegex.test(str.toLowerCase())) {
+            notifyUsernameInvalid();
+            return;
+        }
+        const passwordRegex = /password/
+        if (passwordRegex.test(str.toLowerCase())) {
+            notifyPasswordInvalid();
+            return;
+        }
+        setErrorMessage(str);
+        waitAndResetState();
+    }
+
+    // Saves user data on device
+    const handleUserLogin = (data)=>{
+        const token = 'Bearer ' + data['payload']['token'];
+        const validFor = data['payload']['validity'];
+        const cookieParameters = {
+            expires: (validFor/(1*60*60*24)),
+            secure: false, // TRUE in Production !!!
+        }
+        const user = data['payload']['user'];
+        window.localStorage.setItem('username',user['username']);
+        window.localStorage.setItem('firstName',user['firstName']);
+        window.localStorage.setItem('lastName',user['lastName']);
+        window.localStorage.setItem('profilePhoto',user['profilePhoto']);
+        Cookies.set('token',token, cookieParameters);
+    }
+
+    const handleSuccesAndExit = ()=>{
+        setFormSuccess(true);
+        setTimeout(()=>{
+            window.location.href = '/user'
+        },1500);
+    }
+
+    // Submits user credentials for authentication
     const doSubmit = ()=>{
-        // Data Validation
-        // Username -> [5-25]
+        // Data Validation for username
         const validCharsUsername = /^[a-zA-Z0-9()_\-.!@#$%^&\*]*$/
         var usernameValid = validCharsUsername.test(username);
         usernameValid &&= username.length <= 25;
@@ -50,8 +97,7 @@ export default function LoginPanelNew() {
             return;
         }
 
-        // Data Validation
-        // password -> [8-25]
+        // Data Validation for password
         const validCharsPassword = /^[a-zA-Z0-9()_\-,. !@#$%^&\*]*$/
         var passwordValid = validCharsPassword.test(password);
         passwordValid &&= password.length <= 25;
@@ -75,14 +121,12 @@ export default function LoginPanelNew() {
         .then(res => res.json())
         .then((data) => {
             if (data['success']) { // Success
-                setErrorMessage('success');
-                // TODO !!!
+                handleUserLogin(data);
+                handleSuccesAndExit();
                 return;
             }
-            // TODO !!!
-            // Mark password or username as invalid based on received response
-            setErrorMessage(data['payload']['description'])
-            waitAndResetState();
+            interpretErrorMessageAndNotify(data['payload']['description'])
+            
         })
         .catch(error => {
             setErrorMessage('Server unresponsive :(');
@@ -113,12 +157,14 @@ export default function LoginPanelNew() {
             <TextInput
                 setFunction={setUsername}
                 placeholder={'Username'}
-                invalid={usernameInvalid}/>
+                invalid={usernameInvalid}
+                success={formSuccess}/>
             <TextInput
                 setFunction={setPassword}
                 placeholder={'Password'}
                 type={'password'}
-                invalid={passwordInvalid}/>
+                invalid={passwordInvalid}
+                success={formSuccess}/>
             <Label
                 center={true}
                 content={errorMessage}/>
