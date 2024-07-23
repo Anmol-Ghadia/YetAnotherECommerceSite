@@ -44,6 +44,10 @@
     animation: shakeInput 750ms ease-in-out infinite;
 }
 
+.theme-text-input[data-success='1'] {
+    border-color: $color-success;
+}
+
 @keyframes shakeInput {
 
     0%,

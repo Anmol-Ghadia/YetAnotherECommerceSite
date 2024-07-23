@@ -10,7 +10,9 @@ import '../../scss/components/basic/TextInput.scss';
 //          - 'email'
 // {invalid} is boolean state which notifies the user that input is incorrect
 //           make sure to set it back to false
-export default function TextInput({ placeholder, setFunction, type, invalid }) {
+// {success} is boolean state which notifies the user that input is correct
+//           make sure to set it back to false
+export default function TextInput({ placeholder, setFunction, type, invalid, success }) {
     let [inputValue, setInputValue] = useState('');
 
     const onChangeFunction = (e) => {
@@ -24,6 +26,7 @@ export default function TextInput({ placeholder, setFunction, type, invalid }) {
         <label class="theme-text-input-label">
             <input
                 data-invalid={invalid ? '1' : '0'}
+                data-success={success? '1':'0'}
                 data-has-value={inputValue.length != 0 ? '1' : '0'}
                 class="theme-text-input"
                 type={inputType}
