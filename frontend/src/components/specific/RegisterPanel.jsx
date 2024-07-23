@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import '../../scss/components/specific/RegisterPanel.scss';
-import ProgressBar from './RegisterPanel/ProgressBar';
+import ProgressBar from '../basic/ProgressBar';
 import Button from '../basic/Button';
 import TextInput from "../basic/TextInput";
 import LeftButton from "../basic/LeftButton";
@@ -125,6 +125,7 @@ export default function RegisterPanel() {
             :currentSubPanel==2?
             pageThree
             :pageFour} */}
+            <ProgressBar fractions={5} state={2}/>
             <Button 
                 onClick={()=>{setCurrentSubPanel(currentSubPanel-1)}}
                 content={"back"}

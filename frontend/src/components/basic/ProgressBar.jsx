@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import '../../../scss/components/specific/RegisterPanel/ProgressBar.scss';
+import '../../scss/components/basic/ProgressBar.scss';
 
 
 // Represents a Progress bar with number of 'fractions' and 
@@ -17,7 +17,7 @@ export default function ProgressBar({fractions, state}) {
             } else if (state==index) {
                 return <div key={index} className='current-bar'></div>;
             }
-            return <div key={index} className=''></div>;
+            return <div key={index} className='incomplete-bar'></div>;
         }))
     },[state]);
 
