@@ -1,15 +1,68 @@
 @import '../../styles/variables';
 
 #register-container {
-    height: 50vh;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    position: relative;
+    min-height: 600px;
     width: 30vw;
+}
+
+#header {
+    width: 100%;
+    height: 150px;
+}
+
+.page {
     display: flex;
-    justify-content: center;
-    align-content: center;
     flex-direction: column;
 }
 
-#progress-container {
-    height: 3%;
+.top-spacer {
+    height: 175px;
+}
+
+#footer {
+    position: absolute;
+    bottom: 25px;
     width: 100%;
+    height: 50px;
+    display: grid;
+    align-items: end;
+    grid-template-columns: 50px auto 50px;
+}
+
+.bottom-spacer {
+    height: 100px;
+}
+
+.page-zero-name-bar {
+    display: flex;
+}
+
+.page-one-disclaimer {
+    width: 100%;
+    display: flex;
+    color: $color-primary;
+    justify-content: right;
+}
+
+.page-one-row-one {
+    display: grid;
+    grid-template-columns: auto 45%;
+}
+
+.page-one-row-two {
+    display: grid;
+    grid-template-columns: auto 30%;
+}
+
+.center {
+    display: flex;
+    justify-self: center;
+    align-items: center;
+}
+
+.error-display {
+    height: 50px;
 }

@@ -1,35 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../../scss/components/specific/RegisterPanel.scss';
 import ProgressBar from '../basic/ProgressBar';
 import Button from '../basic/Button';
 import TextInput from "../basic/TextInput";
+import Label from "../basic/Label";
 import LeftButton from "../basic/LeftButton";
+import Logo from "../general/Logo";
 
 export default function RegisterPanel() {
-    const [inputUsername, setInputUsername] = useState('');
-    const [inputPassword, setInputPassword] = useState('');
-    const [inputFirstName, setInputFirstName] = useState('');
-    const [inputLastName, setInputLastName] = useState('');
-    const [inputAddress, setInputAddress] = useState('');
-    const [inputPhone, setInputPhone] = useState('');
-    const [inputEmail, setInputEmail] = useState('');
-    const [inputProfilePhoto, setInputProfilePhoto] = useState('');
+    // basic information
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+    const [profilePhoto, setProfilePhoto] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    
+    // Helpers
+    const [appartmentNumber, setAppartmentNumber] = useState('');
+    const [pincode, setPincode] = useState('');
+    const [streetName, setStreetNumber] = useState('');
+    const [country, setCountry] = useState('');
+    const [passwordRepeat, setPasswordRepeat] = useState('');
+
+    // Page related
     const [currentSubPanel, setCurrentSubPanel] = useState(0);
+    const [isLogoHovered, setIsLogoHovered] = useState(false);
 
     const doSubmit = () => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                username: inputUsername,
-                password: inputPassword,
-                firstName: inputFirstName,
-                lastName: inputLastName,
-                address: inputAddress,
-                phone: parseInt(inputPhone),
-                email: inputEmail,
-                profilePhoto: inputProfilePhoto
+                username: username,
+                password: password,
+                firstName: firstName,
+                lastName: lastName,
+                address: `${appartmentNumber}, ${streetName}, ${pincode}, ${country}`,
+                phone: parseInt(phone),
+                email: email,
+                profilePhoto: profilePhoto
             })
         };
         fetch("/api-v1/auth/register",requestOptions)
@@ -37,7 +49,8 @@ export default function RegisterPanel() {
         .then(async (data) => {
             if (data['success']) {
                 setErrorMessage("Registered!");
-                window.location.href = '/auth';
+                setCurrentSubPanel(3)
+
             } else {
                 setErrorMessage(data['payload']['message']);
             }
@@ -45,104 +58,162 @@ export default function RegisterPanel() {
         .catch(error => console.error(error));
     }
 
-    const header = <ProgressBar fractions={4} state={currentSubPanel} />
+    const pageThree = (
+        <div className="page">
+            <Label
+                center={true}
+                content={<h1>Congratulations!</h1>}/>
+            {/* TODO !!! add a celebration animation */}
+            <Label
+                center={true}
+                content={<h2> You are all set up</h2>}/>
+            <div className="center">
+                <Button 
+                    onClick={()=>{window.location.href='/auth'}}
+                    content={'Continue'}
+                    fill={true}/>
+            </div>
+        </div>
+    )
 
-    const pageOne = (<>
-        First Name: <input
-        type="text"
-        id="input-first-name"
-        value={inputFirstName}
-        onChange={(e)=>{setInputFirstName(e.target.value)}} />
-        <br />
-        Last Name: <input
-        type="text"
-        id="input-last-name"
-        value={inputLastName}
-        onChange={(e)=>{setInputLastName(e.target.value)}} />
-        <br />
-    </>)
+    const pageTwo = (
+        <div className="page">
+            <Label
+                center={true}
+                content={<h1>Lets setup your profile</h1>}/>
+            <TextInput
+                setFunction={setUsername}
+                placeholder={'Username*'}
+                />
+            <TextInput
+                type={'password'}
+                setFunction={setPassword}
+                placeholder={'password*'}
+                />
+            <TextInput
+                type={'password'}
+                setFunction={setPasswordRepeat}
+                placeholder={'Retype password*'}
+                />
+            <TextInput
+                setFunction={setProfilePhoto}
+                placeholder={'Profile photo url'}
+                />
+            <div className="center">
+                <Button 
+                    onClick={doSubmit}
+                    content={'Create Profile'}
+                    fill={true}/>
+            </div>
+        </div>
+    )
 
-    const pageTwo = (<>
-        Email: <input
-        type="email"
-        id="input-email"
-        value={inputEmail}
-        onChange={(e)=>{setInputEmail(e.target.value)}} />
-        <br />
-        Username: <input
-        type="text"
-        id="input-username"
-        value={inputUsername}
-        onChange={(e)=>{setInputUsername(e.target.value)}}/>
-        <br />
-        Password: <input
-        type="password"
-        id="input-password"
-        value={inputPassword}
-        onChange={(e)=>{setInputPassword(e.target.value)}} />
-        <br />
-    </>)
+    const pageOne = (
+        <div className="page">
+            <Label
+                center={true}
+                content={<h1>Shipping Information</h1>}/>
+            <div className="page-one-row-one">
+                <TextInput
+                    setFunction={setAppartmentNumber}
+                    placeholder={'Apt. no., floor, building Name'}
+                    />
+                <TextInput
+                    setFunction={setCountry}
+                    placeholder={'Country*'}
+                    />    
+            </div>
+            <div className="page-one-row-two">
+                <TextInput
+                    setFunction={setStreetNumber}
+                    placeholder={'Street Name'}
+                    />
+                <TextInput
+                    setFunction={setPincode}
+                    placeholder={'Pincode*'}
+                    />
+            </div>
+            <Label
+                content={
+                    <div className="page-one-disclaimer">
+                        This can be changed later from user settings
+                    </div>
+                }/>
+        </div>
+    )
 
-    const pageThree = (<>
-        Address: <input
-        type="text"
-        id="input-address"
-        value={inputAddress}
-        onChange={(e)=>{setInputAddress(e.target.value)}} />
-        <br />
-        Phone: <input
-        type="number"
-        id="input-phone"
-        value={inputPhone}
-        onChange={(e)=>{setInputPhone(e.target.value)}} />
-        <br />
-        Profile Photo URL: <input
-        type="text"
-        id="input-profile-photo"
-        value={inputProfilePhoto}
-        onChange={(e)=>{setInputProfilePhoto(e.target.value)}} />
-        <br />
-    </>)
+    const pageZero = (
+        <div className="page">
+            <Label
+                center={true}
+                content={<h1>Create Account</h1>}/>
+            <div className="page-zero-name-bar">
+                <TextInput
+                    setFunction={setFirstName}
+                    placeholder={'First Name'}
+                    />
+                <TextInput
+                    setFunction={setLastName}
+                    placeholder={'Last Name*'}
+                    />
+            </div>
+            <TextInput
+                type={'email'}
+                setFunction={setEmail}
+                placeholder={'Email*'}
+                />
+            <TextInput
+                setFunction={setPhone}
+                placeholder={'Phone Number*'}
+                />
+        </div>
+    )
 
-    const pageFour = (<>
-        <div>Response: {errorMessage}</div>
-        <button onClick={doSubmit}>Register</button>
-        <span 
-        onClick={()=>{window.location.href='/auth'}}>
-            Login
-        </span>
-    </>)
+    const header = (
+        <>
+            <div
+                id="logo-container"
+                onMouseEnter={()=>{setIsLogoHovered(true)}}
+                onMouseLeave={()=>{setIsLogoHovered(false)}}>
+                <Logo
+                    size={'100px'}
+                    doAnimate={isLogoHovered}/>
+            </div>
+            <div className="top-spacer"></div>
+        </>
+    )
+
+    const footer = (
+        <>
+            <div className="bottom-spacer"></div>
+            <div id="footer">
+                <LeftButton onClick={
+                    ()=>{
+                        currentSubPanel>0?
+                        setCurrentSubPanel((c)=>{return c-1})
+                        :window.location.href = '/';
+                    }}/>
+                <ProgressBar fractions={3} state={currentSubPanel} />
+                {currentSubPanel==2?'':<LeftButton rotation={180} onClick={()=>{setCurrentSubPanel((c)=>{return c+1})}}/>}
+            </div>
+        </>
+    )
 
     return (
         <div id="register-container">
-            <div id="progress-container">
-                {/* {header} */}
-            </div>
-            {/* {currentSubPanel==0?
-            pageOne
+            {header}
+            {/* {pageZero} */}
+            {currentSubPanel==0?
+            pageZero
             :currentSubPanel==1?
-            pageTwo
+            pageOne
             :currentSubPanel==2?
-            pageThree
-            :pageFour} */}
-            <ProgressBar fractions={5} state={2}/>
-            <Button 
-                onClick={()=>{setCurrentSubPanel(currentSubPanel-1)}}
-                content={"back"}
-                fill={true}/>
-            <Button 
-                onClick={()=>{setCurrentSubPanel(currentSubPanel+1)}}
-                content={"continue"}/>
-            <TextInput
-                placeholder={"First Name"}
-                />
-            <TextInput
-                placeholder={"Password"}
-                type={"password"}/>
-            <TextInput
-                placeholder={"Email"}
-                type={"email"}/>
-            <LeftButton rotation={180}/>
+            pageTwo
+            :pageThree}
+            <Label
+                center={true}
+                content={errorMessage}/>
+            {currentSubPanel!=3?footer:''}
         </div>
     )
 }
