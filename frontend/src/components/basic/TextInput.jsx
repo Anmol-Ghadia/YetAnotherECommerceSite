@@ -16,6 +16,7 @@ import '../../scss/components/basic/TextInput.scss';
 //           make sure to set it back to false
 export default function TextInput({ placeholder, setFunction, type, invalid, success }) {
     let [inputValue, setInputValue] = useState('');
+    let [passwordVisible, setPasswordVisible] = useState(false);
 
     const onChangeFunction = (e) => {
         setInputValue(e.target.value);
@@ -25,16 +26,25 @@ export default function TextInput({ placeholder, setFunction, type, invalid, suc
     const inputType = type != null ? type : 'text';
 
     return (
-        <label class="theme-text-input-label">
+        <label className="theme-text-input-label">
             <input
                 data-invalid={invalid ? '1' : '0'}
                 data-success={success ? '1' : '0'}
                 data-has-value={inputValue.length != 0 ? '1' : '0'}
-                class="theme-text-input"
-                type={inputType}
+                className="theme-text-input"
+                type={
+                        inputType=='password'?
+                        (passwordVisible?'text':inputType)
+                        :inputType}
                 value={inputValue}
                 onChange={onChangeFunction} />
-            <div>{placeholder}</div>
+            <div className='placeholder'>{placeholder}</div>
+            {inputType=='password'?
+                <div
+                    onClick={()=>{setPasswordVisible(!passwordVisible)}}
+                    data-visible={passwordVisible?'1':'0'} 
+                    className="view-password"></div>
+                :<></>}
         </label>
     )
 }

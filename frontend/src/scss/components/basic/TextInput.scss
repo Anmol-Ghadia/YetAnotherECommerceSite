@@ -30,7 +30,7 @@
 }
 
 .theme-text-input:focus,
-.theme-text-input:hover,
+.theme-text-input-label:hover .theme-text-input,
 .theme-text-input:active {
     border-color: $color-highlight;
 }
@@ -65,7 +65,7 @@
     }
 }
 
-.theme-text-input-label div {
+.theme-text-input-label .placeholder {
     position: absolute;
     top: 50%;
     left: 2.5%;
@@ -73,14 +73,14 @@
     transform: translateY(-50%);
     transition: all $time-hover ease-out;
     background-color: $color-white;
-    color: $color-primary;
+    color: $color-highlight;
     padding: 0px 4px;
     font-family: $font-primary;
 }
 
-.theme-text-input:focus~div,
-.theme-text-input[data-has-value='1']~div,
-.theme-text-input:active~div {
+.theme-text-input:focus~.placeholder,
+.theme-text-input[data-has-value='1']~.placeholder,
+.theme-text-input:active~.placeholder {
     font-size: 1em;
     top: 0%;
     left: 7.5%;
@@ -90,7 +90,7 @@
     font-weight: 600;
 }
 
-.theme-text-input[data-invalid='1']~div {
+.theme-text-input[data-invalid='1']~.placeholder {
     animation: shakePlaceholder 750ms ease-in-out infinite;
 }
 
@@ -109,4 +109,34 @@
     50% {
         left: 6%;
     }
+}
+
+.view-password {
+    // outline: 1px solid orange;
+    position: absolute;
+    top: 0%;
+    right: 5px;
+    height: 40px;
+    aspect-ratio: 1;
+    margin: 5px;
+    border-radius: 15px;
+    background-color: $color-primary;
+    -webkit-mask-image: url('../../../../public/images/eye.svg');
+    mask-image: url('../../../../public/images/eye.svg');
+    mask-size: 70%;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color, mask-size $time-hover ease-in-out;
+}
+
+.view-password:hover {
+    background-color: $color-highlight;
+    mask-size: 80%;
+}
+
+.view-password[data-visible='1'] {
+    background-color: $color-secondary;
+    mask-size: 80%;
 }
