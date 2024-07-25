@@ -10,7 +10,7 @@ export default function Button({ onClick, content, fill }) {
 
     return (
         <div
-            class={'theme-button ' + fillClass}
+            className={'theme-button ' + fillClass}
             onClick={onClick}>
             {content}
         </div>

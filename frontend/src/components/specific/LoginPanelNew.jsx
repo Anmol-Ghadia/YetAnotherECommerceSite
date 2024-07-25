@@ -189,7 +189,7 @@ export default function LoginPanelNew() {
     <div id="login-container">
         {floating}
         
-        <div class='login-top-spacer'></div>
+        <div className='login-top-spacer'></div>
         {form}
         <Label
             content={footer}

@@ -134,7 +134,7 @@ export default function LoginPanel() {
 
             <div id="panel-body">
             <div 
-                class={"panel-input-field " + 
+                className={"panel-input-field " + 
                     (submitClicked? "panel-input-field-expand-cover ":" ")}>
                 <div 
                     className={"panel-input-expander " +
@@ -154,7 +154,7 @@ export default function LoginPanel() {
             </div>
             <div 
                 id="panel-password-input" 
-                class={"panel-input-field " + 
+                className={"panel-input-field " + 
                     (submitClicked? "panel-input-field-expand-cover ":" ")
                     }>
                 <div 

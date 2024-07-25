@@ -10,7 +10,7 @@ export default function LeftButton({ onClick, rotation }) {
 
     return (
         <div style={{ rotate: `${buttonRotation}deg` }}
-            class='theme-left-button'
+            className='theme-left-button'
             onClick={onClick}>
             <div className="theme-left-button-image"></div>
         </div>
