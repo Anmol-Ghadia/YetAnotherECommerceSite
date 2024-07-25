@@ -18,22 +18,17 @@
     flex-direction: column;
 }
 
-.top-spacer {
-    height: 175px;
+.spacer {
+    height: 50px;
 }
 
 #footer {
     position: absolute;
-    bottom: 25px;
+    bottom: 0px;
     width: 100%;
-    height: 50px;
+    height: fit-content;
     display: grid;
-    align-items: end;
     grid-template-columns: 50px auto 50px;
-}
-
-.bottom-spacer {
-    height: 100px;
 }
 
 .page-zero-name-bar {
@@ -65,4 +60,17 @@
 
 .error-display {
     height: 50px;
+}
+
+#login-now-container {
+    padding-right: 10px;
+}
+
+#login-now-container ~ a {
+    text-decoration: none;
+    color: $color-highlight
+}
+
+#login-now-container ~ a:hover {
+    color: $color-secondary
 }
