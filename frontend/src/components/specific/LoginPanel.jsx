@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import '../../scss/components/specific/LoginPanel.scss';
 import Logo from "../general/Logo";
 import Button from '../basic/Button';
+import ExampleTSComponent from '../basic/ExampleTSComponent.tsx';
 
 export default function LoginPanel() {
     const [inputUsername, setInputUsername] = useState('');
@@ -127,6 +128,7 @@ export default function LoginPanel() {
 
     return (
         <div id="login-contianer">
+            <ExampleTSComponent title={"Hello this is a example ts component"}/>
             <div id="panel-header" onClick={()=>{window.location.href = '/'}}>
                     <Logo size={'20%'} />
                 Log In
