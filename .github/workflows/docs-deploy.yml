@@ -31,7 +31,7 @@ jobs:
       
       - name: 
         run: mkdocs gh-deploy --force
-        working-directory: ./docs
+        working-directory: ./docs/YetAnotherECommerceSite
 
   deploy_mkdocs:
 
