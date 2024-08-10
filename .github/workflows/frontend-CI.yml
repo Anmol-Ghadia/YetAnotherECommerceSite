@@ -3,6 +3,9 @@ name: frontend-CI
 on:
     pull_request:
         branches: 'main'
+    # For testing !!!
+    push:
+      branches: '*'
 
 jobs:
   lint-and-format:
@@ -11,6 +14,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+    
+    - name: Checkout frontend
+      run: cd frontend
 
     - name: Set up Node.js
       uses: actions/setup-node@v4
@@ -21,8 +27,8 @@ jobs:
       run: npm install
 
     - name: Run ESLint
-      run: npx eslint src/new/*
+      run: npx eslint src
 
     - name: Run Prettier
-      run: npx prettier --check src/new/*
+      run: npx prettier --check .
       

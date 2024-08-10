@@ -87,6 +87,13 @@ Routes requiring authentication have to go through auth middleware
 
 ![DB Draft](https://github.com/Anmol-Ghadia/YetAnotherECommerceSite/assets/47422194/e44b70f6-8980-4840-90a6-733c34cc8120)
 
+## Frontend Migration to TS and eslint
+Gradually .jsx files will be dropped in favour for .tsx. Also new files should adhere to a modified version of airbnb linting style.
+
+The project is using Approach `Level 1A` as listed on [React Docs](https://react-typescript-cheatsheet.netlify.app/docs/migration/)
+
+It is recomended to run eslint and prettier before PRs for code consistency
+
 ## Build Notes:
 1) Remove React Strict tags from `index.js`
 1) Set Cookie paramaeter `secure: true` in Login.jsx

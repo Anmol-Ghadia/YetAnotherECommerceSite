@@ -1,3 +1,10 @@
+# Temporary
 src/components
 src/pages
 src/scss
+
+# dependencies
+/node_modules
+
+# production
+build/
