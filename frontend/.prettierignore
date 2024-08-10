@@ -8,3 +8,6 @@ src/scss
 
 # production
 build/
+
+# external
+public/
