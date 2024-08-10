@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Product - YetAnotherEcommerceSite</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Product";
+        var mkdocs_page_input_path = "api-reference/product.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> YetAnotherEcommerceSite
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Product</a>
+    <ul class="current">
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">YetAnotherEcommerceSite</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">API Reference</li>
+      <li class="breadcrumb-item active">Product</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h3 id="product-queries">Product Queries<a class="headerlink" href="#product-queries" title="Permanent link">#</a></h3>
+<h2 id="get-single-product-by-id">Get single product by ID:<a class="headerlink" href="#get-single-product-by-id" title="Permanent link">#</a></h2>
+<pre><code class="language-json">{
+    &quot;URL&quot;: &quot;/product/:productId&quot;,
+    &quot;METHOD&quot;: &quot;GET&quot;,
+    &quot;TYPES&quot;: {
+        &quot;productId&quot;: &quot;number&quot;
+    }
+}
+</code></pre>
+<p>returns all the product details as outlined by the schema, with <code>status code: 200</code>
+Can raise: 
+1. <code>Type Error</code> due to incorrect id
+1. <code>Bound Error</code>, id parameter does not adhere to constraints</p>
+<h2 id="get-range-of-products-by-id">Get Range of products by ID<a class="headerlink" href="#get-range-of-products-by-id" title="Permanent link">#</a></h2>
+<pre><code class="language-json">{
+    &quot;URL&quot;: &quot;/product/:startProductId/:endProductId&quot;,
+    &quot;METHOD&quot; : &quot;GET&quot;,
+    &quot;TYPES&quot;: {
+        &quot;startProductId&quot;: &quot;number&quot;,
+        &quot;endProductId&quot;: &quot;number&quot;
+    }
+}
+</code></pre>
+<p>returns multiple products, if request is valid then <code>status code: 200</code> is returned</p>
+<p>Can raise: 
+1. <code>Type Error</code> due to incorrect startId or endId
+1. <code>Bound Error</code>, parameters does not adhere to constraints</p>
+<h2 id="auth-make-a-new-product-listing"><code>AUTH</code> Make a new product listing<a class="headerlink" href="#auth-make-a-new-product-listing" title="Permanent link">#</a></h2>
+<pre><code class="language-json">{
+    &quot;URL&quot;: &quot;/product/create&quot;,
+    &quot;METHOD&quot;: &quot;POST&quot;,
+    &quot;BODY&quot;: {
+        &quot;name&quot;: &quot;string&quot;,
+        &quot;description&quot;: &quot;string&quot;,
+        &quot;price&quot;: &quot;number&quot;,
+        &quot;images&quot;: &quot;array of strings&quot;
+    }
+}
+</code></pre>
+<p>returns <code>status code: 201</code> and the product id of the newly created product</p>
+<pre><code class="language-js">response.body = {
+    &quot;success&quot;: &quot;boolean&quot;,
+    &quot;payload&quot;: {
+        &quot;productId&quot; : &quot;number&quot;
+    }
+}
+</code></pre>
+<p>the user creating the listing is the owner (which cannot be changed later)
+returns success if product is listed</p>
+<p>Can raise: 
+1. <code>Type Error</code> incorrect parameter types
+1. <code>Bound Error</code> price is below 0
+1. <code>Session Error</code>, json-web-token is invalid
+1. <code>Authentication Error</code></p>
+<h2 id="auth-update-product-listing"><code>AUTH</code> update product listing<a class="headerlink" href="#auth-update-product-listing" title="Permanent link">#</a></h2>
+<pre><code class="language-json">{
+    &quot;URL&quot;: &quot;/product/update/:productId&quot;,
+    &quot;METHOD&quot;: &quot;POST&quot;,
+    &quot;BODY&quot;: {
+        &quot;name&quot;: &quot;string&quot;,
+        &quot;description&quot;: &quot;string&quot;,
+        &quot;price&quot;: &quot;number&quot;,
+        &quot;images&quot;: &quot;array of strings&quot;
+    },
+    &quot;TYPES&quot;: {
+        &quot;productId&quot;: &quot;number&quot;
+    }
+}
+</code></pre>
+<p>returns success if product is updated and <code>status code:200</code>
+Can raise: 
+1. <code>Type Error</code> incorrect parameter types
+1. <code>Bound Error</code> price is below 0
+1. <code>Permission Error</code>, user is not the owner of product
+1. <code>Session Error</code>, json-web-token is invalid
+1. <code>Authentication Error</code></p>
+<h2 id="auth-remove-product-listing"><code>AUTH</code> remove product listing<a class="headerlink" href="#auth-remove-product-listing" title="Permanent link">#</a></h2>
+<pre><code class="language-JSON">{
+    &quot;URL&quot;: &quot;/product/remove/:productId&quot;,
+    &quot;METHOD&quot;: &quot;DELETE&quot;,
+    &quot;TYPES&quot;: {
+        &quot;productId&quot;: &quot;number&quot;
+    }
+}
+</code></pre>
+<p>returns success if removed
+Can raise: 
+1. <code>Type Error</code> incorrect type of id
+1. <code>Bound Error</code>, id parameter does not adhere to constraints
+1. <code>Permission Error</code>, user is not the owner of product
+1. <code>Session Error</code>, json-web-token is invalid
+1. <code>Authentication Error</code></p>
+<h2 id="auth-check-if-the-user-is-owner-of-listing"><code>AUTH</code> check if the user is owner of listing<a class="headerlink" href="#auth-check-if-the-user-is-owner-of-listing" title="Permanent link">#</a></h2>
+<pre><code class="language-JSON">{
+    &quot;URL&quot;: &quot;/product/owner/:productId&quot;,
+    &quot;METHOD&quot;: &quot;GET&quot;,
+    &quot;TYPES&quot;: {
+        &quot;productId&quot;: &quot;number&quot;
+    }
+}
+</code></pre>
+<p>Contains empty payload, as usual success is true if the authenticated user is the owner
+of given product id 
+Can raise: 
+1. <code>Type Error</code> incorrect type of id
+1. <code>Bound Error</code>, id parameter does not adhere to constraints
+1. <code>Permission Error</code>, user is not the owner of product
+1. <code>Session Error</code>, json-web-token is invalid
+1. <code>Authentication Error</code></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../.." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../.." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
