@@ -4,8 +4,6 @@ on:
     # TEMP
     branches:
       - '*'
-    paths:
-      - 'docs/**'
   workflow_dispatch:
 
 permissions:
