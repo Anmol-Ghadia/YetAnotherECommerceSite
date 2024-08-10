@@ -15,9 +15,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - name: Checkout frontend
-      run: cd frontend
-
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
@@ -25,10 +22,12 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: ./frontend
 
     - name: Run ESLint
       run: npx eslint src
+      working-directory: ./frontend
 
     - name: Run Prettier
       run: npx prettier --check .
-      
+      working-directory: ./frontend
