@@ -3,9 +3,8 @@ name: frontend-CI
 on:
     pull_request:
         branches: 'main'
-    # For testing !!!
     push:
-      branches: '*'
+      branches: 'main'
 
 jobs:
   lint-and-format:
