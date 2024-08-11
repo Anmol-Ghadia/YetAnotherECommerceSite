@@ -10,7 +10,6 @@ export default function Footer() {
         <a href="/user">User Page</a><br />
         <a href="/user/cart">User's cart</a><br />
         <a href="/auth">Login for user</a><br />
-        <a href="/auth/login-new">login new</a><br />
         <a href="/auth/register">register new user</a><br />
     </>  
     );
