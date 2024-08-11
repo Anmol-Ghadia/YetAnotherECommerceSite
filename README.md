@@ -63,7 +63,7 @@ Routes requiring authentication have to go through auth middleware
     # .env file inside backend directory
     DB_URI=# Your URI here
     DB_NAME=#Database Name
-    PORT=#server's listening port her
+    PORT=#server's listening port her (defaults to 5000)
     PRODUCT_COLLECTION_NAME=
     USER_COLLECTION_NAME=
     REVIEW_COLLECTION_NAME=

@@ -55,6 +55,8 @@ export async function doDBConnect():Promise<boolean> {
         await pingDB();
         return true;
     } catch (err) {
+        log(1,'DATABASE','Error encountered while connecting');
+        console.error(err);
         await doDBClose();
         return false;
     }
