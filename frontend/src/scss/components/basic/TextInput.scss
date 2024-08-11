@@ -45,7 +45,7 @@
 }
 
 .theme-text-input[data-success='1'] {
-    border-color: $color-success;
+    background-color: $color-success;
 }
 
 @keyframes shakeInput {
