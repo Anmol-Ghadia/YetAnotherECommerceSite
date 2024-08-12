@@ -1,7 +1,5 @@
 # Temporary
-src/components
-src/pages
-src/scss
+src/**/*.jsx
 
 # dependencies
 /node_modules

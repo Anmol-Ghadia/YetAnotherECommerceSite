@@ -26,10 +26,10 @@
     border-color: $color-highlight;
 }
 
-.theme-button-no-fill {
+.theme-button[data-fill-button='0'] {
     background-color: $color-white;
 }
 
-.theme-button-fill {
+.theme-button[data-fill-button='1'] {
     background-color: $color-primary;
 }

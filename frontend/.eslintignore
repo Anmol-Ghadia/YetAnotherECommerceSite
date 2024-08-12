@@ -1,3 +1,2 @@
-src/components
-src/pages
+src/**/*.jsx
 src/scss
