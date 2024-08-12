@@ -1,76 +1,76 @@
 @import '../../styles/variables';
 
 #register-container {
-    display: grid;
-    grid-template-rows: auto auto auto;
-    position: relative;
-    min-height: 600px;
-    width: 30vw;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  position: relative;
+  min-height: 600px;
+  width: 30vw;
 }
 
 #header {
-    width: 100%;
-    height: 150px;
+  width: 100%;
+  height: 150px;
 }
 
 .page {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .spacer {
-    height: 50px;
+  height: 50px;
 }
 
 #footer {
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    height: fit-content;
-    display: grid;
-    grid-template-columns: 50px auto 50px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: fit-content;
+  display: grid;
+  grid-template-columns: 50px auto 50px;
 }
 
 .page-zero-name-bar {
-    display: flex;
+  display: flex;
 }
 
 .page-one-disclaimer {
-    width: 100%;
-    display: flex;
-    color: $color-primary;
-    justify-content: right;
+  width: 100%;
+  display: flex;
+  color: $color-primary;
+  justify-content: right;
 }
 
 .page-one-row-one {
-    display: grid;
-    grid-template-columns: auto 45%;
+  display: grid;
+  grid-template-columns: auto 45%;
 }
 
 .page-one-row-two {
-    display: grid;
-    grid-template-columns: auto 30%;
+  display: grid;
+  grid-template-columns: auto 30%;
 }
 
 .center {
-    display: flex;
-    justify-self: center;
-    align-items: center;
+  display: flex;
+  justify-self: center;
+  align-items: center;
 }
 
 .error-display {
-    height: 50px;
+  height: 50px;
 }
 
 #login-now-container {
-    padding-right: 10px;
+  padding-right: 10px;
 }
 
 #login-now-container ~ a {
-    text-decoration: none;
-    color: $color-highlight
+  text-decoration: none;
+  color: $color-highlight;
 }
 
 #login-now-container ~ a:hover {
-    color: $color-secondary
+  color: $color-secondary;
 }

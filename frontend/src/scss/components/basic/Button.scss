@@ -2,34 +2,34 @@
 @import '../../styles/fonts';
 
 .theme-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: $color-secondary;
-    border: 4px solid $color-primary;
-    font-weight: 600;
-    outline: none;
-    height: 50px;
-    width: fit-content;
-    padding: 0px 50px;
-    cursor: pointer;
-    border-radius: 25px;
-    margin: 5px;
-    font-size: 1.25em;
-    transition: border-color $time-hover ease-in-out;
-    user-select: none;
-    font-family: $font-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $color-secondary;
+  border: 4px solid $color-primary;
+  font-weight: 600;
+  outline: none;
+  height: 50px;
+  width: fit-content;
+  padding: 0px 50px;
+  cursor: pointer;
+  border-radius: 25px;
+  margin: 5px;
+  font-size: 1.25em;
+  transition: border-color $time-hover ease-in-out;
+  user-select: none;
+  font-family: $font-primary;
 }
 
 .theme-button:hover,
 .theme-button:focus {
-    border-color: $color-highlight;
+  border-color: $color-highlight;
 }
 
 .theme-button[data-fill-button='0'] {
-    background-color: $color-white;
+  background-color: $color-white;
 }
 
 .theme-button[data-fill-button='1'] {
-    background-color: $color-primary;
+  background-color: $color-primary;
 }

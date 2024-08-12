@@ -1,80 +1,82 @@
 @import '../../../styles/variables';
 
 #dropdown-burger {
-    height: $height-header;
-    aspect-ratio: 1;
-    // border: 2px solid red;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  height: $height-header;
+  aspect-ratio: 1;
+  // border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-#burger-top, #burger-middle, #burger-bottom {
-    width: 60%;
-    height: 10%;
-    background-color: black;
-    border-radius: 10px;
+#burger-top,
+#burger-middle,
+#burger-bottom {
+  width: 60%;
+  height: 10%;
+  background-color: black;
+  border-radius: 10px;
 }
 
 #burger-top {
-    transform: translateY(-60%);
+  transform: translateY(-60%);
 }
 #burger-bottom {
-    transform: translateY(60%);
+  transform: translateY(60%);
 }
 
 #dropdown-burger:hover #burger-top {
-    animation: burger-top-animation 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-    animation-iteration-count: infinite;
+  animation: burger-top-animation 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation-iteration-count: infinite;
 }
 
 #dropdown-burger:hover #burger-bottom {
-    animation: burger-bottom-animation 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-    animation-iteration-count: infinite;
+  animation: burger-bottom-animation 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation-iteration-count: infinite;
 }
 
 @keyframes burger-top-animation {
-    0% {
-        transform: translateY(-60%);
-    }
-    50% {
-        transform: translateY(-60%);
-    }
-    60% {
-        transform: translateY(-100%);
-    }
-    75% {
-        transform: translateY(-30%);
-    }
-    100% {
-        transform: translateY(-60%);
-    }
+  0% {
+    transform: translateY(-60%);
+  }
+  50% {
+    transform: translateY(-60%);
+  }
+  60% {
+    transform: translateY(-100%);
+  }
+  75% {
+    transform: translateY(-30%);
+  }
+  100% {
+    transform: translateY(-60%);
+  }
 }
 
 @keyframes burger-bottom-animation {
-    0% {
-        transform: translateY(60%);
-    }
-    50% {
-        transform: translateY(60%);
-    }
-    60% {
-        transform: translateY(100%);
-    }
-    75% {
-        transform: translateY(30%);
-    }
-    100% {
-        transform: translateY(60%);
-    }
+  0% {
+    transform: translateY(60%);
+  }
+  50% {
+    transform: translateY(60%);
+  }
+  60% {
+    transform: translateY(100%);
+  }
+  75% {
+    transform: translateY(30%);
+  }
+  100% {
+    transform: translateY(60%);
+  }
 }
 
 #drop-down-container {
-    border: 2px solid black;
-    position: absolute;
-    top: 7vh;
-    left: 0%;
-    z-index: 10;
-    background-color: white;
+  border: 2px solid black;
+  position: absolute;
+  top: 7vh;
+  left: 0%;
+  z-index: 10;
+  background-color: white;
 }

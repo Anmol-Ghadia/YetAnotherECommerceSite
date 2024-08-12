@@ -1,42 +1,41 @@
 @import '../../styles/variables';
 
 #page-progress-container {
-    width: auto;
-    display: grid;
-    height: 20px;
-    column-gap: 5px;
-    padding: 5px 5px;
-    margin: 0px 30px;
-    background-color: $color-primary;
-    border-radius: 20px;
+  width: auto;
+  display: grid;
+  height: 20px;
+  column-gap: 5px;
+  padding: 5px 5px;
+  margin: 0px 30px;
+  background-color: $color-primary;
+  border-radius: 20px;
 }
 
 #page-progress-container div {
-    border-radius: 20px;
-    
+  border-radius: 20px;
 }
 
 .completed-bar {
-    background-color: $color-primary;
+  background-color: $color-primary;
 }
 
 .current-bar {
-    background-color: $color-highlight;
-    animation: blink 2s infinite ease-in-out;
+  background-color: $color-highlight;
+  animation: blink 2s infinite ease-in-out;
 }
 
 .incomplete-bar {
-    background-color: $color-white;
+  background-color: $color-white;
 }
 
 @keyframes blink {
-    0% {
-        background-color: $color-primary;
-    }
-    50% {
-        background-color: $color-white;
-    }
-    100% {
-        background-color: $color-primary;
-    }
+  0% {
+    background-color: $color-primary;
   }
+  50% {
+    background-color: $color-white;
+  }
+  100% {
+    background-color: $color-primary;
+  }
+}

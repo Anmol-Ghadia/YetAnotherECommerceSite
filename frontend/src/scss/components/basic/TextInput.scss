@@ -2,141 +2,142 @@
 @import '../../styles/fonts';
 
 .theme-text-input {
-    outline: none;
-    width: 100%;
-    height: 100%;
-    font-size: 1.15em;
-    background-color: $color-white;
-    border: 4px solid $color-primary;
-    color: $color-secondary;
-    padding: 0px 10px;
-    border-radius: 10px;
-    transition: border-radius, border-color $time-hover ease-out;
-    font-family: $font-primary;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  font-size: 1.15em;
+  background-color: $color-white;
+  border: 4px solid $color-primary;
+  color: $color-secondary;
+  padding: 0px 10px;
+  border-radius: 10px;
+  transition:
+    border-radius,
+    border-color $time-hover ease-out;
+  font-family: $font-primary;
 }
 
 .theme-text-input-label {
-    position: relative;
-    margin: 10px;
-    height: 50px;
-    user-select: none;
-    cursor: text;
+  position: relative;
+  margin: 10px;
+  height: 50px;
+  user-select: none;
+  cursor: text;
 }
 
 .theme-text-input:focus,
 .theme-text-input[data-has-value='1'],
 .theme-text-input:active {
-    border-radius: 15px;
+  border-radius: 15px;
 }
 
 .theme-text-input:focus,
 .theme-text-input-label:hover .theme-text-input,
 .theme-text-input:active {
-    border-color: $color-highlight;
+  border-color: $color-highlight;
 }
 
-
 .theme-text-input:not(:valid) {
-    border-color: $color-failure;
+  border-color: $color-failure;
 }
 
 .theme-text-input[data-invalid='1'] {
-    animation: shakeInput 750ms ease-in-out infinite;
+  animation: shakeInput 750ms ease-in-out infinite;
 }
 
 .theme-text-input[data-success='1'] {
-    background-color: $color-success;
+  background-color: $color-success;
 }
 
 @keyframes shakeInput {
+  0%,
+  100% {
+    border-color: $color-primary;
+  }
 
-    0%,
-    100% {
-        border-color: $color-primary;
-    }
+  25%,
+  75% {
+    border-color: $color-failure;
+  }
 
-    25%,
-    75% {
-        border-color: $color-failure;
-    }
-
-    50% {
-        border-color: $color-primary;
-    }
+  50% {
+    border-color: $color-primary;
+  }
 }
 
 .theme-text-input-label .placeholder {
-    position: absolute;
-    top: 50%;
-    left: 2.5%;
-    font-size: 1.15em;
-    transform: translateY(-50%);
-    transition: all $time-hover ease-out;
-    background-color: $color-white;
-    color: $color-highlight;
-    padding: 0px 4px;
-    font-family: $font-primary;
+  position: absolute;
+  top: 50%;
+  left: 2.5%;
+  font-size: 1.15em;
+  transform: translateY(-50%);
+  transition: all $time-hover ease-out;
+  background-color: $color-white;
+  color: $color-highlight;
+  padding: 0px 4px;
+  font-family: $font-primary;
 }
 
-.theme-text-input:focus~.placeholder,
-.theme-text-input[data-has-value='1']~.placeholder,
-.theme-text-input:active~.placeholder {
-    font-size: 1em;
-    top: 0%;
-    left: 7.5%;
-    color: $color-secondary;
-    border-radius: 50px;
-    transform: translateY(-40%);
-    font-weight: 600;
+.theme-text-input:focus ~ .placeholder,
+.theme-text-input[data-has-value='1'] ~ .placeholder,
+.theme-text-input:active ~ .placeholder {
+  font-size: 1em;
+  top: 0%;
+  left: 7.5%;
+  color: $color-secondary;
+  border-radius: 50px;
+  transform: translateY(-40%);
+  font-weight: 600;
 }
 
-.theme-text-input[data-invalid='1']~.placeholder {
-    animation: shakePlaceholder 750ms ease-in-out infinite;
+.theme-text-input[data-invalid='1'] ~ .placeholder {
+  animation: shakePlaceholder 750ms ease-in-out infinite;
 }
 
 @keyframes shakePlaceholder {
+  0%,
+  100% {
+    left: 7.5%;
+  }
 
-    0%,
-    100% {
-        left: 7.5%;
-    }
+  25%,
+  75% {
+    left: 9%;
+  }
 
-    25%,
-    75% {
-        left: 9%;
-    }
-
-    50% {
-        left: 6%;
-    }
+  50% {
+    left: 6%;
+  }
 }
 
 .view-password {
-    // outline: 1px solid orange;
-    position: absolute;
-    top: 0%;
-    right: 5px;
-    height: 40px;
-    aspect-ratio: 1;
-    margin: 5px;
-    border-radius: 15px;
-    background-color: $color-primary;
-    -webkit-mask-image: url('../../../../public/images/eye.svg');
-    mask-image: url('../../../../public/images/eye.svg');
-    mask-size: 70%;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color, mask-size $time-hover ease-in-out;
+  // outline: 1px solid orange;
+  position: absolute;
+  top: 0%;
+  right: 5px;
+  height: 40px;
+  aspect-ratio: 1;
+  margin: 5px;
+  border-radius: 15px;
+  background-color: $color-primary;
+  -webkit-mask-image: url('../../../../public/images/eye.svg');
+  mask-image: url('../../../../public/images/eye.svg');
+  mask-size: 70%;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color,
+    mask-size $time-hover ease-in-out;
 }
 
 .view-password:hover {
-    background-color: $color-highlight;
-    mask-size: 80%;
+  background-color: $color-highlight;
+  mask-size: 80%;
 }
 
 .view-password[data-visible='1'] {
-    background-color: $color-secondary;
-    mask-size: 80%;
+  background-color: $color-secondary;
+  mask-size: 80%;
 }
