@@ -3,11 +3,11 @@ import '../../scss/components/basic/Button.scss';
 // fill:    boolean that fills the button if true
 // onClick: is a callback without parameters
 // content: content of the button body
-type Props = {
+interface Props {
   fill?: boolean;
   onClick?: () => void;
   content?: React.ReactNode;
-};
+}
 
 // a themed button for this website.
 const Button: React.FC<Props> = function abc({
