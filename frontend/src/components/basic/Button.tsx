@@ -5,15 +5,15 @@ import '../../scss/components/basic/Button.scss';
 // content: content of the button body
 interface Props {
   fill?: boolean;
-  onClick?: () => void;
-  content?: React.ReactNode;
+  onClick: () => void;
+  content: React.ReactNode;
 }
 
 // a themed button for this website.
 const Button: React.FC<Props> = function _({
   fill = false,
-  onClick = () => {},
-  content = '',
+  onClick,
+  content,
 }) {
   return (
     <button

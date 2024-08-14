@@ -12,9 +12,9 @@ import '../../scss/components/basic/TextInput.scss';
 interface Props {
   placeholder: string;
   setFunction: React.Dispatch<React.SetStateAction<string>>;
-  type: 'text' | 'password' | 'email';
-  invalid: boolean;
-  success: boolean;
+  type?: 'text' | 'password' | 'email';
+  invalid?: boolean;
+  success?: boolean;
 }
 
 // a themed input for this website.
@@ -22,8 +22,8 @@ const TextInput: React.FC<Props> = function _({
   placeholder,
   setFunction,
   type = 'text',
-  invalid,
-  success,
+  invalid = false,
+  success = false,
 }) {
   const [inputValue, setInputValue] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
