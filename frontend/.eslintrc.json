@@ -28,6 +28,7 @@
     "capitalized-comments": ["error", "never"],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
+    "react/no-array-index-key": "off",
     "react/jsx-filename-extension": [
       "error",
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
