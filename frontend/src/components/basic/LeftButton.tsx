@@ -1,8 +1,8 @@
 import '../../scss/components/basic/LeftButton.scss';
 
-// {onclick} is a callback without parameters
-// {rotation} is a number in degrees for direction of button,
-//            clockwise from left
+// onclick:  is a callback without parameters
+// rotation: is a number in degrees for direction of button,
+//             clockwise from left
 interface Props {
   onClick: () => void;
   rotation?: number;
