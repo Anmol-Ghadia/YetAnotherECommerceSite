@@ -9,10 +9,7 @@ interface Props {
 }
 
 // a themed button for this website.
-const LeftButton: React.FC<Props> = function _({
-  onClick,
-  rotation = 0,
-}) {
+const LeftButton: React.FC<Props> = function _({ onClick, rotation = 0 }) {
   return (
     <button
       type="button"
