@@ -10,7 +10,7 @@ interface Props {
 }
 
 // represents a text displaued to user
-const Label: React.FC<Props> = function label({
+const Label: React.FC<Props> = function _({
   content = '',
   center = true,
   allowUserSelect = false,

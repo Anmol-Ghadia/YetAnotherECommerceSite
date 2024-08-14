@@ -10,7 +10,7 @@ interface Props {
 }
 
 // a themed button for this website.
-const Button: React.FC<Props> = function abc({
+const Button: React.FC<Props> = function _({
   fill = false,
   onClick = () => {},
   content = '',
