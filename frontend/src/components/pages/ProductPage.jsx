@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import ProductBuyButton from "../components/specific/ProductBuyButton";
-import { ReviewDisplay } from "../components/general/ReviewDisplay";
-import { ProductReviewSummary } from "../components/specific/ProductReviewSummary";
 import { useMediaQuery } from 'react-responsive';
-import '../scss/pages/ProductPage.scss';
+import { useParams } from "react-router-dom";
+import ProductBuyButton from "../specific/ProductBuyButton";
+import { ReviewDisplay } from "../general/ReviewDisplay";
+import { ProductReviewSummary } from "../specific/ProductReviewSummary";
+import '../../scss/components/pages/ProductPage.scss';
 
 export default function ProductPage() {
     let params = useParams();

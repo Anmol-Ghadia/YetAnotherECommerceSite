@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import '../../scss/components/specific/LoginPanel.scss';
-import LeftButton from '../basic/LeftButton';
-import TextInput from '../basic/TextInput';
-import Logo from "../general/Logo";
-import Button from '../basic/Button';
-import Label from '../basic/Label';
+import '../../../scss/components/pages/AuthPage/LoginPanel.scss';
+import LeftButton from '../../basic/LeftButton.tsx';
+import TextInput from '../../basic/TextInput.tsx';
+import Logo from "../../general/Logo";
+import Button from '../../basic/Button.tsx';
+import Label from '../../basic/Label.tsx';
 import Cookies from 'js-cookie';
 
 export default function LoginPanelNew() {

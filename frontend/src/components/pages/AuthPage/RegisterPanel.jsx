@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import '../../scss/components/specific/RegisterPanel.scss';
-import ProgressBar from '../basic/ProgressBar';
-import Button from '../basic/Button';
-import TextInput from "../basic/TextInput";
-import Label from "../basic/Label";
-import LeftButton from "../basic/LeftButton";
-import Logo from "../general/Logo";
+import '../../../scss/components/pages/AuthPage/RegisterPanel.scss';
+import ProgressBar from '../../basic/ProgressBar.tsx';
+import Button from '../../basic/Button.tsx';
+import TextInput from "../../basic/TextInput.tsx";
+import Label from "../../basic/Label.tsx";
+import LeftButton from "../../basic/LeftButton.tsx";
+import Logo from "../../general/Logo";
 
 export default function RegisterPanel() {
     // basic information

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ProductTileDisplay from "../components/specific/ProductTileDisplay";
-import '../scss/pages/BrowsePage.scss';
+import '../../scss/components/pages/BrowsePage.scss';
+import ProductTileDisplay from "../specific/ProductTileDisplay";
 
 
 export default function BrowsePage() {

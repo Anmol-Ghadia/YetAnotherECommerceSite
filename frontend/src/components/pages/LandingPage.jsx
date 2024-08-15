@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import '../scss/pages/LandingPage.scss';
-import Logo from '../components/general/Logo';
+import '../../scss/components/pages/LandingPage.scss';
+import Logo from '../general/Logo';
 
 export default function LandingPage() {
     let [isLogoHovered,setIsLogoHovered] = useState(false);

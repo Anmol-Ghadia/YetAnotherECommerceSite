@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import '../scss/pages/AuthPage.scss';
-import fetchAuthVerify from '../api/verifyToken.ts';
+import '../../../scss/components/pages/AuthPage/AuthPage.scss';
+import fetchAuthVerify from '../../../api/verifyToken.ts';
 
 const AuthPage: React.FC = function _() {
   useEffect(() => {

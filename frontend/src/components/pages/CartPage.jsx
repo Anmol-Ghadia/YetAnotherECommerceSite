@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Cookies from 'js-cookie';
-import { CartItemDisplay } from "../components/general/CartItemDisplay";
+import { CartItemDisplay } from "../general/CartItemDisplay";
 
 export default function CartPage() {
 

@@ -1,14 +1,14 @@
 import { Route, Routes, Outlet } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import BrowsePage from './pages/BrowsePage';
-import ProductPage from './pages/ProductPage';
-import UserPage from './pages/UserPage';
-import CartPage from './pages/CartPage';
-import AuthPage from './pages/AuthPage.tsx';
+import LandingPage from './components/pages/LandingPage';
+import BrowsePage from './components/pages/BrowsePage';
+import ProductPage from './components/pages/ProductPage';
+import UserPage from './components/pages/UserPage';
+import CartPage from './components/pages/CartPage';
+import AuthPage from './components/pages/AuthPage/AuthPage.tsx';
 import Footer from './components/general/Footer';
 import Header from './components/general/Header';
-import LoginPanel from './components/specific/LoginPanel';
-import RegisterPanel from './components/specific/RegisterPanel';
+import LoginPanelNew from './components/pages/AuthPage/LoginPanel';
+import RegisterPanel from './components/pages/AuthPage/RegisterPanel';
 
 function App() {
   const alwaysOnLayout = (
@@ -39,7 +39,7 @@ function App() {
         {/* without Header */}
         <Route index element={<LandingPage />} />
         <Route path="auth" element={<AuthPage />}>
-          <Route index element={<LoginPanel />} />
+          <Route index element={<LoginPanelNew />} />
           <Route path="register" element={<RegisterPanel />} />
         </Route>
       </Route>
