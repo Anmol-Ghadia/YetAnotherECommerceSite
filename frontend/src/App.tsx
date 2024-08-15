@@ -4,7 +4,7 @@ import BrowsePage from './pages/BrowsePage';
 import ProductPage from './pages/ProductPage';
 import UserPage from './pages/UserPage';
 import CartPage from './pages/CartPage';
-import AuthPage from './pages/AuthPage';
+import AuthPage from './pages/AuthPage.tsx';
 import Footer from './components/general/Footer';
 import Header from './components/general/Header';
 import LoginPanel from './components/specific/LoginPanel';
