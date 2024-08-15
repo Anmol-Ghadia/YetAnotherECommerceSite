@@ -26,6 +26,7 @@
     "curly": ["error", "all"],
     "eqeqeq": ["error", "smart"],
     "capitalized-comments": ["error", "never"],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "react/no-array-index-key": "off",
