@@ -9,5 +9,12 @@ theme:
 
 nav:
   - Home: 'index.md'
-  - 'API Reference':
-    - 'Product': 'api-reference/product.md'
+  - Schema: 
+    - Database: 'schema/database.md'
+  - 'API Reference': 
+    - Guide: 'api-reference/index.md'
+    - Product: 'api-reference/product.md'
+    - Auth: 'api-reference/auth.md'
+    - User: 'api-reference/user.md'
+    - Review: 'api-reference/review.md'
+    - Misc: 'api-reference/misc.md'
