@@ -7,7 +7,7 @@ import CartPage from './components/pages/CartPage';
 import AuthPage from './components/pages/AuthPage/AuthPage.tsx';
 import Footer from './components/general/Footer';
 import Header from './components/general/Header';
-import LoginPanelNew from './components/pages/AuthPage/LoginPanel';
+import LoginPanelNew from './components/pages/AuthPage/LoginPanel.tsx';
 import RegisterPanel from './components/pages/AuthPage/RegisterPanel';
 
 function App() {
