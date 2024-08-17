@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../../../scss/components/pages/AuthPage/LoginPanel.scss';
 import LeftButton from '../../basic/LeftButton.tsx';
 import TextInput from '../../basic/TextInput.tsx';
-import Logo from "../../general/Logo";
+import Logo from "../../basic/Logo.tsx";
 import Button from '../../basic/Button.tsx';
 import Label from '../../basic/Label.tsx';
 import Cookies from 'js-cookie';

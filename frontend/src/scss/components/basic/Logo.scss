@@ -6,18 +6,19 @@ $leaf-color: $color-secondary;
 $leaf-color-complement: $color-highlight;
 
 #logo {
-  width: 500px;
+  border: none;
+  width: 100%;
   aspect-ratio: 1;
   // border: 2px solid red;
   position: relative;
   background-color: transparent;
 }
 
-#first-petal,
-#second-petal,
-#third-petal,
-#forth-petal,
-#fifth-petal {
+#petal-0,
+#petal-1,
+#petal-2,
+#petal-3,
+#petal-4 {
   display: flex;
   flex-direction: row;
   position: absolute;
@@ -30,18 +31,18 @@ $leaf-color-complement: $color-highlight;
   animation-timing-function: $timing-function;
   animation-duration: 3s;
   animation-direction: normal;
-  animation-iteration-count: infinite;
+  animation-iteration-count: 0;
   animation-fill-mode: forwards;
 }
 
-#first-petal {
+#petal-0 {
   // border: 2px solid blue;
   // background-color: blueviolet;
   transform-origin: bottom center;
   animation-name: first-petal-animation;
 }
 
-#second-petal {
+#petal-1 {
   // right: 0%;
   // top: $size;
   // border: 2px solid chartreuse;
@@ -51,7 +52,7 @@ $leaf-color-complement: $color-highlight;
   transform: rotateZ(-72deg);
 }
 
-#third-petal {
+#petal-2 {
   // left: $size;
   // bottom: 0%;
   // border: 2px solid orange;
@@ -61,7 +62,7 @@ $leaf-color-complement: $color-highlight;
   transform: rotateZ(-144deg);
 }
 
-#forth-petal {
+#petal-3 {
   // left: 0%;
   // top: $size;
   // border: 2px solid cyan;
@@ -71,7 +72,7 @@ $leaf-color-complement: $color-highlight;
   transform: rotateZ(-216deg);
 }
 
-#fifth-petal {
+#petal-4 {
   // left: 0%;
   // top: $size;
   // border: 2px solid magenta;

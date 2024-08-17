@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Logo from "../Logo"
+import Logo from "../../basic/Logo"
 import '../../../scss/components/general/Header/SiteNameLogo.scss';
 
 export default function SiteNameLogo() {

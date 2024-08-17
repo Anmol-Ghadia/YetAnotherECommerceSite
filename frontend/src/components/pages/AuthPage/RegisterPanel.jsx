@@ -5,7 +5,7 @@ import Button from '../../basic/Button.tsx';
 import TextInput from "../../basic/TextInput.tsx";
 import Label from "../../basic/Label.tsx";
 import LeftButton from "../../basic/LeftButton.tsx";
-import Logo from "../../general/Logo";
+import Logo from "../../basic/Logo.tsx";
 
 export default function RegisterPanel() {
     // basic information
