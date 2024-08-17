@@ -18,19 +18,14 @@ async function fetchAuthVerify(): Promise<boolean> {
     },
   };
 
-  try {
-    const response = await fetch('/api-v1/auth/verify', headers);
+  const response = await fetch('/api-v1/auth/verify', headers);
 
-    if (!response.ok) {
-      Cookies.remove('token');
-      return failResult;
-    }
-
-    return true;
-  } catch (error) {
-    console.error(error);
+  if (!response.ok) {
+    Cookies.remove('token');
     return failResult;
   }
+
+  return true;
 }
 
 export default fetchAuthVerify;
