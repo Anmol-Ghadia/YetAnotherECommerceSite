@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>User - YetAnotherEcommerceSite</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "User";
+        var mkdocs_page_input_path = "api-reference/user.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> YetAnotherEcommerceSite
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Schema</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../schema/database/">Database</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../product/">Product</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../auth/">Auth</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">User</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#auth-request-to-get-all-the-product-ids-along-with-quantity-in-the-users-cart">AUTH Request to get all the product IDs along with quantity in the user's cart</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#auth-request-to-find-out-if-the-user-has-a-specific-product-in-their-cart">AUTH Request to find out if the user has a specific product in their cart</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#auth-request-to-update-the-count-of-product-in-a-users-cart">AUTH Request to update the count of product in a users cart</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#auth-request-to-update-user-details">AUTH Request to update user details</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#auth-request-to-delete-the-users-account-all-the-relevant-product-listings-and-reviews-are-removed">AUTH Request to delete the user's account, all the relevant product listings and reviews are removed</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../review/">Review</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../misc/">Misc</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">YetAnotherEcommerceSite</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">API Reference</li>
+      <li class="breadcrumb-item active">User</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="user">User<a class="headerlink" href="#user" title="Permanent link">#</a></h1>
+<blockquote>
+<p>Note: All requests for this route require valid auth header</p>
+</blockquote>
+<h2 id="auth-request-to-get-all-the-product-ids-along-with-quantity-in-the-users-cart"><code>AUTH</code> Request to get all the product IDs along with quantity in the user's cart<a class="headerlink" href="#auth-request-to-get-all-the-product-ids-along-with-quantity-in-the-users-cart" title="Permanent link">#</a></h2>
+<pre><code class="language-json">{
+    &quot;URL&quot;: &quot;/user/cart&quot;,
+    &quot;METHOD&quot; : &quot;GET&quot;
+}
+
+</code></pre>
+<p>returns the list of product, quantity and corresponding details</p>
+<pre><code class="language-js">response.body = {
+    &quot;success&quot; : &quot;boolean&quot;,
+    &quot;payload&quot;: {
+        {
+            &quot;productId&quot;: &quot;number&quot;,
+            &quot;quantity&quot; : &quot;number&quot;,
+            &quot;name&quot;: &quot;string&quot;,
+            &quot;description&quot;: &quot;string&quot;,
+            &quot;price&quot;: &quot;number&quot;,
+            &quot;images&quot;: &quot;string[]&quot;,
+            &quot;username&quot;: &quot;string&quot;
+        },
+        {
+            &quot;productId&quot;: &quot;number&quot;,
+            &quot;quantity&quot; : &quot;number&quot;,
+            &quot;name&quot;: &quot;string&quot;,
+            &quot;description&quot;: &quot;string&quot;,
+            &quot;price&quot;: &quot;number&quot;,
+            &quot;images&quot;: &quot;string[]&quot;,
+            &quot;username&quot;: &quot;string&quot;
+        },
+        .
+        .
+        .
+    }
+}
+</code></pre>
+<p>Can raise:</p>
+<ol>
+<li><code>Session Error</code>, json-web-token is invalid</li>
+<li><code>Authentication Error</code>, no token found</li>
+</ol>
+<h2 id="auth-request-to-find-out-if-the-user-has-a-specific-product-in-their-cart"><code>AUTH</code> Request to find out if the user has a specific product in their cart<a class="headerlink" href="#auth-request-to-find-out-if-the-user-has-a-specific-product-in-their-cart" title="Permanent link">#</a></h2>
+<pre><code class="language-json">{
+    &quot;URL&quot;: &quot;/user/cart/product/:productId&quot;,
+    &quot;METHOD&quot; : &quot;GET&quot;,
+    &quot;TYPES&quot;: {
+        &quot;productId&quot;: &quot;number&quot;
+    }
+}
+</code></pre>
+<p>returns the number in cart</p>
+<pre><code class="language-js">response.body= {
+    &quot;success&quot;: &quot;boolean&quot;,
+    &quot;payload&quot;: {
+        &quot;quantity&quot;: &quot;number&quot;
+    }
+}
+</code></pre>
+<p>Can raise:</p>
+<ol>
+<li><code>Type Error</code>, product id is of incorrect type</li>
+<li><code>Bound Error</code>, id parameter does not adhere to constraints</li>
+<li><code>Session Error</code>, json-web-token is invalid</li>
+<li><code>Authentication Error</code>, no token found</li>
+</ol>
+<h2 id="auth-request-to-update-the-count-of-product-in-a-users-cart"><code>AUTH</code> Request to update the count of product in a users cart<a class="headerlink" href="#auth-request-to-update-the-count-of-product-in-a-users-cart" title="Permanent link">#</a></h2>
+<pre><code class="language-json">{
+    &quot;URL&quot;: &quot;/user/cart/product/:id&quot;,
+    &quot;METHOD&quot; : &quot;POST&quot;,
+    &quot;BODY&quot;: {
+        &quot;quantity&quot;: &quot;number&quot;
+    },
+    &quot;TYPES&quot;: {
+        &quot;id&quot;: &quot;number&quot;
+    }
+}
+</code></pre>
+<p>payload of response is empty if succeded, gives <code>status code: 201</code></p>
+<p>Can raise:</p>
+<ol>
+<li><code>Type Error</code>, product id or quantity is of incorrect type</li>
+<li><code>Bound Error</code>, quantity is negative</li>
+<li><code>Session Error</code>, json-web-token is invalid</li>
+<li><code>Authentication Error</code>, no token found</li>
+</ol>
+<h2 id="auth-request-to-update-user-details"><code>AUTH</code> Request to update user details<a class="headerlink" href="#auth-request-to-update-user-details" title="Permanent link">#</a></h2>
+<pre><code class="language-json">{
+    &quot;URL&quot;: &quot;/user/update&quot;,
+    &quot;METHOD&quot;: &quot;POST&quot;,
+    &quot;BODY&quot;: {
+        &quot;firstName&quot;: &quot;string&quot;,
+        &quot;lastName&quot;: &quot;string&quot;,
+        &quot;address&quot;: &quot;string&quot;,
+        &quot;phone&quot;: &quot;number&quot;,
+        &quot;email&quot;: &quot;string in email format&quot;,
+        &quot;profilePhoto&quot;: &quot;string&quot;
+    }
+}
+</code></pre>
+<p>Returns <code>success: true</code> if the user data was modified along with <code>status code:200</code></p>
+<p>Can raise:</p>
+<ol>
+<li><code>Type Error</code>, any parameter is of incorrect type</li>
+<li><code>Bound Error</code>, any parameter does not adhere to constraints</li>
+<li><code>Session Error</code>, json-web-token is invalid</li>
+<li><code>Authentication Error</code>, no token found</li>
+</ol>
+<h2 id="auth-request-to-delete-the-users-account-all-the-relevant-product-listings-and-reviews-are-removed"><code>AUTH</code> Request to delete the user's account, all the relevant product listings and reviews are removed<a class="headerlink" href="#auth-request-to-delete-the-users-account-all-the-relevant-product-listings-and-reviews-are-removed" title="Permanent link">#</a></h2>
+<pre><code class="language-json">{
+    &quot;URL&quot;: &quot;/user/remove&quot;,
+    &quot;METHOD&quot;: &quot;DELETE&quot;,
+    &quot;BODY&quot;: {
+        &quot;password&quot;: &quot;string&quot;
+    }
+}
+</code></pre>
+<p>Returns <code>success: true</code> if the user data was deleted and <code>status code: 200</code></p>
+<p>Can raise:</p>
+<ol>
+<li><code>Type Error</code>, password is of incorrect type</li>
+<li><code>Bound Error</code>, password does not adhere to constraints</li>
+<li><code>Session Error</code>, json-web-token is invalid</li>
+<li><code>Authentication Error</code>, no token found</li>
+</ol>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../auth/" class="btn btn-neutral float-left" title="Auth"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../review/" class="btn btn-neutral float-right" title="Review">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../auth/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../review/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

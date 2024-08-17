@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Misc - YetAnotherEcommerceSite</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Misc";
+        var mkdocs_page_input_path = "api-reference/misc.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> YetAnotherEcommerceSite
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Schema</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../schema/database/">Database</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Guide</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../product/">Product</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../auth/">Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../user/">User</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../review/">Review</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Misc</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#returns-the-users-first-and-last-name">returns the user's first and last name</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#get-items-based-on-search">get items based on search</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">YetAnotherEcommerceSite</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">API Reference</li>
+      <li class="breadcrumb-item active">Misc</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="miscellaneous">miscellaneous<a class="headerlink" href="#miscellaneous" title="Permanent link">#</a></h1>
+<h2 id="returns-the-users-first-and-last-name">returns the user's first and last name<a class="headerlink" href="#returns-the-users-first-and-last-name" title="Permanent link">#</a></h2>
+<pre><code class="language-json">{
+    &quot;URL&quot;: &quot;/misc/user/:username&quot;,
+    &quot;METHOD&quot; : &quot;GET&quot;,
+    &quot;TYPES&quot;: {
+        &quot;username&quot;: &quot;string&quot;
+    }
+}
+</code></pre>
+<p>returns the first and last name as payload if success</p>
+<pre><code class="language-js">response.body= {
+    &quot;success&quot;: &quot;boolean&quot;,
+    &quot;payload&quot;: {
+        &quot;firstName&quot;: &quot;string&quot;
+        &quot;lastName&quot;: &quot;string&quot;
+    }
+}
+</code></pre>
+<p>Can raise:</p>
+<ol>
+<li><code>Type Error</code>, username is of incorrect type</li>
+<li><code>Bound Error</code>, username does not adhere to constraints</li>
+</ol>
+<h2 id="get-items-based-on-search">get items based on search<a class="headerlink" href="#get-items-based-on-search" title="Permanent link">#</a></h2>
+<p>maxPrice is ignored if it is equal to 0</p>
+<pre><code class="language-json">{
+    &quot;URL&quot;: &quot;/misc/search&quot;,
+    &quot;METHOD&quot; : &quot;POST&quot;,
+    &quot;BODY&quot;: {
+        &quot;minPrice&quot; : &quot;number&quot;,
+        &quot;maxPrice&quot; : &quot;number&quot;,
+        &quot;quantity&quot; : &quot;number&quot;,
+        &quot;search&quot; : &quot;string&quot;
+    }
+}
+</code></pre>
+<p>returns products based on search parameters</p>
+<pre><code class="language-js">response.body= {
+    &quot;success&quot;: &quot;boolean&quot;,
+    &quot;payload&quot;: {
+        {
+            &quot;productId&quot;: &quot;number&quot;;
+            &quot;name&quot;: &quot;string&quot;;
+            &quot;description&quot;: &quot;string&quot;;
+            &quot;price&quot;: &quot;number&quot;;
+            &quot;images&quot;: &quot;array of strings&quot;,
+            &quot;username&quot;: &quot;string&quot;
+        },
+        {
+            &quot;productId&quot;: &quot;number&quot;;
+            &quot;name&quot;: &quot;string&quot;;
+            &quot;description&quot;: &quot;string&quot;;
+            &quot;price&quot;: &quot;number&quot;;
+            &quot;images&quot;: &quot;array of strings&quot;,
+            &quot;username&quot;: &quot;string&quot;
+        },
+        .
+        .
+        .
+    }
+}
+</code></pre>
+<p>Can raise:</p>
+<ol>
+<li><code>Type Error</code>, any parameter are of incorrect type</li>
+<li><code>Bound Error</code>, any parameter does not adhere to constraints</li>
+</ol>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../review/" class="btn btn-neutral float-left" title="Review"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../review/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

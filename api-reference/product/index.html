@@ -43,11 +43,38 @@
                 <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
                 </li>
               </ul>
+              <p class="caption"><span class="caption-text">Schema</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../schema/database/">Database</a>
+                  </li>
+              </ul>
               <p class="caption"><span class="caption-text">API Reference</span></p>
               <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Guide</a>
+                  </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Product</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#get-single-product-by-id">Get single product by ID:</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#get-range-of-products-by-id">Get Range of products by ID</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#auth-make-a-new-product-listing">AUTH Make a new product listing</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#auth-update-product-listing">AUTH update product listing</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#auth-remove-product-listing">AUTH remove product listing</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#auth-check-if-the-user-is-owner-of-listing">AUTH check if the user is owner of listing</a>
+    </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../auth/">Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../user/">User</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../review/">Review</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../misc/">Misc</a>
                   </li>
               </ul>
       </div>
@@ -74,7 +101,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h3 id="product-queries">Product Queries<a class="headerlink" href="#product-queries" title="Permanent link">#</a></h3>
+                <h1 id="product">Product<a class="headerlink" href="#product" title="Permanent link">#</a></h1>
 <h2 id="get-single-product-by-id">Get single product by ID:<a class="headerlink" href="#get-single-product-by-id" title="Permanent link">#</a></h2>
 <pre><code class="language-json">{
     &quot;URL&quot;: &quot;/product/:productId&quot;,
@@ -84,10 +111,12 @@
     }
 }
 </code></pre>
-<p>returns all the product details as outlined by the schema, with <code>status code: 200</code>
-Can raise: 
-1. <code>Type Error</code> due to incorrect id
-1. <code>Bound Error</code>, id parameter does not adhere to constraints</p>
+<p>returns all the product details as outlined by the schema, with <code>status code: 200</code></p>
+<p>Can raise: </p>
+<ol>
+<li><code>Type Error</code> due to incorrect id</li>
+<li><code>Bound Error</code>, id parameter does not adhere to constraints</li>
+</ol>
 <h2 id="get-range-of-products-by-id">Get Range of products by ID<a class="headerlink" href="#get-range-of-products-by-id" title="Permanent link">#</a></h2>
 <pre><code class="language-json">{
     &quot;URL&quot;: &quot;/product/:startProductId/:endProductId&quot;,
@@ -99,9 +128,11 @@ Can raise:
 }
 </code></pre>
 <p>returns multiple products, if request is valid then <code>status code: 200</code> is returned</p>
-<p>Can raise: 
-1. <code>Type Error</code> due to incorrect startId or endId
-1. <code>Bound Error</code>, parameters does not adhere to constraints</p>
+<p>Can raise: </p>
+<ol>
+<li><code>Type Error</code> due to incorrect startId or endId</li>
+<li><code>Bound Error</code>, parameters does not adhere to constraints</li>
+</ol>
 <h2 id="auth-make-a-new-product-listing"><code>AUTH</code> Make a new product listing<a class="headerlink" href="#auth-make-a-new-product-listing" title="Permanent link">#</a></h2>
 <pre><code class="language-json">{
     &quot;URL&quot;: &quot;/product/create&quot;,
@@ -124,11 +155,13 @@ Can raise:
 </code></pre>
 <p>the user creating the listing is the owner (which cannot be changed later)
 returns success if product is listed</p>
-<p>Can raise: 
-1. <code>Type Error</code> incorrect parameter types
-1. <code>Bound Error</code> price is below 0
-1. <code>Session Error</code>, json-web-token is invalid
-1. <code>Authentication Error</code></p>
+<p>Can raise: </p>
+<ol>
+<li><code>Type Error</code> incorrect parameter types</li>
+<li><code>Bound Error</code> price is below 0</li>
+<li><code>Session Error</code>, json-web-token is invalid</li>
+<li><code>Authentication Error</code></li>
+</ol>
 <h2 id="auth-update-product-listing"><code>AUTH</code> update product listing<a class="headerlink" href="#auth-update-product-listing" title="Permanent link">#</a></h2>
 <pre><code class="language-json">{
     &quot;URL&quot;: &quot;/product/update/:productId&quot;,
@@ -144,13 +177,15 @@ returns success if product is listed</p>
     }
 }
 </code></pre>
-<p>returns success if product is updated and <code>status code:200</code>
-Can raise: 
-1. <code>Type Error</code> incorrect parameter types
-1. <code>Bound Error</code> price is below 0
-1. <code>Permission Error</code>, user is not the owner of product
-1. <code>Session Error</code>, json-web-token is invalid
-1. <code>Authentication Error</code></p>
+<p>returns success if product is updated and <code>status code:200</code></p>
+<p>Can raise: </p>
+<ol>
+<li><code>Type Error</code> incorrect parameter types</li>
+<li><code>Bound Error</code> price is below 0</li>
+<li><code>Permission Error</code>, user is not the owner of product</li>
+<li><code>Session Error</code>, json-web-token is invalid</li>
+<li><code>Authentication Error</code></li>
+</ol>
 <h2 id="auth-remove-product-listing"><code>AUTH</code> remove product listing<a class="headerlink" href="#auth-remove-product-listing" title="Permanent link">#</a></h2>
 <pre><code class="language-JSON">{
     &quot;URL&quot;: &quot;/product/remove/:productId&quot;,
@@ -160,13 +195,15 @@ Can raise:
     }
 }
 </code></pre>
-<p>returns success if removed
-Can raise: 
-1. <code>Type Error</code> incorrect type of id
-1. <code>Bound Error</code>, id parameter does not adhere to constraints
-1. <code>Permission Error</code>, user is not the owner of product
-1. <code>Session Error</code>, json-web-token is invalid
-1. <code>Authentication Error</code></p>
+<p>returns success if removed</p>
+<p>Can raise: </p>
+<ol>
+<li><code>Type Error</code> incorrect type of id</li>
+<li><code>Bound Error</code>, id parameter does not adhere to constraints</li>
+<li><code>Permission Error</code>, user is not the owner of product</li>
+<li><code>Session Error</code>, json-web-token is invalid</li>
+<li><code>Authentication Error</code></li>
+</ol>
 <h2 id="auth-check-if-the-user-is-owner-of-listing"><code>AUTH</code> check if the user is owner of listing<a class="headerlink" href="#auth-check-if-the-user-is-owner-of-listing" title="Permanent link">#</a></h2>
 <pre><code class="language-JSON">{
     &quot;URL&quot;: &quot;/product/owner/:productId&quot;,
@@ -177,18 +214,21 @@ Can raise:
 }
 </code></pre>
 <p>Contains empty payload, as usual success is true if the authenticated user is the owner
-of given product id 
-Can raise: 
-1. <code>Type Error</code> incorrect type of id
-1. <code>Bound Error</code>, id parameter does not adhere to constraints
-1. <code>Permission Error</code>, user is not the owner of product
-1. <code>Session Error</code>, json-web-token is invalid
-1. <code>Authentication Error</code></p>
+of given product id </p>
+<p>Can raise: </p>
+<ol>
+<li><code>Type Error</code> incorrect type of id</li>
+<li><code>Bound Error</code>, id parameter does not adhere to constraints</li>
+<li><code>Permission Error</code>, user is not the owner of product</li>
+<li><code>Session Error</code>, json-web-token is invalid</li>
+<li><code>Authentication Error</code></li>
+</ol>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../.." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../" class="btn btn-neutral float-left" title="Guide"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../auth/" class="btn btn-neutral float-right" title="Auth">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -211,8 +251,10 @@ Can raise:
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../.." style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
     
+    
+      <span><a href="../auth/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
